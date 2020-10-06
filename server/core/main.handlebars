@@ -3,8 +3,10 @@
     <head>
         <title>{{ metaInfo.title }}</title>
 
+        <!--
         <link rel="manifest" href="/assets/manifest.json" />
-
+        -->
+        
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1,user-scalable=no" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,6 +17,7 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="{{ metaInfo.title }}" />
 
+        <!--
         <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/assets/favicons/apple-touch-icon-57x57.png" />
         <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/assets/favicons/apple-touch-icon-114x114.png" />
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/favicons/apple-touch-icon-72x72.png" />
@@ -37,7 +40,8 @@
         <meta name="msapplication-square150x150logo" content="/assets/favicons/mstile-150x150.png" />
         <meta name="msapplication-wide310x150logo" content="/assets/favicons/mstile-310x150.png" />
         <meta name="msapplication-square310x310logo" content="/assets/favicons/mstile-310x310.png" />
-
+        -->
+        
         <meta property="og:type" content="website" />
         <meta name="author" content="{{ app.name }}" />
         <meta name="description" content="{{ metaInfo.description }}" />
@@ -60,6 +64,6 @@
         <meta name="twitter:card" content="summary_large_image" />
     </head>
     <body>
-        <script src="/dist/index.js"></script>
+        <script src="/dist/client/client.js"></script>
     </body>
 </html>

@@ -2,8 +2,8 @@
     "compilerOptions": {
         "target": "ESNext",
         "module": "commonjs",
-        "rootDir": "./server",
-        "outDir": "./dist/server",
+        "rootDir": "./",
+        "outDir": "../dist/server",
         "esModuleInterop": true,
         "strict": true,
         "typeRoots": [

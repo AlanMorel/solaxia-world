@@ -1,4 +1,3 @@
-import config from "../config";
 import express, { Application } from "express";
 
 const staticOptions = {
@@ -6,6 +5,6 @@ const staticOptions = {
 };
 
 export default (app: Application): void => {
-    app.use("/dist", express.static(__dirname + "../dist/" + config.env, staticOptions));
-    app.use("/assets", express.static(__dirname + "../client/assets", staticOptions));
+    app.use("/dist", express.static(__dirname + "../../../dist", staticOptions));
+    app.use("/assets", express.static(__dirname + "../../../client/assets", staticOptions));
 };
