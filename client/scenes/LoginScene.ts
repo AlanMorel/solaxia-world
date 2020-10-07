@@ -13,6 +13,14 @@ export default class LoginScene extends Scene {
         const trees = PIXI.Sprite.from("assets/images/trees.png");
         trees.y = Config.height - 415;
 
+        trees.interactive = true;
+        trees.buttonMode = true;
+        trees.on("pointerdown", () => {
+            if (this.scenes) {
+                this.scenes.start("gameplay");
+            }
+        });
+
         const style = new PIXI.TextStyle({
             fontFamily: "'VCR OSD Mono', Courier, monospace",
             fontSize: "64px",
