@@ -16,9 +16,7 @@ export default class LoginScene extends Scene {
         trees.interactive = true;
         trees.buttonMode = true;
         trees.on("pointerdown", () => {
-            if (this.scenes) {
-                this.scenes.start("gameplay");
-            }
+            this.scenes?.start("gameplay");
         });
 
         const style = new PIXI.TextStyle({

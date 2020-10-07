@@ -48,6 +48,5 @@ export default class LoginScene extends Scene {
     }
 
     public update(delta: number): void {
-        
     }
 }
