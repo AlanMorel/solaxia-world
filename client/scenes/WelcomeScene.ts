@@ -2,27 +2,29 @@ import "phaser";
 import Config from "../config";
 
 export class WelcomeScene extends Phaser.Scene {
+
     constructor() {
         super("welcome");
     }
 
     preload() {
-        this.load.image("logo", "assets/phaser3-logo.png");
-        this.load.glsl("stars", "assets/starfields.glsl.js");
+        this.load.image("sky", "assets/images/sky.png");
+        this.load.image("sky2", "assets/images/sky2.png");
+        this.load.image("clouds", "assets/images/clouds.png");
+        this.load.image("trees", "assets/images/trees.png");
     }
 
     create() {
-        this.add.shader("RGB Shift Field", 0, 0, Config.width, Config.height).setOrigin(0);
+        const sky = this.add.image(0, 0, "sky").setOrigin(0);
+        const sky2 = this.add.image(0, 0, "sky2").setOrigin(0);
+        const clouds = this.add.image(0, 0, "clouds").setOrigin(0);
+        const trees = this.add.image(0, 0, "trees").setOrigin(0);
 
-        const logo = this.add.image(Config.width / 2, Config.height / 2 - 100, "logo");
-
-        this.tweens.add({
-            targets: logo,
-            y: Config.height / 2 + 100,
-            duration: 1000,
-            ease: "Sine",
-            yoyo: true,
-            repeat: -1
-        });
+        this.add.text(Config.width / 2, Config.height / 2 - 100, "SOLAXIA WORLD", { 
+            fontFamily: "'VCR OSD Mono', Courier, monospace",
+            fontSize: "64px",
+            boundsAlignH: "center",
+            color: "black"
+        }).setOrigin(0.5);
     }
 };
