@@ -1,24 +1,22 @@
-import * as PIXI from "pixi.js-legacy";
-import Config from "../config";
 import { Scene } from "pixi-scenes";
-import HorizontalTiler from "../utility/HorizontalTiler";
+import Map1 from "../maps/Map1";
+import Player from "../utility/Player";
 
-export default class LoginScene extends Scene {
-
-    private soilsHorizontalTiler: HorizontalTiler;
-    private topSoilsHorizontalTiler: HorizontalTiler;
+export default class GameplayScene extends Scene {
 
     constructor() {
         super();
-        
-        this.soilsHorizontalTiler = new HorizontalTiler(this, "assets/images/soil.png", 20);
-        this.topSoilsHorizontalTiler = new HorizontalTiler(this, "assets/images/top-soil.png", 20);
-
-        const sky = PIXI.Sprite.from("assets/images/sky.png");
-        this.addChild(sky);
     }
 
     public start(): void {
+        const map = new Map1(this);
+        map.background();
+
+        const player = new Player(this);
+        player.init();
+    
+        map.foreground();
+
         if (this.app) {
             this.app.renderer.backgroundColor = 0x80c2fb;
         }

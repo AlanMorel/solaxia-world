@@ -10,14 +10,16 @@ export default class HorizontalTiler {
 
         const texture = PIXI.Texture.from(path);
 
-        texture.addListener("update", () => {
-            for (var i = 0; i < number; i++) {
-                const sprite = new PIXI.Sprite(texture);
-                sprite.x = i * texture.width;
-                sprite.y = Config.height - texture.height;
+        for (var i = 0; i < number; i++) {
+            const sprite = new PIXI.Sprite(texture);
+            this.sprites.push(sprite);
+            scene.addChild(sprite);
+        }
 
-                this.sprites.push(sprite);
-                scene.addChild(sprite);
+        texture.addListener("update", () => {
+            for (var i = 0; i < this.sprites.length; i++) {
+                this.sprites[i].x = i * texture.width;
+                this.sprites[i].y = Config.height - texture.height;
             }
         });
     }
