@@ -1,33 +1,43 @@
-import "phaser";
+import * as PIXI from "pixi.js-legacy";
 import Config from "./config";
 
-import { LoginScene } from "./scenes/LoginScene";
-
-const config: Phaser.Types.Core.GameConfig = {
-    title: "Solaxia World",
+const app = new PIXI.Application({ 
+    backgroundColor: 0xffb084,
     width: Config.width,
-    height: Config.height,
-    parent: "game",
-    scene: [ LoginScene ],
-    physics: {
-        default: "arcade",
-        arcade: {
-            debug: false
-        }
-    },
-    fps: {
-        target: 60,
-        min: 60,
-        forceSetTimeOut: true
-    }
-};
+    height: Config.height
+});
 
-export class SolaxiaWorldGame extends Phaser.Game {
-    constructor(config: Phaser.Types.Core.GameConfig) {
-        super(config);
-    }
-};
+document.body.appendChild(app.view);
 
-window.onload = () => {
-    const game = new SolaxiaWorldGame(config);
-};
+const sky = PIXI.Sprite.from("assets/images/sky.png");
+
+const clouds = PIXI.Sprite.from("assets/images/clouds.png");
+clouds.y = 200;
+
+const trees = PIXI.Sprite.from("assets/images/trees.png");
+trees.y = Config.height - 415;
+
+const style = new PIXI.TextStyle({
+    fontFamily: "'VCR OSD Mono', Courier, monospace",
+    fontSize: "64px",
+    fontWeight: "bold",
+    fill: 0x000000
+});
+
+const richText = new PIXI.Text("Solaxia World", style);
+richText.anchor.set(0.5, 0.5);
+richText.x = Config.width / 2;
+richText.y = 200;
+
+app.stage.addChild(sky);
+app.stage.addChild(clouds);
+app.stage.addChild(trees);
+
+app.stage.addChild(richText);
+
+// Listen for animate update
+app.ticker.add((delta) => {
+    // just for fun, let"s rotate mr rabbit a little
+    // delta is 1 if running at 100% performance
+    // creates frame-independent transformation
+});
