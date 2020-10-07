@@ -1,19 +1,24 @@
 import "phaser";
 import Config from "./config";
 
-import { WelcomeScene } from "./scenes/WelcomeScene";
+import { LoginScene } from "./scenes/LoginScene";
 
 const config: Phaser.Types.Core.GameConfig = {
     title: "Solaxia World",
     width: Config.width,
     height: Config.height,
     parent: "game",
-    scene: [ WelcomeScene ],
+    scene: [ LoginScene ],
     physics: {
         default: "arcade",
         arcade: {
             debug: false
         }
+    },
+    fps: {
+        target: 60,
+        min: 60,
+        forceSetTimeOut: true
     }
 };
 
