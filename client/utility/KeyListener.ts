@@ -19,7 +19,7 @@ export default class KeyListener {
 
         const downListenerCallback = (event: KeyboardEvent) => {
             event.preventDefault();
-            if (event.key !== this.key.value) {
+            if (event.code !== this.key.value) {
                 return;
             }
             if (this.key.isUp && this.key.press) {
@@ -31,7 +31,7 @@ export default class KeyListener {
 
         const upListenerCallback = (event: KeyboardEvent) => {
             event.preventDefault();
-            if (event.key !== this.key.value) {
+            if (event.code !== this.key.value) {
                 return;
             }
             if (this.key.isDown && this.key.release) {
