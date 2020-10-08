@@ -3,6 +3,7 @@ import Map1 from "../maps/Map1";
 import Player from "../utility/Player";
 
 export default class GameplayScene extends Scene {
+    private player?: Player;
 
     constructor() {
         super();
@@ -12,8 +13,7 @@ export default class GameplayScene extends Scene {
         const map = new Map1(this);
         map.background();
 
-        const player = new Player(this);
-        player.init();
+        this.player = new Player(this);
     
         map.foreground();
 
@@ -23,6 +23,6 @@ export default class GameplayScene extends Scene {
     }
 
     public update(delta: number): void {
-
+        this.player?.update();
     }
 }

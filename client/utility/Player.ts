@@ -6,32 +6,29 @@ import KeyListener from "./KeyListener";
 export default class Player {
 
     private scene: Scene;
+    private sprite: PIXI.Sprite;
+    private leftKey?: KeyListener;
+    private rightKey?: KeyListener;
 
     constructor(scene: Scene) {
         this.scene = scene;
-    }
-
-    init() {
-        const player = PIXI.Sprite.from("assets/images/player/0.png");
-        player.y = Config.height - 150;
-        this.scene.addChild(player);
-
+        this.sprite = PIXI.Sprite.from("assets/images/player/0.png");
+        this.sprite.y = Config.height - 150;
+        this.scene.addChild(this.sprite);
         this.setUpControls();
     }
 
     setUpControls() {
-        const leftKeyListener = new KeyListener("ArrowLeft");
-        leftKeyListener.setPress(() => {
-            console.log("left pressed");
-        }).setRelease(() => {
-            console.log("left released");
-        });
+        this.leftKey = new KeyListener("ArrowLeft");
+        this.rightKey = new KeyListener("ArrowRight");
+    }
 
-        const rightKeyListener = new KeyListener("ArrowRight");
-        rightKeyListener.setPress(() => {
-            console.log("right pressed");
-        }).setRelease(() => {
-            console.log("right released");
-        });
+    update() {
+        if (this.leftKey?.isDown()) {
+            this.sprite.x -= 1;
+        }
+        if (this.rightKey?.isDown()) {
+            this.sprite.x += 1;
+        }
     }
 }

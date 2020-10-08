@@ -55,4 +55,12 @@ export default class KeyListener {
         this.key.release = callback;
         return this;
     }
+
+    isUp() {
+        return this.key.isUp;
+    }
+
+    isDown() {
+        return this.key.isDown;
+    }
 }
