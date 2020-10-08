@@ -1,12 +1,13 @@
 import * as PIXI from "pixi.js-legacy";
 import { Scene } from "pixi-scenes";
 import Map from "./Map";
+import Config from "../config";
 import HorizontalTiler from "../utility/HorizontalTiler";
 
 export default class Map1 extends Map {
 
     constructor(scene: Scene) {
-        super(scene, 1);
+        super(scene, 1, Config.width, Config.height);
     }
 
     background() {

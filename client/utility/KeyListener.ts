@@ -18,25 +18,27 @@ export default class KeyListener {
         };
 
         const downListenerCallback = (event: KeyboardEvent) => {
-            if (event.key === this.key.value) {
-                if (this.key.isUp && this.key.press) {
-                    this.key.press();
-                }
-                this.key.isDown = true;
-                this.key.isUp = false;
-                event.preventDefault();
+            event.preventDefault();
+            if (event.key !== this.key.value) {
+                return;
             }
+            if (this.key.isUp && this.key.press) {
+                this.key.press();
+            }
+            this.key.isDown = true;
+            this.key.isUp = false;
         };
 
         const upListenerCallback = (event: KeyboardEvent) => {
-            if (event.key === this.key.value) {
-                if (this.key.isDown && this.key.release) {
-                    this.key.release();
-                }
-                this.key.isDown = false;
-                this.key.isUp = true;
-                event.preventDefault();
+            event.preventDefault();
+            if (event.key !== this.key.value) {
+                return;
             }
+            if (this.key.isDown && this.key.release) {
+                this.key.release();
+            }
+            this.key.isDown = false;
+            this.key.isUp = true;
         };
 
         const downListener = downListenerCallback.bind(this.key);

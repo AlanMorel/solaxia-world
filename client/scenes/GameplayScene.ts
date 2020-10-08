@@ -13,7 +13,7 @@ export default class GameplayScene extends Scene {
         const map = new Map1(this);
         map.background();
 
-        this.player = new Player(this);
+        this.player = new Player(this, map);
     
         map.foreground();
 

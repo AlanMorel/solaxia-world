@@ -18,5 +18,6 @@ module.exports = {
         filename: "client.js",
         path: path.resolve(__dirname, "dist/client")
     },
-    mode: "development"
+    mode: "development",
+    devtool: "none"
 };
