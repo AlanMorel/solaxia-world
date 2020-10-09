@@ -14,11 +14,11 @@ export default abstract class Map {
         this.height = height;
     }
 
-    getWidth() {
+    public getWidth() {
         return this.width;
     }
 
-    getHeight() {
+    public getHeight() {
         return this.height;
     }
 

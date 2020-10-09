@@ -10,15 +10,22 @@ export default class Map1 extends Map {
         super(scene, 1, Config.width, Config.height);
     }
 
-    background() {
-        const soilsHorizontalTiler = new HorizontalTiler(this.scene, "assets/images/soil.png", 20);
-        const topSoilsHorizontalTiler = new HorizontalTiler(this.scene, "assets/images/top-soil.png", 20);
+    public background() {
+        new HorizontalTiler(this.scene, "assets/images/soil.png", this.width, (texture: PIXI.Texture, sprite: PIXI.Sprite) => {
+            sprite.y = Config.height - texture.height;
+        });
+        new HorizontalTiler(this.scene, "assets/images/soil.png", this.width, (texture: PIXI.Texture, sprite: PIXI.Sprite) => {
+            sprite.y = Config.height - texture.height * 2;
+        });
+        new HorizontalTiler(this.scene, "assets/images/top-soil.png", this.width, (texture: PIXI.Texture, sprite: PIXI.Sprite) => {
+            sprite.y = Config.height - texture.height - 64;
+        });
 
         const sky = PIXI.Sprite.from("assets/images/sky.png");
         this.scene.addChild(sky);
     }
 
-    foreground() {
+    public foreground() {
         
     }
 }

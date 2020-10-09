@@ -75,18 +75,10 @@ export default class LoginScene extends Scene {
         return input;
     }
 
-    public start(): void {
-        
-    }
-
     public stop(): void {
         const canvas = document.querySelector("#game");
         if (canvas) {
             canvas.innerHTML = '';
         }
-    }
-
-    public update(delta: number): void {
-        
     }
 }

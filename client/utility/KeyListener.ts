@@ -48,21 +48,21 @@ export default class KeyListener {
         window.addEventListener("keyup", upListener, false);
     }
 
-    setPress(callback: Function): KeyListener {
+    public onDown(callback: Function): KeyListener {
         this.key.press = callback;
         return this;
     }
 
-    setRelease(callback: Function): KeyListener {
+    public onUp(callback: Function): KeyListener {
         this.key.release = callback;
         return this;
     }
 
-    isUp() {
+    public isUp() {
         return this.key.isUp;
     }
 
-    isDown() {
+    public isDown() {
         return this.key.isDown;
     }
 }

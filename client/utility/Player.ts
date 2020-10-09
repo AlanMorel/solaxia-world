@@ -24,7 +24,7 @@ export default class Player {
         const texture = PIXI.Texture.from("assets/images/player/0.png");
         this.sprite = PIXI.Sprite.from(texture);
         this.sprite.anchor.set(0.5, 0);
-        this.sprite.y = Config.height - 150;
+        this.sprite.y = Config.height - 210;
         this.scene.addChild(this.sprite);
         texture.addListener("update", () => {
             this.sprite.x = texture.width / 2;
@@ -45,14 +45,14 @@ export default class Player {
         this.dy = 0;
     }
 
-    setUpControls() {
+    private setUpControls() {
         this.leftKey = new KeyListener("ArrowLeft");
-        this.leftKey.setPress(() => {
+        this.leftKey.onDown(() => {
             if (!this.rightKey?.isDown()) {
                 this.sprite.scale.x = -1; 
                 this.dx = -this.speed;
             }
-        }).setRelease(() => {
+        }).onUp(() => {
             if (this.rightKey?.isDown()) {
                 this.sprite.scale.x = 1; 
                 this.dx = this.speed;
@@ -61,12 +61,12 @@ export default class Player {
             }
         });
         this.rightKey = new KeyListener("ArrowRight");
-        this.rightKey.setPress(() => {
+        this.rightKey.onDown(() => {
             if (!this.leftKey?.isDown()) {
                 this.sprite.scale.x = 1; 
                 this.dx = this.speed;
             }
-        }).setRelease(() => {
+        }).onUp(() => {
             if (this.leftKey?.isDown()) {
                 this.sprite.scale.x = -1; 
                 this.dx = -this.speed;
@@ -75,22 +75,22 @@ export default class Player {
             }
         });
         this.spaceKey = new KeyListener("Space");
-        this.spaceKey.setPress(() => {
+        this.spaceKey.onDown(() => {
             this.jump();
         });
     }
 
-    jump() {
+    private jump() {
         this.dy = -10;
     }
 
-    update() {
+    public update() {
         this.sprite.x += this.dx;
         this.sprite.y += this.dy;
-        if (this.sprite.y < Config.height - 150) {
+        if (this.sprite.y < Config.height - 210) {
             this.dy += 1;
         } else {
-            this.sprite.y = Config.height - 150;
+            this.sprite.y = Config.height - 210;
             this.dy = 0;
         }
         if (this.sprite.x < this.sprite.width / 2) {
