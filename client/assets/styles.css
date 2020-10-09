@@ -7,7 +7,8 @@ body {
     position: absolute;
     font-size: 1.5rem;
     width: 30rem;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.25);
+    color: white;
     border-radius: 0.25rem;
     border: none;
     padding: 0.5rem;

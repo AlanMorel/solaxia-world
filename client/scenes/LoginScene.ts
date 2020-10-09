@@ -8,6 +8,14 @@ export default class LoginScene extends Scene {
     private password?: HTMLInputElement;
 
     public init(): void {
+        this.addBackground();
+        this.addLogo();
+        this.addInputLabels();
+        this.addInputs();
+        this.addLoginButton();
+    }
+
+    private addBackground() {
         const sky = PIXI.Sprite.from("assets/images/sky.png");
 
         const clouds = PIXI.Sprite.from("assets/images/clouds.png");
@@ -16,12 +24,12 @@ export default class LoginScene extends Scene {
         const trees = PIXI.Sprite.from("assets/images/trees.png");
         trees.y = Config.height - 415;
 
-        trees.interactive = true;
-        trees.buttonMode = true;
-        trees.on("pointerdown", () => {
-            this.scenes?.start("gameplay");
-        });
+        this.addChild(sky);
+        this.addChild(clouds);
+        this.addChild(trees);
+    }
 
+    private addLogo() {
         const richText = new PIXI.Text("Solaxia World", new PIXI.TextStyle({
             fontFamily: "'VCR OSD Mono', Courier, monospace",
             fontSize: "64px",
@@ -32,12 +40,10 @@ export default class LoginScene extends Scene {
         richText.x = Config.width / 2;
         richText.y = 200;
 
-        this.addChild(sky);
-        this.addChild(clouds);
-        this.addChild(trees);
-
         this.addChild(richText);
+    }
 
+    private addInputLabels() {
         const usernameLabel = new PIXI.Text("Username", new PIXI.TextStyle({
             fontFamily: "'VCR OSD Mono', Courier, monospace",
             fontSize: "32px",
@@ -58,7 +64,9 @@ export default class LoginScene extends Scene {
 
         this.addChild(usernameLabel);
         this.addChild(passwordLabel);
+    }
 
+    private addInputs() {
         this.username = this.createInputField("text", "game__username");
         this.password = this.createInputField("password", "game__password");
 
@@ -73,6 +81,32 @@ export default class LoginScene extends Scene {
         input.setAttribute("class", className);
         input.setAttribute("autocomplete", "off");
         return input;
+    }
+
+    private addLoginButton() {
+        const loginLabel = new PIXI.Text("Login", new PIXI.TextStyle({
+            fontFamily: "'VCR OSD Mono', Courier, monospace",
+            fontSize: "24px",
+            fontWeight: "bold",
+            fill: 0x000000
+        }));
+        loginLabel.x = 800;
+        loginLabel.y = 480;
+
+        var loginBackground = new PIXI.Graphics();
+        loginBackground.beginFill(0x000000, 0.25);
+        loginBackground.drawRoundedRect(780, 465, 115, 50, 4);
+        
+        loginBackground.interactive = true;
+        loginBackground.buttonMode = true;
+        loginBackground.on("pointerdown", () => {
+            const username = this.username?.value;
+            const password = this.password?.value;
+            this.scenes?.start("gameplay");
+        });
+
+        this.addChild(loginBackground);
+        this.addChild(loginLabel);
     }
 
     public stop(): void {
