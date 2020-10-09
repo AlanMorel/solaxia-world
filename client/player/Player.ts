@@ -22,10 +22,10 @@ export default class Player {
         this.scene = scene;
         this.map = map;
 
-        const texture = PIXI.Texture.from("assets/images/player/0.png");
+        const texture = PIXI.Texture.from("assets/images/player/standing0.png");
         this.sprite = PIXI.Sprite.from(texture);
         this.sprite.anchor.set(0.5, 0);
-        this.sprite.y = 250;
+        this.sprite.y = 50;
         this.scene.addChild(this.sprite);
         texture.addListener("update", () => {
             this.sprite.x = texture.width / 2;
