@@ -1,3 +1,25 @@
 body {
     margin: 0;
 }
+
+.game__username,
+.game__password {
+    position: absolute;
+    font-size: 1.5rem;
+    width: 30rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 0.25rem;
+    border: none;
+    padding: 0.5rem;
+    outline: 0;
+}
+
+.game__username {
+    left: 400px;
+    top: 300px;
+}
+
+.game__password {
+    left: 400px;
+    top: 400px;
+}
