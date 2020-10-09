@@ -1,6 +1,6 @@
 import { Scene } from "pixi-scenes";
 import Map1 from "../maps/Map1";
-import Player from "../utility/Player";
+import Player from "../player/Player";
 
 export default class GameplayScene extends Scene {
     private player?: Player;

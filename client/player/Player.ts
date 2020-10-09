@@ -1,8 +1,9 @@
 import * as PIXI from "pixi.js-legacy";
 import { Scene } from "pixi-scenes";
 import Config from "../config";
-import KeyListener from "./KeyListener";
+import KeyListener from "../utility/KeyListener";
 import Map from "../maps/Map";
+import NameTag from "./NameTag";
 
 export default class Player {
 
@@ -12,7 +13,7 @@ export default class Player {
     private speed: number;
     private dx: number;
     private dy: number;
-    private nameTag: PIXI.Sprite;
+    private nameTag: NameTag;
     private leftKey?: KeyListener;
     private rightKey?: KeyListener;
     private spaceKey?: KeyListener;
@@ -30,14 +31,7 @@ export default class Player {
             this.sprite.x = texture.width / 2;
         });
 
-        this.nameTag = new PIXI.Text("Alan", {
-            fontFamily : "Arial", 
-            fontSize: 14,
-            fill : 0x00000
-        });
-        this.nameTag.anchor.set(0.5, 0);
-        
-        this.scene.addChild(this.nameTag);
+        this.nameTag = new NameTag(this.scene);
 
         this.setUpControls();
         this.speed = 3;
@@ -99,7 +93,6 @@ export default class Player {
             this.sprite.x = this.map.getWidth() - this.sprite.width / 2;
         }
 
-        this.nameTag.x = this.sprite.x;
-        this.nameTag.y = this.sprite.y + this.sprite.height + 10;
+        this.nameTag.update(this.sprite);
     }
 }

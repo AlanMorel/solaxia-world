@@ -22,7 +22,7 @@ export default abstract class Map {
         return this.height;
     }
 
-    abstract background(): void;
+    public abstract background(): void;
 
-    abstract foreground(): void;
+    public abstract foreground(): void;
 }
