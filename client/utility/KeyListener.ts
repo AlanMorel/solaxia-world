@@ -18,10 +18,10 @@ export default class KeyListener {
         };
 
         const downListenerCallback = (event: KeyboardEvent) => {
-            event.preventDefault();
             if (event.code !== this.key.value) {
                 return;
             }
+            event.preventDefault();
             if (this.key.isUp && this.key.press) {
                 this.key.press();
             }
@@ -30,10 +30,10 @@ export default class KeyListener {
         };
 
         const upListenerCallback = (event: KeyboardEvent) => {
-            event.preventDefault();
             if (event.code !== this.key.value) {
                 return;
             }
+            event.preventDefault();
             if (this.key.isDown && this.key.release) {
                 this.key.release();
             }

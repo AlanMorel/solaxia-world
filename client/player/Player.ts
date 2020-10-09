@@ -16,9 +16,9 @@ export default class Player {
     private dx: number;
     private dy: number;
     private nameTag: NameTag;
-    private leftKey?: KeyListener;
-    private rightKey?: KeyListener;
-    private spaceKey?: KeyListener;
+    private leftKey: KeyListener = new KeyListener("ArrowLeft");
+    private rightKey: KeyListener = new KeyListener("ArrowRight");
+    private spaceKey: KeyListener = new KeyListener("Space");
 
     constructor(game: Game, scene: Scene, map: Map) {
         this.game = game;
@@ -43,7 +43,6 @@ export default class Player {
     }
 
     private setUpControls() {
-        this.leftKey = new KeyListener("ArrowLeft");
         this.leftKey.onDown(() => {
             if (!this.rightKey?.isDown()) {
                 this.sprite.scale.x = -1; 
@@ -57,7 +56,6 @@ export default class Player {
                 this.dx = 0;
             }
         });
-        this.rightKey = new KeyListener("ArrowRight");
         this.rightKey.onDown(() => {
             if (!this.leftKey?.isDown()) {
                 this.sprite.scale.x = 1; 
@@ -71,7 +69,6 @@ export default class Player {
                 this.dx = 0;
             }
         });
-        this.spaceKey = new KeyListener("Space");
         this.spaceKey.onDown(() => {
             this.jump();
         });

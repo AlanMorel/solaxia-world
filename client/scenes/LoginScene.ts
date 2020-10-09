@@ -2,6 +2,7 @@ import * as PIXI from "pixi.js-legacy";
 import Config from "../config";
 import Game from "../utility/Game";
 import GameScene from "../utility/GameScene";
+import TextFieldFactory from "../utility/TextFieldFactory";
 
 export default class LoginScene extends GameScene {
 
@@ -72,20 +73,12 @@ export default class LoginScene extends GameScene {
     }
 
     private addInputs() {
-        this.username = this.createInputField("text", "game__username");
-        this.password = this.createInputField("password", "game__password");
+        this.username = TextFieldFactory.createInputField("text", "game__username");
+        this.password = TextFieldFactory.createInputField("password", "game__password");
 
         const canvas = document.querySelector("#game");
         canvas?.appendChild(this.username);
         canvas?.appendChild(this.password);
-    }
-
-    private createInputField(type: string, className: string): HTMLInputElement {
-        const input = document.createElement("input");
-        input.setAttribute("type", type);
-        input.setAttribute("class", className);
-        input.setAttribute("autocomplete", "off");
-        return input;
     }
 
     private addLoginButton() {
