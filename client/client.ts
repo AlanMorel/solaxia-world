@@ -3,6 +3,7 @@ import Config from "./config";
 import { SceneManager } from "pixi-scenes";
 import LoginScene from "./scenes/LoginScene";
 import GameplayScene from "./scenes/GameplayScene";
+import Game from "./utility/Game";
 
 const app = new PIXI.Application({ 
     backgroundColor: 0xffb084,
@@ -12,9 +13,11 @@ const app = new PIXI.Application({
 
 document.body.appendChild(app.view);
 
+const game = new Game();
+
 const scenes = new SceneManager(app);
 
-scenes.add("login", new LoginScene());
-scenes.add("gameplay", new GameplayScene());
+scenes.add("login", new LoginScene(game));
+scenes.add("gameplay", new GameplayScene(game));
 
 scenes.start("login");

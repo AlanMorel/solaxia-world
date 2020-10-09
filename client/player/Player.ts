@@ -4,9 +4,11 @@ import Config from "../config";
 import KeyListener from "../utility/KeyListener";
 import Map from "../maps/Map";
 import NameTag from "./NameTag";
+import Game from "../utility/Game";
 
 export default class Player {
 
+    private game: Game;
     private scene: Scene;
     private map: Map;
     private sprite: PIXI.Sprite;
@@ -18,7 +20,8 @@ export default class Player {
     private rightKey?: KeyListener;
     private spaceKey?: KeyListener;
 
-    constructor(scene: Scene, map: Map) {
+    constructor(game: Game, scene: Scene, map: Map) {
+        this.game = game;
         this.scene = scene;
         this.map = map;
 
@@ -31,7 +34,7 @@ export default class Player {
             this.sprite.x = texture.width / 2;
         });
 
-        this.nameTag = new NameTag(this.scene);
+        this.nameTag = new NameTag(this.scene, this.game.getUsername());
 
         this.setUpControls();
         this.speed = 3;

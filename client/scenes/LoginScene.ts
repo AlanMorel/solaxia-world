@@ -1,11 +1,16 @@
 import * as PIXI from "pixi.js-legacy";
 import Config from "../config";
-import { Scene } from "pixi-scenes";
+import Game from "../utility/Game";
+import GameScene from "../utility/GameScene";
 
-export default class LoginScene extends Scene {
+export default class LoginScene extends GameScene {
 
     private username?: HTMLInputElement;
     private password?: HTMLInputElement;
+
+    constructor(game: Game) {
+        super(game);
+    }
 
     public init(): void {
         this.addBackground();
@@ -100,13 +105,21 @@ export default class LoginScene extends Scene {
         loginBackground.interactive = true;
         loginBackground.buttonMode = true;
         loginBackground.on("pointerdown", () => {
-            const username = this.username?.value;
-            const password = this.password?.value;
-            this.scenes?.start("gameplay");
+            this.login();
         });
 
         this.addChild(loginBackground);
         this.addChild(loginLabel);
+    }
+
+    private login() {
+        const username = this.username?.value;
+        const password = this.password?.value;
+
+        if (username) {
+            this.game.setUsername(username);
+        }
+        this.scenes?.start("gameplay");
     }
 
     public stop(): void {

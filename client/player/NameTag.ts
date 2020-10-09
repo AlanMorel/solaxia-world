@@ -6,9 +6,9 @@ export default class NameTag {
     private nameTag: PIXI.Text;
     private nameTagBackground: PIXI.Graphics;
 
-    constructor(scene: Scene) {
+    constructor(scene: Scene, username: string) {
 
-        this.nameTag = new PIXI.Text("Alan", {
+        this.nameTag = new PIXI.Text(username, {
             fontFamily: "Arial", 
             fontSize: 14,
             fill: 0xFFFFFF
