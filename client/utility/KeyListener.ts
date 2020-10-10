@@ -3,6 +3,7 @@ import Key from "./Key";
 export default class KeyListener {
     
     private key: Key;
+    private active: boolean;
 
     constructor(value: string) {
         this.key = {
@@ -16,9 +17,11 @@ export default class KeyListener {
                 window.removeEventListener("keyup", upListener);
             }
         };
+        
+        this.active = true;
 
         const downListenerCallback = (event: KeyboardEvent) => {
-            if (event.code !== this.key.value) {
+            if (event.code !== this.key.value || !this.active) {
                 return;
             }
             event.preventDefault();
@@ -30,7 +33,7 @@ export default class KeyListener {
         };
 
         const upListenerCallback = (event: KeyboardEvent) => {
-            if (event.code !== this.key.value) {
+            if (event.code !== this.key.value || !this.active) {
                 return;
             }
             event.preventDefault();
@@ -64,5 +67,13 @@ export default class KeyListener {
 
     public isDown() {
         return this.key.isDown;
+    }
+
+    public pause() {
+        this.active = false;
+    }
+
+    public resume() {
+        this.active = true;
     }
 }

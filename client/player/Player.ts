@@ -75,7 +75,19 @@ export default class Player {
     }
 
     private jump() {
-        this.dy = -10;
+        this.dy = -12;
+    }
+
+    public chatboxFocus() {
+        this.leftKey.pause();
+        this.rightKey.pause();
+        this.spaceKey.pause();
+    }
+    
+    public chatboxBlur() {
+        this.leftKey.resume();
+        this.rightKey.resume();
+        this.spaceKey.resume();
     }
 
     public update() {

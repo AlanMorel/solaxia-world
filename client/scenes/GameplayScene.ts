@@ -31,6 +31,14 @@ export default class GameplayScene extends GameScene {
                 chatbox.value = "";
             }
          });
+        
+        chatbox.addEventListener("focus", () => {
+            this.player?.chatboxFocus();
+        });
+
+        chatbox.addEventListener("blur", () => {
+            this.player?.chatboxBlur();
+        });
 
         const canvas = document.querySelector("#game");
         canvas?.appendChild(chatbox);
