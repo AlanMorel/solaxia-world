@@ -118,7 +118,7 @@ export default class LoginScene extends GameScene {
     public stop(): void {
         const canvas = document.querySelector("#game");
         if (canvas) {
-            canvas.innerHTML = '';
+            canvas.innerHTML = "";
         }
     }
 }

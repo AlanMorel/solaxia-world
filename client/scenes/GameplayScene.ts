@@ -24,6 +24,10 @@ export default class GameplayScene extends GameScene {
             this.app.renderer.backgroundColor = 0x80c2fb;
         }
 
+        this.addChatbox();
+    }
+
+    private addChatbox() {
         const chatbox = TextFieldFactory.createInputField("text", "game__chatbox");
         chatbox.addEventListener("keydown", (e: KeyboardEvent) => {
             if (e.code === "Enter") {
@@ -50,5 +54,12 @@ export default class GameplayScene extends GameScene {
 
     public update(delta: number): void {
         this.player?.update();
+    }
+
+    public stop(): void {
+        const canvas = document.querySelector("#game");
+        if (canvas) {
+            canvas.innerHTML = "";
+        }
     }
 }
