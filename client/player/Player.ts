@@ -1,56 +1,46 @@
 import { Scene } from "pixi-scenes";
 import KeyListener from "../utility/KeyListener";
 import Map from "../maps/Map";
-import NameTag from "./NameTag";
 import Game from "../utility/Game";
-import AnimatedMapObject from "../maps/AnimatedMapObject";
+import Character from "./Character";
 
 export default class Player {
 
-    private game: Game;
-    private scene: Scene;
-    private map: Map;
-    private animator: AnimatedMapObject;
-    private nameTag: NameTag;
+    private character: Character;
     private leftKey: KeyListener = new KeyListener("ArrowLeft");
     private rightKey: KeyListener = new KeyListener("ArrowRight");
     private spaceKey: KeyListener = new KeyListener("Space");
 
     constructor(game: Game, scene: Scene, map: Map) {
-        this.game = game;
-        this.scene = scene;
-        this.map = map;
-        this.animator = new AnimatedMapObject(this.scene, "assets/images/player/", 1, 5);
-        this.nameTag = new NameTag(this.scene, this.game.getUsername());
-
+        this.character = new Character(scene, map, game.getUsername());
         this.setUpControls();
     }
 
     private setUpControls() {
         this.leftKey.onDown(() => {
             if (!this.rightKey?.isDown()) {
-                this.animator.moveLeft();
+                this.character.moveLeft();
             }
         }).onUp(() => {
             if (this.rightKey?.isDown()) {
-                this.animator.moveRight();
+                this.character.moveRight();
             } else {
-                this.animator.stop();
+                this.character.stop();
             }
         });
         this.rightKey.onDown(() => {
             if (!this.leftKey?.isDown()) {
-                this.animator.moveRight();
+                this.character.moveRight();
             }
         }).onUp(() => {
             if (this.leftKey?.isDown()) {
-                this.animator.moveLeft();
+                this.character.moveLeft();
             } else {
-                this.animator.stop();
+                this.character.stop();
             }
         });
         this.spaceKey.onDown(() => {
-            this.animator.jump();
+            this.character.jump();
         });
     }
 
@@ -67,7 +57,6 @@ export default class Player {
     }
 
     public update() {
-        this.animator.update(this.map);
-        this.nameTag.update(this.animator.getSprite());
+        this.character.updateCharacter();
     }
 }
