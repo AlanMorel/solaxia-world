@@ -14,6 +14,8 @@ export default class AnimatedMapObject {
     private activeSpriteIndex: number;
     private lastSpriteChange: number;
 
+    private x;
+    private y;
     private speed: number;
     private dx: number;
     private dy: number;
@@ -39,9 +41,8 @@ export default class AnimatedMapObject {
         this.activeSprite = new PIXI.Sprite();
         this.activeSprite.anchor.set(0.5, 0);
         this.activeSprite.texture = this.standingSprites[0].texture;
-        this.activeSprite.y = 50;
         this.activeSprite.texture.addListener("update", () => {
-            this.activeSprite.x = this.activeSprite.texture.width / 2;
+            this.x = this.activeSprite.texture.width / 2;
         });
 
         scene.addChild(this.activeSprite);
@@ -51,6 +52,8 @@ export default class AnimatedMapObject {
 
         this.animationState = AnimatedState.STANDING;
 
+        this.y = 50;
+        this.x = 0;
         this.speed = 3;
         this.dx = 0;
         this.dy = 0;
@@ -118,18 +121,21 @@ export default class AnimatedMapObject {
 
     public update(map: Map) {
         this.updateTexture();
-        this.activeSprite.x += this.dx;
-        this.activeSprite.y += this.dy;
-        if (this.activeSprite.y < Config.height - 210) {
+        this.x += this.dx;
+        this.y += this.dy;
+        if (this.y < Config.height - 210) {
             this.dy += 1;
         } else {
             this.dy = 0;
-            this.activeSprite.y = Config.height - 210;
+            this.y = Config.height - 210;
         }
-        if (this.activeSprite.x < this.activeSprite.width / 2) {
-            this.activeSprite.x = this.activeSprite.width / 2;
-        } else if (this.activeSprite.x > map.getWidth() - this.activeSprite.width / 2) {
-            this.activeSprite.x = map.getWidth() - this.activeSprite.width / 2;
+        if (this.x < this.activeSprite.width / 2) {
+            this.x = this.activeSprite.width / 2;
+        } else if (this.x > map.getWidth() - this.activeSprite.width / 2) {
+            this.x = map.getWidth() - this.activeSprite.width / 2;
         }
+
+        this.activeSprite.x = this.x;
+        this.activeSprite.y = this.y;
     }
 }

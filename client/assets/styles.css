@@ -33,6 +33,6 @@ body {
 .game__chatbox {
     top: calc(720px - 40px);
     left: 10px;
-    width: calc(100% - 60px);
+    width: calc(1280px - 40px);
     background-color: rgba(0, 0, 0, 0.5);
 }
