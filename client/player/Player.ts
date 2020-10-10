@@ -13,10 +13,12 @@ export default class Player {
 
     constructor(game: Game, scene: Scene, map: Map) {
         this.character = new Character(scene, map, game.getUsername());
-        this.setUpControls();
+        this.setUpLeftKey();
+        this.setUpRightKey();
+        this.setUpSpaceKey();
     }
 
-    private setUpControls() {
+    private setUpLeftKey() {
         this.leftKey.onDown(() => {
             if (!this.rightKey?.isDown()) {
                 this.character.moveLeft();
@@ -28,6 +30,9 @@ export default class Player {
                 this.character.stop();
             }
         });
+    }
+
+    private setUpRightKey() {
         this.rightKey.onDown(() => {
             if (!this.leftKey?.isDown()) {
                 this.character.moveRight();
@@ -39,6 +44,9 @@ export default class Player {
                 this.character.stop();
             }
         });
+    }
+
+    private setUpSpaceKey() {
         this.spaceKey.onDown(() => {
             this.character.jump();
         });
