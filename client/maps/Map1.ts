@@ -7,16 +7,16 @@ import Monster from "../monsters/Monster";
 export default class Map1 extends Map {
 
     constructor(scene: PIXI.Container) {
-        super(scene, 1, Config.width * 3, Config.height, Config.height - 145);
+        super(scene, 1, Config.width * 3, Config.height * 2, Config.height * 2 - 145);
     }
 
     public background(): void {
 
         new Tiler(this.scene, "assets/images/soil.png", this.width, 2, (texture: PIXI.Texture) => {
-            return Config.height - texture.height * 2;
+            return this.height - texture.height * 2;
         });
         new Tiler(this.scene, "assets/images/top-soil.png", this.width, 1, (texture: PIXI.Texture) => {
-            return Config.height - texture.height - 64;
+            return this.height - texture.height - 64;
         });
 
         new Tiler(this.scene, "assets/images/sky.png", this.width, 1, (texture: PIXI.Texture) => {
