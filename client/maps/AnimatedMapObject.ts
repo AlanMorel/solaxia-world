@@ -17,7 +17,7 @@ export default class AnimatedMapObject extends MapObject {
     private lastSpriteChange = Date.now();
     private activeSprites: PIXI.Sprite[];
 
-    private speed: number;
+    protected speed: number;
     private dx = 0;
     private dy = 0;
 

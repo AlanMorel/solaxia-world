@@ -10,8 +10,10 @@ export default class Camera {
     private map: Map;
     private player: Player;
 
-    private x: number;
-    private y: number;
+    private targetX = 0;
+    private targetY = 0;
+    private x = 0;
+    private y = 0;
 
     private xLabel: PIXI.Text;
     private yLabel: PIXI.Text;
@@ -20,10 +22,7 @@ export default class Camera {
         this.mapContainer = mapContainer;
         this.map = map;
         this.player = player;
-
-        this.x = 0;
-        this.y = 0;
-
+        
         this.xLabel = new PIXI.Text("cx: ", new PIXI.TextStyle({
             fontFamily: "'VCR OSD Mono', Courier, monospace",
             fontSize: "24px",
@@ -46,29 +45,23 @@ export default class Camera {
         scene.addChild(this.yLabel);
     }
 
-    public getX(): number {
-        return this.x;
-    }
-
-    public getY(): number {
-        return this.y;
-    }
-
     public update(): void {
-        this.xLabel.text = "cx: " + this.x;
-        this.yLabel.text = "cy: " + this.y;
+        this.xLabel.text = "x: " + this.x + " tx: " + this.targetX;
+        this.yLabel.text = "y: " + this.y + " ty: " + this.targetY;
 
         if (this.player.getCharacter().getX() > Config.width * 2 / 3 + this.x) {
-            this.x += 2;
+            this.targetX = this.player.getCharacter().getX() - Config.width * 2 / 3;
         } else if (this.player.getCharacter().getX() < Config.width * 1 / 3 + this.x) {
-            this.x -= 2;
+            this.targetX = this.player.getCharacter().getX() - Config.width * 1 / 3;
         }
 
-        if (this.x < 0) {
-            this.x = 0;
-        } else if (this.x > this.map.getWidth() - Config.width) {
-            this.x = this.map.getWidth() - Config.width;
+        if (this.targetX < 0) {
+            this.targetX = 0;
+        } else if (this.targetX > this.map.getWidth() - Config.width) {
+            this.targetX = this.map.getWidth() - Config.width;
         }
+
+        this.x += (this.targetX - this.x) * 1 / 50;
 
         this.mapContainer.x = -this.x;
     }
