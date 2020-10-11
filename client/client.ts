@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js-legacy";
-import Config from "./config";
+import Config from "./Config";
 import { SceneManager } from "pixi-scenes";
 import LoginScene from "./scenes/LoginScene";
 import GameplayScene from "./scenes/GameplayScene";

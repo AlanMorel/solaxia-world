@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js-legacy";
 import { Scene } from "pixi-scenes";
 import Map from "../maps/Map";
-import Config from "../config";
+import Config from "../Config";
 import { AnimatedState } from "./AnimatedState";
 
 export default class AnimatedMapObject {
@@ -24,14 +24,14 @@ export default class AnimatedMapObject {
         this.standingSprites = [];
         this.walkingSprites = [];
 
-        for (var i = 0; i < standing; i++) {
+        for (let i = 0; i < standing; i++) {
             const texture = PIXI.Texture.from(path + "standing" + i + ".png");
             const sprite = PIXI.Sprite.from(texture);
             sprite.anchor.set(0.5, 0);
             this.standingSprites.push(sprite);
         }
 
-        for (var i = 0; i < walking; i++) {
+        for (let i = 0; i < walking; i++) {
             const texture = PIXI.Texture.from(path + "walking" + i + ".png");
             const sprite = PIXI.Sprite.from(texture);
             sprite.anchor.set(0.5, 0);
@@ -119,23 +119,38 @@ export default class AnimatedMapObject {
         this.lastSpriteChange = now;
     }
 
-    public update(map: Map) {
-        this.updateTexture();
+    private updateCoordinates() {
         this.x += this.dx;
         this.y += this.dy;
+    }
+
+    private handleJumping() {
         if (this.y < Config.height - 210) {
             this.dy += 1;
         } else {
             this.dy = 0;
             this.y = Config.height - 210;
         }
+    }
+
+    private handleOutOfBounds(map: Map) {
         if (this.x < this.activeSprite.width / 2) {
             this.x = this.activeSprite.width / 2;
         } else if (this.x > map.getWidth() - this.activeSprite.width / 2) {
             this.x = map.getWidth() - this.activeSprite.width / 2;
         }
+    }
 
+    private updateSprite() {
         this.activeSprite.x = this.x;
         this.activeSprite.y = this.y;
+    }
+
+    public update(map: Map) {
+        this.updateTexture();
+        this.updateCoordinates();
+        this.handleJumping();
+        this.handleOutOfBounds(map);
+        this.updateSprite();    
     }
 }

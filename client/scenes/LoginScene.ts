@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js-legacy";
-import Config from "../config";
+import Config from "../Config";
 import Game from "../utility/Game";
 import GameScene from "../utility/GameScene";
 import DOMHandler from "../utility/DOMHandler";
@@ -91,10 +91,9 @@ export default class LoginScene extends GameScene {
         loginLabel.x = 800;
         loginLabel.y = 480;
 
-        var loginBackground = new PIXI.Graphics();
+        const loginBackground = new PIXI.Graphics();
         loginBackground.beginFill(0x000000, 0.25);
         loginBackground.drawRoundedRect(780, 465, 115, 50, 4);
-        
         loginBackground.interactive = true;
         loginBackground.buttonMode = true;
         loginBackground.on("pointerdown", () => {

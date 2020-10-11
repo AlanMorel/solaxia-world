@@ -9,7 +9,7 @@ export default class Character extends AnimatedMapObject {
     private nameTag: NameTag;
 
     constructor(scene: Scene, map: Map, username: string) {
-        super(scene, "assets/images/player/", 1, 5);
+        super(scene, "assets/images/character/", 1, 5);
         this.map = map;
         this.nameTag = new NameTag(scene, username);
     }
