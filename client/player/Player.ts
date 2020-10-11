@@ -18,9 +18,9 @@ export default class Player {
         this.setUpSpaceKey();
     }
 
-    private setUpLeftKey() {
+    private setUpLeftKey(): void {
         this.leftKey.onDown(() => {
-                this.character.moveLeft();
+            this.character.moveLeft();
         }).onUp(() => {
             if (this.rightKey?.isDown()) {
                 this.character.moveRight();
@@ -30,9 +30,9 @@ export default class Player {
         });
     }
 
-    private setUpRightKey() {
+    private setUpRightKey(): void {
         this.rightKey.onDown(() => {
-                this.character.moveRight();
+            this.character.moveRight();
         }).onUp(() => {
             if (this.leftKey?.isDown()) {
                 this.character.moveLeft();
@@ -42,25 +42,25 @@ export default class Player {
         });
     }
 
-    private setUpSpaceKey() {
+    private setUpSpaceKey(): void {
         this.spaceKey.onDown(() => {
             this.character.jump();
         });
     }
 
-    public chatboxFocus() {
+    public chatboxFocus(): void {
         this.leftKey.pause();
         this.rightKey.pause();
         this.spaceKey.pause();
     }
-    
-    public chatboxBlur() {
+
+    public chatboxBlur(): void {
         this.leftKey.resume();
         this.rightKey.resume();
         this.spaceKey.resume();
     }
 
-    public update() {
+    public update(): void {
         this.character.updateCharacter();
     }
 }

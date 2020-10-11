@@ -22,21 +22,21 @@ export default class GameplayScene extends GameScene {
         map.background();
 
         this.player = new Player(this.game, this, map);
-    
+
         map.foreground();
 
         this.addChatbox();
     }
 
-    private addChatbox() {
+    private addChatbox(): void {
         const chatbox = DOMHandler.createInputField("text", "game__chatbox");
         chatbox.addEventListener("keydown", (e: KeyboardEvent) => {
             if (e.code === "Enter") {
                 this.chat(chatbox.value);
                 chatbox.value = "";
             }
-         });
-        
+        });
+
         chatbox.addEventListener("focus", () => {
             this.player?.chatboxFocus();
         });
@@ -48,7 +48,7 @@ export default class GameplayScene extends GameScene {
         DOMHandler.add(chatbox);
     }
 
-    private chat(message: String) {
+    private chat(message: string): void {
         console.log(message);
     }
 

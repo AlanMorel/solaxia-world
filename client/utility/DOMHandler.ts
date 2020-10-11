@@ -8,14 +8,14 @@ export default class DOMHandler {
         return input;
     }
 
-    public static clearCanvas() {
+    public static clearCanvas(): void {
         const canvas = document.querySelector("#game");
         if (canvas) {
             canvas.innerHTML = "";
         }
     }
 
-    public static add(element: HTMLElement) {
+    public static add(element: HTMLElement): void {
         const canvas = document.querySelector("#game");
         canvas?.appendChild(element);
     }

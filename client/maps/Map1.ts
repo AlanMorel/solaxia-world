@@ -10,7 +10,7 @@ export default class Map1 extends Map {
         super(scene, 1, Config.width, Config.height, Config.height - 210);
     }
 
-    public background() {
+    public background(): void {
         new Tiler(this.scene, "assets/images/soil.png", this.width, 2, (texture: PIXI.Texture) => {
             return Config.height - texture.height * 2;
         });
@@ -22,7 +22,7 @@ export default class Map1 extends Map {
         this.scene.addChild(sky);
     }
 
-    public foreground() {
-        
+    public foreground(): void {
+
     }
 }

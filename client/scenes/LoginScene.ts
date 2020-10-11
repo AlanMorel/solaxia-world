@@ -21,7 +21,7 @@ export default class LoginScene extends GameScene {
         this.addLoginButton();
     }
 
-    private addBackground() {
+    private addBackground(): void {
         const sky = PIXI.Sprite.from("assets/images/sky.png");
 
         const clouds = PIXI.Sprite.from("assets/images/clouds.png");
@@ -35,7 +35,7 @@ export default class LoginScene extends GameScene {
         this.addChild(trees);
     }
 
-    private addLogo() {
+    private addLogo(): void {
         const richText = new PIXI.Text("Solaxia World", new PIXI.TextStyle({
             fontFamily: "'VCR OSD Mono', Courier, monospace",
             fontSize: "64px",
@@ -49,7 +49,7 @@ export default class LoginScene extends GameScene {
         this.addChild(richText);
     }
 
-    private addInputLabels() {
+    private addInputLabels(): void {
         const usernameLabel = new PIXI.Text("Username", new PIXI.TextStyle({
             fontFamily: "'VCR OSD Mono', Courier, monospace",
             fontSize: "32px",
@@ -72,7 +72,7 @@ export default class LoginScene extends GameScene {
         this.addChild(passwordLabel);
     }
 
-    private addInputs() {
+    private addInputs(): void {
         this.username = DOMHandler.createInputField("text", "game__username");
         this.password = DOMHandler.createInputField("password", "game__password");
 
@@ -80,7 +80,7 @@ export default class LoginScene extends GameScene {
         DOMHandler.add(this.password);
     }
 
-    private addLoginButton() {
+    private addLoginButton(): void {
         const loginLabel = new PIXI.Text("Login", new PIXI.TextStyle({
             fontFamily: "'VCR OSD Mono', Courier, monospace",
             fontSize: "24px",
@@ -103,7 +103,7 @@ export default class LoginScene extends GameScene {
         this.addChild(loginLabel);
     }
 
-    private login() {
+    private login(): void {
         const username = this.username?.value;
         const password = this.password?.value;
 

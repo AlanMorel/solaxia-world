@@ -13,7 +13,7 @@ export default class Character extends AnimatedMapObject {
         this.y = 50;
     }
 
-    public updateCharacter() {
+    public updateCharacter(): void {
         this.update(this.map);
         this.nameTag.update(this.getSprite());
     }

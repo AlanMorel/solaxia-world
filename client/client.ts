@@ -5,7 +5,7 @@ import LoginScene from "./scenes/LoginScene";
 import GameplayScene from "./scenes/GameplayScene";
 import Game from "./utility/Game";
 
-const app = new PIXI.Application({ 
+const app = new PIXI.Application({
     backgroundColor: 0xffb084,
     width: Config.width,
     height: Config.height

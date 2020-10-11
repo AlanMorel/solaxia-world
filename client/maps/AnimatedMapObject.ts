@@ -8,28 +8,27 @@ export default class AnimatedMapObject extends MapObject {
 
     protected map: Map;
 
-    private standingSprites: PIXI.Sprite[];
-    private walkingSprites: PIXI.Sprite[];
+    private standingSprites: PIXI.Sprite[] = [];
+    private walkingSprites: PIXI.Sprite[] = [];
 
-    private animationState: AnimationState;
+    private animationState: AnimationState = AnimationState.STANDING;
+
     private activeSprite: PIXI.Sprite;
-    private activeSpriteIndex: number;
-    private lastSpriteChange: number;
+    private activeSpriteIndex = 0;
+    private lastSpriteChange = Date.now();
     private activeSprites: PIXI.Sprite[];
 
     private speed: number;
-    private dx: number;
-    private dy: number;
+    private dx = 0;
+    private dy = 0;
 
     constructor(scene: Scene, map: Map, path: string, standing: number, walking: number) {
         super();
 
         this.map = map;
-        this.standingSprites = [];
-        this.walkingSprites = [];
 
-        this.loadSprites(1, path, "standing", this.standingSprites);
-        this.loadSprites(5, path, "walking", this.walkingSprites);
+        this.loadSprites(standing, path, "standing", this.standingSprites);
+        this.loadSprites(walking, path, "walking", this.walkingSprites);
 
         this.activeSprite = new PIXI.Sprite();
         this.activeSprite.anchor.set(0.5, 0);
@@ -40,18 +39,11 @@ export default class AnimatedMapObject extends MapObject {
 
         scene.addChild(this.activeSprite);
 
-        this.activeSpriteIndex = 0;
-        this.lastSpriteChange = Date.now();
-
-        this.animationState = AnimationState.STANDING;
         this.activeSprites = this.standingSprites;
-
         this.speed = 3;
-        this.dx = 0;
-        this.dy = 0;
     }
 
-    private loadSprites(number: number, path: string, state: string, sprites: PIXI.Sprite[]) {
+    private loadSprites(number: number, path: string, state: string, sprites: PIXI.Sprite[]): void {
         for (let i = 0; i < number; i++) {
             const texture = PIXI.Texture.from(path + state + i + ".png");
             const sprite = PIXI.Sprite.from(texture);
@@ -60,40 +52,40 @@ export default class AnimatedMapObject extends MapObject {
         }
     }
 
-    public getSprite() {
+    public getSprite(): PIXI.Sprite {
         return this.activeSprite;
     }
 
-    public moveLeft() {
+    public moveLeft(): void {
         this.lookLeft();
         this.dx = -this.speed;
         this.updateAnimationState(AnimationState.WALKING);
     }
 
-    public moveRight() {
+    public moveRight(): void {
         this.lookRight();
         this.dx = this.speed;
         this.updateAnimationState(AnimationState.WALKING);
     }
 
-    public lookLeft() {
+    public lookLeft(): void {
         this.activeSprite.scale.x = -1;
     }
 
-    public lookRight() {
+    public lookRight(): void {
         this.activeSprite.scale.x = 1;
     }
 
-    public stop() {
+    public stop(): void {
         this.dx = 0;
         this.updateAnimationState(AnimationState.STANDING);
     }
 
-    public jump() {
+    public jump(): void {
         this.dy = -12;
     }
 
-    private updateAnimationState(animationState: AnimationState) {
+    private updateAnimationState(animationState: AnimationState): void {
         this.animationState = animationState;
         this.activeSpriteIndex = 0;
         this.lastSpriteChange =  Date.now() - 75;
@@ -101,25 +93,25 @@ export default class AnimatedMapObject extends MapObject {
             this.activeSprites = this.standingSprites;
         } else if (this.animationState === AnimationState.WALKING) {
             this.activeSprites = this.walkingSprites;
-        } 
+        }
     }
 
-    private updateTexture() {
+    private updateTexture(): void {
         const now = Date.now();
         if (now - this.lastSpriteChange < 75) {
             return;
         }
-        let nextSpriteIndex = ++this.activeSpriteIndex % this.activeSprites.length;
+        const nextSpriteIndex = ++this.activeSpriteIndex % this.activeSprites.length;
         this.activeSprite.texture = this.activeSprites[nextSpriteIndex].texture;
         this.lastSpriteChange = now;
     }
 
-    private updateCoordinates() {
+    private updateCoordinates(): void {
         this.x += this.dx;
         this.y += this.dy;
     }
 
-    private handleJumping() {
+    private handleJumping(): void {
         if (this.y < this.map.getFloor()) {
             this.dy += 1;
         } else {
@@ -128,7 +120,7 @@ export default class AnimatedMapObject extends MapObject {
         }
     }
 
-    private handleOutOfBounds(map: Map) {
+    private handleOutOfBounds(map: Map): void {
         if (this.x < this.activeSprite.width / 2) {
             this.x = this.activeSprite.width / 2;
         } else if (this.x > map.getWidth() - this.activeSprite.width / 2) {
@@ -136,16 +128,16 @@ export default class AnimatedMapObject extends MapObject {
         }
     }
 
-    private updateSprite() {
+    private updateSprite(): void {
         this.activeSprite.x = this.x;
         this.activeSprite.y = this.y;
     }
 
-    public update(map: Map) {
+    public update(map: Map): void {
         this.updateTexture();
         this.updateCoordinates();
         this.handleJumping();
         this.handleOutOfBounds(map);
-        this.updateSprite();    
+        this.updateSprite();
     }
 }

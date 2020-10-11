@@ -1,7 +1,7 @@
 import Key from "./Key";
 
 export default class KeyListener {
-    
+
     private key: Key;
     private active: boolean;
 
@@ -12,15 +12,15 @@ export default class KeyListener {
             isUp: true,
             press: null,
             release: null,
-            unsubscribe: () => {
+            unsubscribe: (): void => {
                 window.removeEventListener("keydown", downListener);
                 window.removeEventListener("keyup", upListener);
             }
         };
-        
+
         this.active = true;
 
-        const downListenerCallback = (event: KeyboardEvent) => {
+        const downListenerCallback = (event: KeyboardEvent): void => {
             if (event.code !== this.key.value || !this.active) {
                 return;
             }
@@ -32,7 +32,7 @@ export default class KeyListener {
             this.key.isUp = false;
         };
 
-        const upListenerCallback = (event: KeyboardEvent) => {
+        const upListenerCallback = (event: KeyboardEvent): void => {
             if (event.code !== this.key.value || !this.active) {
                 return;
             }
@@ -46,7 +46,7 @@ export default class KeyListener {
 
         const downListener = downListenerCallback.bind(this.key);
         const upListener = upListenerCallback.bind(this.key);
-        
+
         window.addEventListener("keydown", downListener, false);
         window.addEventListener("keyup", upListener, false);
     }
@@ -61,19 +61,19 @@ export default class KeyListener {
         return this;
     }
 
-    public isUp() {
+    public isUp(): boolean {
         return this.key.isUp;
     }
 
-    public isDown() {
+    public isDown(): boolean {
         return this.key.isDown;
     }
 
-    public pause() {
+    public pause(): void {
         this.active = false;
     }
 
-    public resume() {
+    public resume(): void {
         this.active = true;
     }
 }
