@@ -32,6 +32,7 @@ export default class AnimatedMapObject extends MapObject {
 
         this.activeSprite = new PIXI.Sprite();
         this.activeSprite.anchor.set(0.5, 0);
+        this.activeSprite.scale.x = -1;
         this.activeSprite.texture = this.standingSprites[0].texture;
         this.activeSprite.texture.addListener("update", () => {
             this.x = this.activeSprite.texture.width / 2;
@@ -69,11 +70,11 @@ export default class AnimatedMapObject extends MapObject {
     }
 
     public lookLeft(): void {
-        this.activeSprite.scale.x = -1;
+        this.activeSprite.scale.x = 1;
     }
 
     public lookRight(): void {
-        this.activeSprite.scale.x = 1;
+        this.activeSprite.scale.x = -1;
     }
 
     public stop(): void {
@@ -113,11 +114,11 @@ export default class AnimatedMapObject extends MapObject {
     }
 
     private handleJumping(): void {
-        if (this.y < this.map.getFloor()) {
+        if (this.y < this.map.getFloor() - this.activeSprite.height) {
             this.dy += 1;
-        } else if (this.y > this.map.getFloor()) {
+        } else if (this.y > this.map.getFloor() - this.activeSprite.height) {
             this.dy = 0;
-            this.y = this.map.getFloor();
+            this.y = this.map.getFloor() - this.activeSprite.height;
         }
     }
 

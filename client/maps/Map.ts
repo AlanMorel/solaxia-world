@@ -1,4 +1,5 @@
 import { Scene } from "pixi-scenes";
+import Monster from "../monsters/Monster";
 
 export default abstract class Map {
 
@@ -7,6 +8,7 @@ export default abstract class Map {
     protected width: number;
     protected height: number;
     protected floor: number;
+    protected monsters: Monster[];
 
     constructor(scene: Scene, id: number, width: number, height: number, floor: number) {
         this.scene = scene;
@@ -14,6 +16,7 @@ export default abstract class Map {
         this.width = width;
         this.height = height;
         this.floor = floor;
+        this.monsters = [];
     }
 
     public getWidth(): number {
@@ -28,7 +31,16 @@ export default abstract class Map {
         return this.floor;
     }
 
-    public abstract background(): void;
+    public addMonster(monster: Monster): void {
+        this.monsters.push(monster);
+    }
 
+    public update(): void {
+        for (const monster of this.monsters) {
+            monster.updateMonster();
+        }
+    }
+
+    public abstract background(): void;
     public abstract foreground(): void;
 }

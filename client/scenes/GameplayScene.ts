@@ -8,6 +8,7 @@ import DOMHandler from "../utility/DOMHandler";
 export default class GameplayScene extends GameScene {
 
     private player?: Player;
+    private map?: Map;
 
     constructor(game: Game) {
         super(game);
@@ -18,12 +19,12 @@ export default class GameplayScene extends GameScene {
             this.app.renderer.backgroundColor = 0x80c2fb;
         }
 
-        const map = <Map> new Map1(this);
-        map.background();
+        this.map = <Map> new Map1(this);
+        this.map.background();
 
-        this.player = new Player(this.game, this, map);
+        this.player = new Player(this.game, this, this.map);
 
-        map.foreground();
+        this.map.foreground();
 
         this.addChatbox();
     }
@@ -54,6 +55,7 @@ export default class GameplayScene extends GameScene {
 
     public update(delta: number): void {
         this.player?.update();
+        this.map?.update();
     }
 
     public stop(): void {
