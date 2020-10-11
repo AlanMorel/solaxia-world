@@ -1,4 +1,4 @@
-import { Scene } from "pixi-scenes";
+import * as PIXI from "pixi.js-legacy";
 import KeyListener from "../utility/KeyListener";
 import Map from "../maps/Map";
 import Game from "../utility/Game";
@@ -11,11 +11,15 @@ export default class Player {
     private rightKey: KeyListener = new KeyListener("ArrowRight");
     private spaceKey: KeyListener = new KeyListener("Space");
 
-    constructor(game: Game, scene: Scene, map: Map) {
+    constructor(game: Game, scene: PIXI.Container, map: Map) {
         this.character = new Character(scene, map, game.getUsername());
         this.setUpLeftKey();
         this.setUpRightKey();
         this.setUpSpaceKey();
+    }
+
+    public getCharacter(): Character {
+        return this.character;
     }
 
     private setUpLeftKey(): void {

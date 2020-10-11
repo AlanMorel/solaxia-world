@@ -105,7 +105,7 @@ export default class LoginScene extends GameScene {
 
     private login(): void {
         const username = this.username?.value;
-        const password = this.password?.value;
+        // const password = this.password?.value;
 
         if (username) {
             this.game.setUsername(username);

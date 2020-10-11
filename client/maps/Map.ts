@@ -1,16 +1,18 @@
-import { Scene } from "pixi-scenes";
+import * as PIXI from "pixi.js-legacy";
 import Monster from "../monsters/Monster";
+import Camera from "./Camera";
 
 export default abstract class Map {
 
-    protected scene: Scene;
+    protected scene: PIXI.Container;
+    protected camera?: Camera;
     protected id: number;
     protected width: number;
     protected height: number;
     protected floor: number;
     protected monsters: Monster[];
 
-    constructor(scene: Scene, id: number, width: number, height: number, floor: number) {
+    constructor(scene: PIXI.Container, id: number, width: number, height: number, floor: number) {
         this.scene = scene;
         this.id = id;
         this.width = width;
@@ -35,7 +37,18 @@ export default abstract class Map {
         this.monsters.push(monster);
     }
 
+    public setCamera(camera: Camera): void {
+        this.camera = camera;
+    }
+
+    public getCamera(): Camera | undefined {
+        return this.camera;
+    }
+
     public update(): void {
+        if (this.camera) {
+            this.camera.update();
+        }
         for (const monster of this.monsters) {
             monster.updateMonster();
         }

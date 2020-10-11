@@ -1,5 +1,4 @@
 import * as PIXI from "pixi.js-legacy";
-import { Scene } from "pixi-scenes";
 import Map from "./Map";
 import Config from "../config";
 import Tiler from "../utility/Tiler";
@@ -7,8 +6,8 @@ import Monster from "../monsters/Monster";
 
 export default class Map1 extends Map {
 
-    constructor(scene: Scene) {
-        super(scene, 1, Config.width, Config.height, Config.height - 145);
+    constructor(scene: PIXI.Container) {
+        super(scene, 1, Config.width * 3, Config.height, Config.height - 145);
     }
 
     public background(): void {
@@ -22,16 +21,15 @@ export default class Map1 extends Map {
         const sky = PIXI.Sprite.from("assets/images/sky.png");
         this.scene.addChild(sky);
 
-        const mushroom = new Monster(this.scene, this, "mushroom", 2, 2);
-        this.addMonster(mushroom);
+        this.addMonster(new Monster(this.scene, this, "mushroom", 2, 2));
     }
 
     public foreground(): void {
-        let line = new PIXI.Graphics();
-        this.scene.addChild(line);
-
+        const line = new PIXI.Graphics();
         line.lineStyle(1, 0xff0000);
         line.moveTo(0, this.floor);
-        line.lineTo(Config.width, this.floor);
+        line.lineTo(this.width, this.floor);
+
+        this.scene.addChild(line);
     }
 }

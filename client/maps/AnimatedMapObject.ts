@@ -1,5 +1,4 @@
 import * as PIXI from "pixi.js-legacy";
-import { Scene } from "pixi-scenes";
 import Map from "../maps/Map";
 import { AnimationState } from "./AnimationState";
 import MapObject from "./MapObject";
@@ -22,7 +21,7 @@ export default class AnimatedMapObject extends MapObject {
     private dx = 0;
     private dy = 0;
 
-    constructor(scene: Scene, map: Map, path: string, standing: number, walking: number) {
+    constructor(scene: PIXI.Container, map: Map, path: string, standing: number, walking: number) {
         super();
 
         this.map = map;
@@ -51,6 +50,14 @@ export default class AnimatedMapObject extends MapObject {
             sprite.anchor.set(0.5, 0);
             sprites.push(sprite);
         }
+    }
+
+    public getX(): number {
+        return this.x;
+    }
+
+    public getY(): number {
+        return this.y;
     }
 
     public getSprite(): PIXI.Sprite {

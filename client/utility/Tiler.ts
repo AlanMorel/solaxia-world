@@ -1,9 +1,8 @@
 import * as PIXI from "pixi.js-legacy";
-import { Scene } from "pixi-scenes";
 
 export default class Tiler {
 
-    constructor(scene: Scene, path: string, width: number, height: number, calcY: Function) {
+    constructor(scene: PIXI.Container, path: string, width: number, height: number, calcY: (texture: PIXI.Texture) => number) {
 
         const container = new PIXI.Container();
         scene.addChild(container);
@@ -12,7 +11,7 @@ export default class Tiler {
         texture.addListener("update", () => {
             const startingY = calcY(texture);
             for (let i = 0; i < height; i++) {
-                for (let j = 0; j < width / texture.width + 1; j++) {
+                for (let j = 0; j < Math.ceil(width / texture.width); j++) {
                     const sprite = new PIXI.Sprite(texture);
                     sprite.x = j * texture.width;
                     sprite.y = startingY + i * texture.height;

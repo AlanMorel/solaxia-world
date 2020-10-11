@@ -1,12 +1,11 @@
 import * as PIXI from "pixi.js-legacy";
-import { Scene } from "pixi-scenes";
 
 export default class NameTag {
 
     private nameTag: PIXI.Text;
     private nameTagBackground: PIXI.Graphics;
 
-    constructor(scene: Scene, username: string) {
+    constructor(scene: PIXI.Container, username: string) {
 
         this.nameTag = new PIXI.Text(username, {
             fontFamily: "Arial",

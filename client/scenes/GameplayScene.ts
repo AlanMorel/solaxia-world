@@ -1,17 +1,21 @@
+import * as PIXI from "pixi.js-legacy";
 import Map from "../maps/Map";
 import Map1 from "../maps/Map1";
 import Player from "../player/Player";
 import Game from "../utility/Game";
 import GameScene from "../utility/GameScene";
 import DOMHandler from "../utility/DOMHandler";
+import Camera from "../maps/Camera";
 
 export default class GameplayScene extends GameScene {
 
     private player?: Player;
     private map?: Map;
+    private mapContainer: PIXI.Container;
 
     constructor(game: Game) {
         super(game);
+        this.mapContainer = new PIXI.Container();
     }
 
     public start(): void {
@@ -19,10 +23,16 @@ export default class GameplayScene extends GameScene {
             this.app.renderer.backgroundColor = 0x80c2fb;
         }
 
-        this.map = <Map> new Map1(this);
+        this.mapContainer = new PIXI.Container();
+        this.addChild(this.mapContainer);
+
+        this.map = <Map> new Map1(this.mapContainer);
         this.map.background();
 
-        this.player = new Player(this.game, this, this.map);
+        this.player = new Player(this.game, this.mapContainer, this.map);
+
+        const camera = new Camera(this, this.mapContainer, this.map, this.player);
+        this.map.setCamera(camera);
 
         this.map.foreground();
 
@@ -53,7 +63,7 @@ export default class GameplayScene extends GameScene {
         console.log(message);
     }
 
-    public update(delta: number): void {
+    public update(): void {
         this.player?.update();
         this.map?.update();
     }

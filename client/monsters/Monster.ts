@@ -1,10 +1,10 @@
-import { Scene } from "pixi-scenes";
+import * as PIXI from "pixi.js-legacy";
 import Map from "../maps/Map";
 import AnimatedMapObject from "../maps/AnimatedMapObject";
 
 export default class Monster extends AnimatedMapObject {
 
-    constructor(scene: Scene, map: Map, name: string, standing: number, walking: number) {
+    constructor(scene: PIXI.Container, map: Map, name: string, standing: number, walking: number) {
         super(scene, map, "assets/images/monsters/" + name + "/", standing, walking);
         this.y = 50;
         this.randomizedMovement();
