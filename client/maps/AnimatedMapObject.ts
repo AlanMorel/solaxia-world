@@ -87,13 +87,14 @@ export default class AnimatedMapObject extends MapObject {
 
     private updateAnimationState(animationState: AnimationState): void {
         this.animationState = animationState;
-        this.activeSpriteIndex = 0;
-        this.lastSpriteChange =  Date.now() - 75;
         if (this.animationState === AnimationState.STANDING) {
             this.activeSprites = this.standingSprites;
         } else if (this.animationState === AnimationState.WALKING) {
             this.activeSprites = this.walkingSprites;
         }
+        this.activeSpriteIndex = 0;
+        this.lastSpriteChange =  Date.now();
+        this.activeSprite.texture = this.activeSprites[this.activeSpriteIndex].texture;
     }
 
     private updateTexture(): void {
@@ -114,7 +115,7 @@ export default class AnimatedMapObject extends MapObject {
     private handleJumping(): void {
         if (this.y < this.map.getFloor()) {
             this.dy += 1;
-        } else {
+        } else if (this.y > this.map.getFloor()) {
             this.dy = 0;
             this.y = this.map.getFloor();
         }

@@ -1,7 +1,7 @@
 import { app, BrowserWindow } from "electron";
 import Config from "./config";
 
-function createWindow() {
+function createWindow(): void {
     const window = new BrowserWindow({
         title: "Solaxia World",
         width: Config.width,
