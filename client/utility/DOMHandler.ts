@@ -14,4 +14,9 @@ export default class DOMHandler {
             canvas.innerHTML = "";
         }
     }
+
+    public static add(element: HTMLElement) {
+        const canvas = document.querySelector("#game");
+        canvas?.appendChild(element);
+    }
 }

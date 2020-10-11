@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js-legacy";
 import { Scene } from "pixi-scenes";
 import Map from "../maps/Map";
-import Config from "../Config";
+import Config from "../config";
 import { AnimatedState } from "./AnimatedState";
 
 export default class AnimatedMapObject {

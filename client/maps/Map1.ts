@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js-legacy";
 import { Scene } from "pixi-scenes";
 import Map from "./Map";
-import Config from "../Config";
+import Config from "../config";
 import Tiler from "../utility/Tiler";
 
 export default class Map1 extends Map {

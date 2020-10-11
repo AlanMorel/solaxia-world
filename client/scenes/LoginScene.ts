@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js-legacy";
-import Config from "../Config";
+import Config from "../config";
 import Game from "../utility/Game";
 import GameScene from "../utility/GameScene";
 import DOMHandler from "../utility/DOMHandler";
@@ -76,9 +76,8 @@ export default class LoginScene extends GameScene {
         this.username = DOMHandler.createInputField("text", "game__username");
         this.password = DOMHandler.createInputField("password", "game__password");
 
-        const canvas = document.querySelector("#game");
-        canvas?.appendChild(this.username);
-        canvas?.appendChild(this.password);
+        DOMHandler.add(this.username);
+        DOMHandler.add(this.password);
     }
 
     private addLoginButton() {

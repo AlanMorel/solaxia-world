@@ -45,8 +45,7 @@ export default class GameplayScene extends GameScene {
             this.player?.chatboxBlur();
         });
 
-        const canvas = document.querySelector("#game");
-        canvas?.appendChild(chatbox);
+        DOMHandler.add(chatbox);
     }
 
     private chat(message: String) {
