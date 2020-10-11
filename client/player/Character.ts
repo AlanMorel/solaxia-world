@@ -10,6 +10,7 @@ export default class Character extends AnimatedMapObject {
     constructor(scene: Scene, map: Map, username: string) {
         super(scene, map, "assets/images/character/", 1, 5);
         this.nameTag = new NameTag(scene, username);
+        this.y = 50;
     }
 
     public updateCharacter() {
