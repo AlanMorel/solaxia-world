@@ -11,6 +11,7 @@ export default class Map1 extends Map {
     }
 
     public background(): void {
+
         new Tiler(this.scene, "assets/images/soil.png", this.width, 2, (texture: PIXI.Texture) => {
             return Config.height - texture.height * 2;
         });
@@ -18,8 +19,9 @@ export default class Map1 extends Map {
             return Config.height - texture.height - 64;
         });
 
-        const sky = PIXI.Sprite.from("assets/images/sky.png");
-        this.scene.addChild(sky);
+        new Tiler(this.scene, "assets/images/sky.png", this.width, 1, (texture: PIXI.Texture) => {
+            return 0;
+        });
 
         this.addMonster(new Monster(this.scene, this, "mushroom", 2, 2));
     }
