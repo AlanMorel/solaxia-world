@@ -7,7 +7,7 @@ import Tiler from "../utility/Tiler";
 export default class Map1 extends Map {
 
     constructor(scene: Scene) {
-        super(scene, 1, Config.width, Config.height);
+        super(scene, 1, Config.width, Config.height, Config.height - 210);
     }
 
     public background() {

@@ -6,12 +6,14 @@ export default abstract class Map {
     protected id: number;
     protected width: number;
     protected height: number;
+    protected floor: number;
     
-    constructor(scene: Scene, id: number, width: number, height: number) {
+    constructor(scene: Scene, id: number, width: number, height: number, floor: number) {
         this.scene = scene;
         this.id = id;
         this.width = width;
         this.height = height;
+        this.floor = floor;
     }
 
     public getWidth() {
@@ -20,6 +22,10 @@ export default abstract class Map {
 
     public getHeight() {
         return this.height;
+    }
+
+    public getFloor() {
+        return this.floor;
     }
 
     public abstract background(): void;

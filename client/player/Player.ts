@@ -20,9 +20,7 @@ export default class Player {
 
     private setUpLeftKey() {
         this.leftKey.onDown(() => {
-            if (!this.rightKey?.isDown()) {
                 this.character.moveLeft();
-            }
         }).onUp(() => {
             if (this.rightKey?.isDown()) {
                 this.character.moveRight();
@@ -34,9 +32,7 @@ export default class Player {
 
     private setUpRightKey() {
         this.rightKey.onDown(() => {
-            if (!this.leftKey?.isDown()) {
                 this.character.moveRight();
-            }
         }).onUp(() => {
             if (this.leftKey?.isDown()) {
                 this.character.moveLeft();

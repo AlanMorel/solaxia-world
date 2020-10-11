@@ -1,10 +1,11 @@
 import * as PIXI from "pixi.js-legacy";
 import { Scene } from "pixi-scenes";
 import Map from "../maps/Map";
-import Config from "../config";
 import { AnimatedState } from "./AnimatedState";
 
 export default class AnimatedMapObject {
+
+    protected map: Map;
 
     private standingSprites: PIXI.Sprite [];
     private walkingSprites: PIXI.Sprite [];
@@ -20,7 +21,8 @@ export default class AnimatedMapObject {
     private dx: number;
     private dy: number;
 
-    constructor(scene: Scene, path: string, standing: number, walking: number) {
+    constructor(scene: Scene, map: Map, path: string, standing: number, walking: number) {
+        this.map = map;
         this.standingSprites = [];
         this.walkingSprites = [];
 
@@ -125,11 +127,11 @@ export default class AnimatedMapObject {
     }
 
     private handleJumping() {
-        if (this.y < Config.height - 210) {
+        if (this.y < this.map.getFloor()) {
             this.dy += 1;
         } else {
             this.dy = 0;
-            this.y = Config.height - 210;
+            this.y = this.map.getFloor();
         }
     }
 

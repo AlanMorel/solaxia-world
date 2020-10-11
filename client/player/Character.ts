@@ -5,12 +5,10 @@ import AnimatedMapObject from "../maps/AnimatedMapObject";
 
 export default class Character extends AnimatedMapObject {
 
-    private map: Map;
     private nameTag: NameTag;
 
     constructor(scene: Scene, map: Map, username: string) {
-        super(scene, "assets/images/character/", 1, 5);
-        this.map = map;
+        super(scene, map, "assets/images/character/", 1, 5);
         this.nameTag = new NameTag(scene, username);
     }
 
