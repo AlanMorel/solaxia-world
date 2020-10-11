@@ -1,5 +1,9 @@
 body {
     margin: 0;
+    width: 1280px;
+    height: 720px;
+    display: inline-block;
+    overflow: hidden;
 }
 
 .game__username,
