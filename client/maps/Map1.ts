@@ -23,7 +23,9 @@ export default class Map1 extends Map {
             return 0;
         });
 
-        this.addMonster(new Monster(this.scene, this, "mushroom", 2, 2));
+        for (let i = 0; i < 10; i++) {
+            this.addMonster(new Monster(this.scene, this, "mushroom", 2, 2));
+        }
     }
 
     public foreground(): void {

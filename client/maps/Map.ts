@@ -6,6 +6,7 @@ export default abstract class Map {
 
     protected scene: PIXI.Container;
     protected camera?: Camera;
+    
     protected id: number;
     protected width: number;
     protected height: number;

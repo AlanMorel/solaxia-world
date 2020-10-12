@@ -39,8 +39,7 @@ export default class LoginScene extends GameScene {
         const richText = new PIXI.Text("Solaxia World", new PIXI.TextStyle({
             fontFamily: "'VCR OSD Mono', Courier, monospace",
             fontSize: "64px",
-            fontWeight: "bold",
-            fill: 0x000000
+            fontWeight: "bold"
         }));
         richText.anchor.set(0.5, 0.5);
         richText.x = Config.width / 2;
@@ -53,8 +52,7 @@ export default class LoginScene extends GameScene {
         const usernameLabel = new PIXI.Text("Username", new PIXI.TextStyle({
             fontFamily: "'VCR OSD Mono', Courier, monospace",
             fontSize: "32px",
-            fontWeight: "bold",
-            fill: 0x000000
+            fontWeight: "bold"
         }));
         usernameLabel.x = 400;
         usernameLabel.y = 265;
@@ -62,8 +60,7 @@ export default class LoginScene extends GameScene {
         const passwordLabel = new PIXI.Text("Password", new PIXI.TextStyle({
             fontFamily: "'VCR OSD Mono', Courier, monospace",
             fontSize: "32px",
-            fontWeight: "bold",
-            fill: 0x000000
+            fontWeight: "bold"
         }));
         passwordLabel.x = 400;
         passwordLabel.y = 365;
@@ -84,8 +81,7 @@ export default class LoginScene extends GameScene {
         const loginLabel = new PIXI.Text("Login", new PIXI.TextStyle({
             fontFamily: "'VCR OSD Mono', Courier, monospace",
             fontSize: "24px",
-            fontWeight: "bold",
-            fill: 0x000000
+            fontWeight: "bold"
         }));
         loginLabel.x = 800;
         loginLabel.y = 480;

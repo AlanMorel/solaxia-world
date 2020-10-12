@@ -24,32 +24,26 @@ export default class Camera {
         this.map = map;
         this.player = player;
         
-        this.xLabel = new PIXI.Text("cx: ", new PIXI.TextStyle({
+        this.xLabel = new PIXI.Text("", new PIXI.TextStyle({
             fontFamily: "'VCR OSD Mono', Courier, monospace",
-            fontSize: "24px",
-            fontWeight: "bold",
-            fill: 0x000000
+            fontSize: "24px"
         }));
         this.xLabel.x = 5;
         this.xLabel.y = 5;
 
-        this.yLabel = new PIXI.Text("cy: ", new PIXI.TextStyle({
+        this.yLabel = new PIXI.Text("", new PIXI.TextStyle({
             fontFamily: "'VCR OSD Mono', Courier, monospace",
-            fontSize: "24px",
-            fontWeight: "bold",
-            fill: 0x000000
+            fontSize: "24px"
         }));
         this.yLabel.x = 5;
-        this.yLabel.y = 25;
+        this.yLabel.y = 30;
 
-        this.playerLabel = new PIXI.Text("cy: ", new PIXI.TextStyle({
+        this.playerLabel = new PIXI.Text("", new PIXI.TextStyle({
             fontFamily: "'VCR OSD Mono', Courier, monospace",
-            fontSize: "24px",
-            fontWeight: "bold",
-            fill: 0x000000
+            fontSize: "24px"
         }));
         this.playerLabel.x = 5;
-        this.playerLabel.y = 45;
+        this.playerLabel.y = 55;
 
         scene.addChild(this.xLabel);
         scene.addChild(this.yLabel);
