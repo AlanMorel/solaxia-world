@@ -7,49 +7,51 @@ export default class AnimatedMapObject extends MapObject {
 
     protected map: Map;
 
-    private standingSprites: PIXI.Sprite[] = [];
-    private walkingSprites: PIXI.Sprite[] = [];
+    private sprites: {[key in keyof typeof AnimationState]: PIXI.Sprite[]} = {
+        STANDING: [],
+        WALKING: []
+    };
 
     private animationState: AnimationState = AnimationState.STANDING;
 
     private activeSprite: PIXI.Sprite;
     private activeSpriteIndex = 0;
     private lastSpriteChange = Date.now();
-    private activeSprites: PIXI.Sprite[];
 
-    protected speed: number;
+    protected speed = 3;
     private dx = 0;
     private dy = 0;
 
-    constructor(scene: PIXI.Container, map: Map, path: string, standing: number, walking: number) {
+    constructor(scene: PIXI.Container, map: Map, base: string, standing: number, walking: number) {
         super();
 
         this.map = map;
 
-        this.loadSprites(standing, path, "standing", this.standingSprites);
-        this.loadSprites(walking, path, "walking", this.walkingSprites);
+        this.loadSprites(standing, base, "standing", AnimationState.STANDING);
+        this.loadSprites(walking, base, "walking", AnimationState.WALKING);
 
         this.activeSprite = new PIXI.Sprite();
         this.activeSprite.anchor.set(0.5, 0);
         this.activeSprite.scale.x = -1;
-        this.activeSprite.texture = this.standingSprites[0].texture;
+        this.activeSprite.texture = this.sprites[AnimationState.STANDING][0].texture;
         this.activeSprite.texture.addListener("update", () => {
             this.x = this.activeSprite.texture.width / 2;
         });
 
         scene.addChild(this.activeSprite);
-
-        this.activeSprites = this.standingSprites;
-        this.speed = 3;
     }
 
-    private loadSprites(number: number, path: string, state: string, sprites: PIXI.Sprite[]): void {
+    private loadSprites(number: number, base: string, name: string, state: AnimationState): void {
+        let sprites: PIXI.Sprite[] = [];
+
         for (let i = 0; i < number; i++) {
-            const texture = PIXI.Texture.from(path + state + i + ".png");
+            const texture = PIXI.Texture.from(base + name + i + ".png");
             const sprite = PIXI.Sprite.from(texture);
             sprite.anchor.set(0.5, 0);
             sprites.push(sprite);
         }
+
+        this.sprites[state] = sprites;
     }
 
     public getX(): number {
@@ -95,14 +97,9 @@ export default class AnimatedMapObject extends MapObject {
 
     private updateAnimationState(animationState: AnimationState): void {
         this.animationState = animationState;
-        if (this.animationState === AnimationState.STANDING) {
-            this.activeSprites = this.standingSprites;
-        } else if (this.animationState === AnimationState.WALKING) {
-            this.activeSprites = this.walkingSprites;
-        }
         this.activeSpriteIndex = 0;
         this.lastSpriteChange =  Date.now();
-        this.activeSprite.texture = this.activeSprites[this.activeSpriteIndex].texture;
+        this.activeSprite.texture = this.sprites[this.animationState][this.activeSpriteIndex].texture;
     }
 
     private updateTexture(): void {
@@ -110,8 +107,8 @@ export default class AnimatedMapObject extends MapObject {
         if (now - this.lastSpriteChange < 75) {
             return;
         }
-        const nextSpriteIndex = ++this.activeSpriteIndex % this.activeSprites.length;
-        this.activeSprite.texture = this.activeSprites[nextSpriteIndex].texture;
+        const nextSpriteIndex = ++this.activeSpriteIndex % this.sprites[this.animationState].length;
+        this.activeSprite.texture = this.sprites[this.animationState][nextSpriteIndex].texture;
         this.lastSpriteChange = now;
     }
 
