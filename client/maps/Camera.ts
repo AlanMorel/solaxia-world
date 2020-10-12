@@ -23,7 +23,7 @@ export default class Camera {
         this.mapContainer = mapContainer;
         this.map = map;
         this.player = player;
-        
+
         this.xLabel = new PIXI.Text("", new PIXI.TextStyle({
             fontFamily: "'VCR OSD Mono', Courier, monospace",
             fontSize: "24px"
@@ -50,26 +50,26 @@ export default class Camera {
         scene.addChild(this.playerLabel);
     }
 
-    private updateLabels() {
+    private updateLabels(): void {
         this.xLabel.text = "x: " + this.x + " tx: " + this.targetX;
         this.yLabel.text = "y: " + this.y + " ty: " + this.targetY;
-        this.playerLabel.text = "px: " + this.player.getCharacter().getX() + " py: " + this.player.getCharacter().getY();
+        this.playerLabel.text = "px: " + this.player.getX() + " py: " + this.player.getY();
     }
 
-    private updateTargets() {
-        if (this.player.getCharacter().getX() > Config.width * 2 / 3 + this.x) {
-            this.targetX = this.player.getCharacter().getX() - Config.width * 2 / 3;
-        } else if (this.player.getCharacter().getX() < Config.width * 1 / 3 + this.x) {
-            this.targetX = this.player.getCharacter().getX() - Config.width * 1 / 3;
+    private updateTargets(): void {
+        if (this.player.getX() > Config.width * 2 / 3 + this.x) {
+            this.targetX = this.player.getX() - Config.width * 2 / 3;
+        } else if (this.player.getX() < Config.width * 1 / 3 + this.x) {
+            this.targetX = this.player.getX() - Config.width * 1 / 3;
         }
-        if (this.player.getCharacter().getY() < Config.height * 1 / 3 + this.y) {
-            this.targetY = (this.player.getCharacter().getY() - Config.height * 1 / 3);
-        } else if (this.player.getCharacter().getY() > Config.height * 2 / 3 + this.y) {
-            this.targetY = this.player.getCharacter().getY() - Config.height * 2 / 3;
+        if (this.player.getY() < Config.height * 1 / 3 + this.y) {
+            this.targetY = (this.player.getY() - Config.height * 1 / 3);
+        } else if (this.player.getY() > Config.height * 2 / 3 + this.y) {
+            this.targetY = this.player.getY() - Config.height * 2 / 3;
         }
     }
 
-    private constrainTargets() {
+    private constrainTargets(): void {
         if (this.targetX < 0) {
             this.targetX = 0;
         } else if (this.targetX > this.map.getWidth() - Config.width) {
@@ -82,12 +82,12 @@ export default class Camera {
         }
     }
 
-    private updateCoordinates() {
+    private updateCoordinates(): void {
         this.x += (this.targetX - this.x) * 1 / 50;
         this.y += (this.targetY - this.y) * 1 / 25;
     }
 
-    private updateMapContainer() {
+    private updateMapContainer(): void {
         this.mapContainer.x = -this.x;
         this.mapContainer.y = -this.y;
     }
@@ -97,7 +97,7 @@ export default class Camera {
 
         this.updateTargets();
         this.constrainTargets();
-        
+
         this.updateCoordinates();
         this.updateMapContainer();
     }

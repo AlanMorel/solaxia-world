@@ -64,7 +64,7 @@ export default class GameplayScene extends GameScene {
     }
 
     public update(): void {
-        this.player?.update();
+        this.player?.updateCharacter();
         this.map?.update();
     }
 

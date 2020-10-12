@@ -19,9 +19,7 @@ export default class Map1 extends Map {
             return this.height - texture.height - 64;
         });
 
-        new Tiler(this.scene, "assets/images/sky.png", this.width, 1, (texture: PIXI.Texture) => {
-            return 0;
-        });
+        new Tiler(this.scene, "assets/images/sky.png", this.width, 1, () => 0);
 
         for (let i = 0; i < 10; i++) {
             this.addMonster(new Monster(this.scene, this, "mushroom", 2, 2));

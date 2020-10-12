@@ -42,7 +42,7 @@ export default class AnimatedMapObject extends MapObject {
     }
 
     private loadSprites(number: number, base: string, name: string, state: AnimationState): void {
-        let sprites: PIXI.Sprite[] = [];
+        const sprites: PIXI.Sprite[] = [];
 
         for (let i = 0; i < number; i++) {
             const texture = PIXI.Texture.from(base + name + i + ".png");

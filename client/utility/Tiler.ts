@@ -17,7 +17,7 @@ export default class Tiler {
         }
     }
 
-    private onUpdate(container: PIXI.Container, texture: PIXI.Texture, width: number, height: number, calcY: (texture: PIXI.Texture) => number) {
+    private onUpdate(container: PIXI.Container, texture: PIXI.Texture, width: number, height: number, calcY: (texture: PIXI.Texture) => number): void{
         const startingY = calcY(texture);
         for (let i = 0; i < height; i++) {
             for (let j = 0; j < Math.ceil(width / texture.width); j++) {

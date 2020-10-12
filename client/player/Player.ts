@@ -4,51 +4,46 @@ import Map from "../maps/Map";
 import Game from "../utility/Game";
 import Character from "./Character";
 
-export default class Player {
+export default class Player extends Character {
 
-    private character: Character;
     private leftKey: KeyListener = new KeyListener("ArrowLeft");
     private rightKey: KeyListener = new KeyListener("ArrowRight");
     private spaceKey: KeyListener = new KeyListener("Space");
 
     constructor(game: Game, scene: PIXI.Container, map: Map) {
-        this.character = new Character(scene, map, game.getUsername());
+        super(scene, map, game.getUsername());
         this.setUpLeftKey();
         this.setUpRightKey();
         this.setUpSpaceKey();
     }
 
-    public getCharacter(): Character {
-        return this.character;
-    }
-
     private setUpLeftKey(): void {
         this.leftKey.onDown(() => {
-            this.character.moveLeft();
+            this.moveLeft();
         }).onUp(() => {
             if (this.rightKey?.isDown()) {
-                this.character.moveRight();
+                this.moveRight();
             } else {
-                this.character.stop();
+                this.stop();
             }
         });
     }
 
     private setUpRightKey(): void {
         this.rightKey.onDown(() => {
-            this.character.moveRight();
+            this.moveRight();
         }).onUp(() => {
             if (this.leftKey?.isDown()) {
-                this.character.moveLeft();
+                this.moveLeft();
             } else {
-                this.character.stop();
+                this.stop();
             }
         });
     }
 
     private setUpSpaceKey(): void {
         this.spaceKey.onDown(() => {
-            this.character.jump();
+            this.jump();
         });
     }
 
@@ -62,9 +57,5 @@ export default class Player {
         this.leftKey.resume();
         this.rightKey.resume();
         this.spaceKey.resume();
-    }
-
-    public update(): void {
-        this.character.updateCharacter();
     }
 }
