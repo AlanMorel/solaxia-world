@@ -21,8 +21,8 @@ export default class Map1 extends Map {
 
         new Tiler(this.scene, "assets/images/tiles/sky.png", this.width, 1, () => 0);
 
-        for (let i = 0; i < 10; i++) {
-            this.addMonster(new Monster(this.scene, this, "mushroom", 2, 2));
+        for (let i = 0; i < 1; i++) {
+            this.addMonster(new Monster(this.scene, this, "mushroom"));
         }
     }
 

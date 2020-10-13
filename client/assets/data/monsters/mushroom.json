@@ -1,0 +1,8 @@
+{
+    "name": "Mushroom",
+    "speed": 2,
+    "jump": 12,
+    "standing": 2,
+	"walking": 2,
+	"jumping": 2
+}

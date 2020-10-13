@@ -19,39 +19,66 @@ export default class AnimatedMapObject extends MapObject {
     private lastSpriteChange = Date.now();
 
     protected speed = 3;
+    protected jumpStrength = 12;
+
     private dx = 0;
     private dy = 0;
 
-    constructor(scene: PIXI.Container, map: Map, base: string, standing: number, walking: number) {
+    private loaded = false;
+
+    constructor(scene: PIXI.Container, map: Map, path: string) {
         super();
 
         this.map = map;
-
-        this.loadSprites(standing, base, "standing", AnimationState.STANDING);
-        this.loadSprites(walking, base, "walking", AnimationState.WALKING);
-
+        
         this.activeSprite = new PIXI.Sprite();
-        this.activeSprite.anchor.set(0.5, 0);
-        this.activeSprite.scale.x = -1;
-        this.activeSprite.texture = this.sprites[AnimationState.STANDING][0].texture;
-        this.activeSprite.texture.addListener("update", () => {
-            this.x = this.activeSprite.texture.width / 2;
-        });
-
         scene.addChild(this.activeSprite);
+
+        this.loadData(path);
     }
 
-    private loadSprites(number: number, base: string, name: string, state: AnimationState): void {
+    private async loadData(path: string): Promise<void> {
+        const response = await fetch("/assets/data/" + path + ".json");
+        const data = await response.json();
+
+        this.speed = data.speed;
+        this.jumpStrength = data.jump;
+
+        this.loadSprites(data, path);
+
+        this.loaded = true;
+    }
+
+    private loadSprites(data: any, path: string) {
+        if (data.standing) {
+            this.loadStateSprites(path, "standing", data.standing, AnimationState.STANDING);
+        }
+        if (data.walking) {
+            this.loadStateSprites(path, "walking", data.walking, AnimationState.WALKING);
+        }
+        this.updateActiveSprite();
+    }
+
+    private loadStateSprites(path: string, name: string, number: number, state: AnimationState) {
         const sprites: PIXI.Sprite[] = [];
 
         for (let i = 0; i < number; i++) {
-            const texture = PIXI.Texture.from(base + name + i + ".png");
+            const texture = PIXI.Texture.from("/assets/images/" + path + "/" + name + i + ".png");
             const sprite = PIXI.Sprite.from(texture);
             sprite.anchor.set(0.5, 0);
             sprites.push(sprite);
         }
 
         this.sprites[state] = sprites;
+    }
+
+    private updateActiveSprite() {
+        this.activeSprite.anchor.set(0.5, 0);
+        this.activeSprite.scale.x = -1;
+        this.activeSprite.texture = this.sprites[AnimationState.STANDING][0].texture;
+        this.activeSprite.texture.addListener("update", () => {
+            this.x = this.activeSprite.texture.width / 2;
+        });
     }
 
     public getX(): number {
@@ -92,10 +119,13 @@ export default class AnimatedMapObject extends MapObject {
     }
 
     public jump(): void {
-        this.dy = -12;
+        this.dy = -this.jumpStrength;
     }
 
     private updateAnimationState(animationState: AnimationState): void {
+        if (!this.loaded) {
+            return;
+        }
         this.animationState = animationState;
         this.activeSpriteIndex = 0;
         this.lastSpriteChange =  Date.now();
@@ -103,6 +133,9 @@ export default class AnimatedMapObject extends MapObject {
     }
 
     private updateTexture(): void {
+        if (!this.loaded) {
+            return;
+        }
         const now = Date.now();
         if (now - this.lastSpriteChange < 75) {
             return;

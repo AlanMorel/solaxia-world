@@ -4,8 +4,8 @@ import AnimatedMapObject from "../maps/AnimatedMapObject";
 
 export default class Monster extends AnimatedMapObject {
 
-    constructor(scene: PIXI.Container, map: Map, name: string, standing: number, walking: number) {
-        super(scene, map, "assets/images/monsters/" + name + "/", standing, walking);
+    constructor(scene: PIXI.Container, map: Map, name: string) {
+        super(scene, map, "monsters/" + name);
         this.y = 50;
         this.randomizedMovement();
     }

@@ -8,7 +8,7 @@ export default class Character extends AnimatedMapObject {
     private nameTag: NameTag;
 
     constructor(scene: PIXI.Container, map: Map, username: string) {
-        super(scene, map, "assets/images/character/", 1, 5);
+        super(scene, map, "character");
         this.nameTag = new NameTag(scene, username);
         this.y = 50;
         this.speed = 5;
