@@ -8,18 +8,24 @@ export default abstract class Map {
     protected camera?: Camera;
 
     protected id: number;
-    protected width: number;
-    protected height: number;
-    protected floor: number;
+    protected width = 0;
+    protected height = 0;
+    protected floor = 0;
     protected monsters: Monster[];
 
-    constructor(scene: PIXI.Container, id: number, width: number, height: number, floor: number) {
+    constructor(scene: PIXI.Container, id: number) {
         this.scene = scene;
         this.id = id;
-        this.width = width;
-        this.height = height;
-        this.floor = floor;
         this.monsters = [];
+    }
+
+    public async init(): Promise<void> {
+        const response = await fetch("/assets/data/maps/" + this.id + ".json");
+        const data = await response.json();
+
+        this.width = data.width;
+        this.height = data.height;
+        this.floor = data.floor;
     }
 
     public getWidth(): number {

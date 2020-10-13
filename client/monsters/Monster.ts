@@ -7,6 +7,10 @@ export default class Monster extends AnimatedMapObject {
     constructor(scene: PIXI.Container, map: Map, name: string) {
         super(scene, map, "monsters/" + name);
         this.y = 50;
+    }
+
+    public async initMonster(): Promise<void> {
+        await this.init();
         this.randomizedMovement();
     }
 

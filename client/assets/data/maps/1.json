@@ -1,0 +1,21 @@
+{
+    "id": 1,
+    "width": 2000,
+    "height": 1000,
+    "floor": 855,
+    "portals": [
+        {
+            "id": 1,
+            "x": 250,
+            "y": 325,
+            "destMapId": 1,
+            "destMapPortal": 2
+      }, {
+            "id": 2,
+            "x": 1500,
+            "y": 325,
+            "destMapId": 1,
+            "destMapPortal": 1
+        }
+    ]
+}

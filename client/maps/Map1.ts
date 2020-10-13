@@ -7,11 +7,10 @@ import Monster from "../monsters/Monster";
 export default class Map1 extends Map {
 
     constructor(scene: PIXI.Container) {
-        super(scene, 1, Config.width * 3, Config.height * 2, Config.height * 2 - 145);
+        super(scene, 1);
     }
 
-    public background(): void {
-
+    public async background(): Promise<void> {
         new Tiler(this.scene, "assets/images/tiles/soil.png", this.width, 2, (texture: PIXI.Texture) => {
             return this.height - texture.height * 2;
         });
@@ -22,7 +21,9 @@ export default class Map1 extends Map {
         new Tiler(this.scene, "assets/images/tiles/sky.png", this.width, 1, () => 0);
 
         for (let i = 0; i < 1; i++) {
-            this.addMonster(new Monster(this.scene, this, "mushroom"));
+            const monster = new Monster(this.scene, this, "mushroom");
+            await monster.initMonster();
+            this.addMonster(monster);
         }
     }
 
