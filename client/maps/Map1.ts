@@ -12,14 +12,14 @@ export default class Map1 extends Map {
 
     public background(): void {
 
-        new Tiler(this.scene, "assets/images/soil.png", this.width, 2, (texture: PIXI.Texture) => {
+        new Tiler(this.scene, "assets/images/tiles/soil.png", this.width, 2, (texture: PIXI.Texture) => {
             return this.height - texture.height * 2;
         });
-        new Tiler(this.scene, "assets/images/top-soil.png", this.width, 1, (texture: PIXI.Texture) => {
+        new Tiler(this.scene, "assets/images/tiles/top-soil.png", this.width, 1, (texture: PIXI.Texture) => {
             return this.height - texture.height - 64;
         });
 
-        new Tiler(this.scene, "assets/images/sky.png", this.width, 1, () => 0);
+        new Tiler(this.scene, "assets/images/tiles/sky.png", this.width, 1, () => 0);
 
         for (let i = 0; i < 10; i++) {
             this.addMonster(new Monster(this.scene, this, "mushroom", 2, 2));

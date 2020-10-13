@@ -22,12 +22,12 @@ export default class LoginScene extends GameScene {
     }
 
     private addBackground(): void {
-        const sky = PIXI.Sprite.from("assets/images/sky.png");
+        const sky = PIXI.Sprite.from("assets/images/tiles/sky.png");
 
-        const clouds = PIXI.Sprite.from("assets/images/clouds.png");
+        const clouds = PIXI.Sprite.from("assets/images/tiles/clouds.png");
         clouds.y = 200;
 
-        const trees = PIXI.Sprite.from("assets/images/trees.png");
+        const trees = PIXI.Sprite.from("assets/images/tiles/trees.png");
         trees.y = Config.height - 415;
 
         this.addChild(sky);
