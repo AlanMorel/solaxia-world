@@ -1,6 +1,5 @@
 import * as PIXI from "pixi.js-legacy";
 import Map from "./Map";
-import Config from "../config";
 import Tiler from "../utility/Tiler";
 import Monster from "../monsters/Monster";
 
@@ -14,6 +13,7 @@ export default class Map1 extends Map {
         new Tiler(this.scene, "assets/images/tiles/soil.png", this.width, 2, (texture: PIXI.Texture) => {
             return this.height - texture.height * 2;
         });
+
         new Tiler(this.scene, "assets/images/tiles/top-soil.png", this.width, 1, (texture: PIXI.Texture) => {
             return this.height - texture.height - 64;
         });

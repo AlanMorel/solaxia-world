@@ -16,7 +16,7 @@ export default class AnimatedMapObject extends MapObject {
 
     private animationState: AnimationState = AnimationState.STANDING;
 
-    private activeSprite: PIXI.Sprite;
+    private activeSprite: PIXI.Sprite = new PIXI.Sprite();
     private activeSpriteIndex = 0;
     private lastSpriteChange = Date.now();
 
@@ -32,11 +32,9 @@ export default class AnimatedMapObject extends MapObject {
         super();
 
         this.map = map;
-        
-        this.activeSprite = new PIXI.Sprite();
-        scene.addChild(this.activeSprite);
-
         this.path = path;
+
+        scene.addChild(this.activeSprite);
     }
 
     public async init(): Promise<void> {
@@ -49,7 +47,7 @@ export default class AnimatedMapObject extends MapObject {
         await this.loadSprites(data);
     }
 
-    private async loadSprites(data: any) {
+    private async loadSprites(data: any): Promise<void> {
         if (data.standing) {
             await this.loadStateSprites("standing", data.standing, AnimationState.STANDING);
         }
@@ -63,7 +61,7 @@ export default class AnimatedMapObject extends MapObject {
         this.updateActiveSprite();
     }
 
-    private async loadStateSprites(name: string, number: number, state: AnimationState) {
+    private async loadStateSprites(name: string, number: number, state: AnimationState): Promise<void> {
         const sprites: PIXI.Sprite[] = [];
 
         for (let i = 0; i < number; i++) {
@@ -76,7 +74,7 @@ export default class AnimatedMapObject extends MapObject {
         this.sprites[state] = sprites;
     }
 
-    private updateActiveSprite() {
+    private updateActiveSprite(): void {
         this.activeSprite.anchor.set(0.5, 0);
         this.activeSprite.scale.x = -1;
         this.activeSprite.texture = this.sprites[AnimationState.STANDING][0].texture;

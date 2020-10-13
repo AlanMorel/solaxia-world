@@ -6,7 +6,7 @@ export default class ImageLoader {
 
         const texture = PIXI.Texture.from(path);
 
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
             texture.addListener("update", () => {
                 resolve(texture);
             });
