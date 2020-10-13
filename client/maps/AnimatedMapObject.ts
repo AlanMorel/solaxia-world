@@ -9,7 +9,8 @@ export default class AnimatedMapObject extends MapObject {
 
     private sprites: {[key in keyof typeof AnimationState]: PIXI.Sprite[]} = {
         STANDING: [],
-        WALKING: []
+        WALKING: [],
+        JUMPING: []
     };
 
     private animationState: AnimationState = AnimationState.STANDING;
@@ -55,6 +56,9 @@ export default class AnimatedMapObject extends MapObject {
         }
         if (data.walking) {
             this.loadStateSprites(path, "walking", data.walking, AnimationState.WALKING);
+        }
+        if (data.jumping) {
+            this.loadStateSprites(path, "jumping", data.jumping, AnimationState.JUMPING);
         }
         this.updateActiveSprite();
     }
@@ -120,6 +124,7 @@ export default class AnimatedMapObject extends MapObject {
 
     public jump(): void {
         this.dy = -this.jumpStrength;
+        this.updateAnimationState(AnimationState.JUMPING);
     }
 
     private updateAnimationState(animationState: AnimationState): void {

@@ -1,4 +1,5 @@
 export enum AnimationState {
     STANDING,
-    WALKING
+    WALKING,
+    JUMPING
 }

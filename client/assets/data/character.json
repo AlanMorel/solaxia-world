@@ -2,5 +2,6 @@
     "speed": 5,
     "jump": 12,
     "standing": 1,
-	"walking": 4
+    "walking": 4,
+    "jumping": 1
 }
