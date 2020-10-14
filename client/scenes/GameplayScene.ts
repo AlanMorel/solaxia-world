@@ -5,10 +5,11 @@ import Game from "../utility/Game";
 import GameScene from "../utility/GameScene";
 import DOMHandler from "../utility/DOMHandler";
 import Camera from "../maps/Camera";
+import Portal from "../portals/Portal";
 
 export default class GameplayScene extends GameScene {
 
-    private player?: Player;
+    private player: Player = new Player(this.game);
     private map?: Map;
 
     constructor(game: Game) {
@@ -20,19 +21,35 @@ export default class GameplayScene extends GameScene {
             this.app.renderer.backgroundColor = 0x80c2fb;
         }
 
-        this.map = <Map> new Map1(this);
+        this.loadMap(1);
+
+        this.addChatbox();
+    }
+
+    private async loadMap(id: number): Promise<void> {
+        this.map = <Map> new Map1(this, this.changeMap.bind(this));
         await this.map.init();
         await this.map.background();
 
-        this.player = new Player(this.game, this.map);
-        await this.player.init();
+        await this.player.init(this.map);
 
-        const camera = new Camera(this, this.map, this.player);
+        const camera = new Camera(this, this.map, this.player.getCharacter());
         this.map.setCamera(camera);
 
         this.map.foreground();
+    }
 
-        this.addChatbox();
+    private async changeMap(portal: Portal): Promise<void> {
+        if (this.map) {
+            this.removeChild(this.map.getContainer());
+
+            const camera = this.map.getCamera();
+            if (camera) {
+                this.removeChild(camera.getContainer());
+            }
+        }
+
+        this.loadMap(portal.getDestMap());
     }
 
     private addChatbox(): void {
@@ -45,11 +62,11 @@ export default class GameplayScene extends GameScene {
         });
 
         chatbox.addEventListener("focus", () => {
-            this.player?.chatboxFocus();
+            this.player.chatboxFocus();
         });
 
         chatbox.addEventListener("blur", () => {
-            this.player?.chatboxBlur();
+            this.player.chatboxBlur();
         });
 
         DOMHandler.add(chatbox);
@@ -60,7 +77,7 @@ export default class GameplayScene extends GameScene {
     }
 
     public update(): void {
-        this.player?.updateCharacter();
+        this.player.getCharacter()?.updateCharacter();
         this.map?.update();
     }
 

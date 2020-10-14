@@ -1,13 +1,14 @@
 import * as PIXI from "pixi.js-legacy";
-import Player from "../player/Player";
 import Map from "./Map";
 import Config from "../config";
 import { Scene } from "pixi-scenes";
+import Character from "../player/Character";
+import Container from "../utility/Container";
 
-export default class Camera {
+export default class Camera extends Container {
 
     private map: Map;
-    private player: Player;
+    private character?: Character;
 
     private targetX = 0;
     private targetY = 0;
@@ -18,9 +19,11 @@ export default class Camera {
     private yLabel: PIXI.Text;
     private playerLabel: PIXI.Text;
 
-    constructor(scene: Scene, map: Map, player: Player) {
+    constructor(scene: Scene, map: Map, character: Character | undefined) {
+        super(scene);
+
         this.map = map;
-        this.player = player;
+        this.character = character;
 
         this.xLabel = new PIXI.Text("", new PIXI.TextStyle({
             fontFamily: "'VCR OSD Mono', Courier, monospace",
@@ -43,27 +46,33 @@ export default class Camera {
         this.playerLabel.x = 5;
         this.playerLabel.y = 55;
 
-        scene.addChild(this.xLabel);
-        scene.addChild(this.yLabel);
-        scene.addChild(this.playerLabel);
+        this.scene.addChild(this.xLabel);
+        this.scene.addChild(this.yLabel);
+        this.scene.addChild(this.playerLabel);
     }
 
     private updateLabels(): void {
+        if (!this.character) {
+            return;
+        }
         this.xLabel.text = "x: " + this.x + " tx: " + this.targetX;
         this.yLabel.text = "y: " + this.y + " ty: " + this.targetY;
-        this.playerLabel.text = "px: " + this.player.getX() + " py: " + this.player.getY();
+        this.playerLabel.text = "px: " + this.character.getX() + " py: " + this.character.getY();
     }
 
     private updateTargets(): void {
-        if (this.player.getX() > Config.width * 2 / 3 + this.x) {
-            this.targetX = this.player.getX() - Config.width * 2 / 3;
-        } else if (this.player.getX() < Config.width * 1 / 3 + this.x) {
-            this.targetX = this.player.getX() - Config.width * 1 / 3;
+        if (!this.character) {
+            return;
         }
-        if (this.player.getY() < Config.height * 1 / 3 + this.y) {
-            this.targetY = (this.player.getY() - Config.height * 1 / 3);
-        } else if (this.player.getY() > Config.height * 2 / 3 + this.y) {
-            this.targetY = this.player.getY() - Config.height * 2 / 3;
+        if (this.character.getX() > Config.width * 2 / 3 + this.x) {
+            this.targetX = this.character.getX() - Config.width * 2 / 3;
+        } else if (this.character.getX() < Config.width * 1 / 3 + this.x) {
+            this.targetX = this.character.getX() - Config.width * 1 / 3;
+        }
+        if (this.character.getY() < Config.height * 1 / 3 + this.y) {
+            this.targetY = (this.character.getY() - Config.height * 1 / 3);
+        } else if (this.character.getY() > Config.height * 2 / 3 + this.y) {
+            this.targetY = this.character.getY() - Config.height * 2 / 3;
         }
     }
 

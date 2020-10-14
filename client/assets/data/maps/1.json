@@ -8,14 +8,20 @@
             "id": 1,
             "x": 250,
             "y": 625,
-            "destMapId": 1,
-            "destMapPortal": 2
-      }, {
+            "destMap": 1,
+            "destPortal": 2
+        }, {
             "id": 2,
             "x": 1500,
             "y": 625,
-            "destMapId": 1,
-            "destMapPortal": 1
+            "destMap": 1,
+            "destPortal": 1
+        }, {
+            "id": 3,
+            "x": 1000,
+            "y": 625,
+            "destMap": 2,
+            "destPortal": 1
         }
     ]
 }

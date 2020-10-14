@@ -3,10 +3,10 @@ import Map from "./Map";
 import Tiler from "../utility/Tiler";
 import Portal from "../portals/Portal";
 
-export default class Map1 extends Map {
+export default class Map2 extends Map {
 
     constructor(scene: PIXI.Container, changeMap: (portal: Portal) => Promise<void>) {
-        super(scene, 1, changeMap);
+        super(scene, 2, changeMap);
     }
 
     public async background(): Promise<void> {

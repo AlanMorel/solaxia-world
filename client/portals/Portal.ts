@@ -9,8 +9,8 @@ export default class Portal extends MapObject {
     private scene;
 
     private id: number;
-    private destMapId: number;
-    private destMapPortal: number;
+    private destMap: number;
+    private destPortal: number;
     private type: PortalType;
 
     constructor(scene: PIXI.Container, map: Map, data: any) {
@@ -21,9 +21,9 @@ export default class Portal extends MapObject {
         this.id = data.id;
         this.x = data.x;
         this.y = data.y;
-        this.destMapId = data.destMapId;
-        this.destMapPortal = data.destMapPortal;
-        this.type = this.destMapId === this.map.getId() ? PortalType.INTERNAL : PortalType.EXTERNAL;
+        this.destMap = data.destMap;
+        this.destPortal = data.destPortal;
+        this.type = this.destMap === this.map.getId() ? PortalType.INTERNAL : PortalType.EXTERNAL;
     }
 
     public getId(): number {
@@ -34,8 +34,12 @@ export default class Portal extends MapObject {
         return this.type;
     }
 
-    public getDestMapPortal(): number {
-        return this.destMapPortal;
+    public getDestMap(): number {
+        return this.destMap;
+    }
+
+    public getDestPortal(): number {
+        return this.destPortal;
     }
 
     public async init(): Promise<void> {

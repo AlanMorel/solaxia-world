@@ -3,41 +3,49 @@ import Map from "../maps/Map";
 import Game from "../utility/Game";
 import Character from "./Character";
 
-export default class Player extends Character {
+export default class Player {
 
     private leftKey: KeyListener = new KeyListener("ArrowLeft");
     private rightKey: KeyListener = new KeyListener("ArrowRight");
     private upKey: KeyListener = new KeyListener("ArrowUp");
     private spaceKey: KeyListener = new KeyListener("Space");
 
-    constructor(game: Game, map: Map) {
-        super(map.getContainer(), map, game.getUsername());
+    private character?: Character;
+    private username: string;
+
+    constructor(game: Game) {
         this.setUpLeftKey();
         this.setUpRightKey();
         this.setUpUpKey();
         this.setUpSpaceKey();
+        this.username = game.getUsername();
+    }
+
+    public async init(map: Map): Promise<void> {
+        this.character = new Character(map, this.username);
+        await this.character.init();
     }
 
     private setUpLeftKey(): void {
         this.leftKey.onDown(() => {
-            this.moveLeft();
+            this.character?.moveLeft();
         }).onUp(() => {
             if (this.rightKey?.isDown()) {
-                this.moveRight();
+                this.character?.moveRight();
             } else {
-                this.stop();
+                this.character?.stop();
             }
         });
     }
 
     private setUpRightKey(): void {
         this.rightKey.onDown(() => {
-            this.moveRight();
+            this.character?.moveRight();
         }).onUp(() => {
             if (this.leftKey?.isDown()) {
-                this.moveLeft();
+                this.character?.moveLeft();
             } else {
-                this.stop();
+                this.character?.stop();
             }
         });
     }
@@ -50,7 +58,7 @@ export default class Player extends Character {
 
     private setUpSpaceKey(): void {
         this.spaceKey.onDown(() => {
-            this.jumpUp();
+            this.character?.jumpUp();
         });
     }
 
@@ -66,15 +74,22 @@ export default class Player extends Character {
         this.spaceKey.resume();
     }
 
+    public getCharacter(): Character | undefined {
+        return this.character;
+    }
+
     private usePortal(): void {
-        for (const portal of this.map.getPortals()) {
-            if (Math.abs(this.x - portal.getX()) > 50) {
+        if (!this.character) {
+            return;
+        }
+        for (const portal of this.character.getMap().getPortals()) {
+            if (Math.abs(this.character.getX() - portal.getX()) > 50) {
                 continue;
             }
-            if (Math.abs(this.y - (portal.getY() + 150)) > 50) {
+            if (Math.abs(this.character.getY() - (portal.getY() + 150)) > 50) {
                 continue;
             }
-            this.map.usePortal(this, portal);
+            this.character.getMap().usePortal(this.character, portal);
             return;
         }
     }

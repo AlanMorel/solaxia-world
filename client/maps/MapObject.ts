@@ -20,6 +20,10 @@ export default class MapObject {
         return this.y;
     }
 
+    public getMap(): Map {
+        return this.map;
+    }
+
     public setX(value: number): void {
         this.x = value;
     }

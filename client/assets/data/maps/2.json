@@ -1,0 +1,15 @@
+{
+    "id": 1,
+    "width": 1000,
+    "height": 1000,
+    "floor": 855,
+    "portals": [
+        {
+            "id": 1,
+            "x": 250,
+            "y": 625,
+            "destMap": 1,
+            "destPortal": 3
+        }
+    ]
+}

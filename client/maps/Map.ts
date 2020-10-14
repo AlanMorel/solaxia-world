@@ -3,7 +3,8 @@ import Monster from "../monsters/Monster";
 import Camera from "./Camera";
 import Portal from "../portals/Portal";
 import { PortalType } from "../portals/PortalType";
-import Player from "../player/Player";
+import Character from "../player/Character";
+import Container from "../utility/Container";
 
 interface MapData {
     id: number,
@@ -15,15 +16,14 @@ interface MapData {
             id: number,
             x: number,
             y: number,
-            destMapId: number,
-            destMapPortal: number
+            destMap: number,
+            destPortal: number
         }
     ]
 }
 
-export default abstract class Map {
+export default abstract class Map extends Container {
 
-    protected scene: PIXI.Container;
     protected camera?: Camera;
 
     protected id: number;
@@ -33,11 +33,12 @@ export default abstract class Map {
     protected monsters: Monster[] = [];
     protected portals: Portal[] = [];
 
-    constructor(scene: PIXI.Container, id: number) {
-        this.scene = new PIXI.Container();
-        this.id = id;
+    protected changeMap: (portal: Portal) => Promise<void>;
 
-        scene.addChild(this.scene);
+    constructor(scene: PIXI.Container, id: number, changeMap: (portal: Portal) => Promise<void>) {
+        super(scene);
+        this.id = id;
+        this.changeMap = changeMap;
     }
 
     public async init(): Promise<void> {
@@ -97,19 +98,15 @@ export default abstract class Map {
         return this.camera;
     }
 
-    public getContainer(): PIXI.Container {
-        return this.scene;
-    }
-
-    public usePortal(player: Player, portal: Portal): void {
+    public usePortal(character: Character, portal: Portal): void {
         if (portal.getType() === PortalType.INTERNAL) {
-            const destPortal = this.portals.find((p: Portal) => p.getId() === portal.getDestMapPortal());
+            const destPortal = this.portals.find((p: Portal) => p.getId() === portal.getDestPortal());
             if (destPortal) {
-                player.setX(destPortal.getX());
-                player.setY(destPortal.getY() + 150);
+                character.setX(destPortal.getX());
+                character.setY(destPortal.getY() + 150);
             }
         } else if (portal.getType() === PortalType.EXTERNAL) {
-            // TODO: implement external portals
+            this.changeMap(portal);
         }
     }
 
