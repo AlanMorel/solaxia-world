@@ -11,11 +11,9 @@ export default class GameplayScene extends GameScene {
 
     private player?: Player;
     private map?: Map;
-    private mapContainer: PIXI.Container;
 
     constructor(game: Game) {
         super(game);
-        this.mapContainer = new PIXI.Container();
     }
 
     public async start(): Promise<void> {
@@ -23,17 +21,14 @@ export default class GameplayScene extends GameScene {
             this.app.renderer.backgroundColor = 0x80c2fb;
         }
 
-        this.mapContainer = new PIXI.Container();
-        this.addChild(this.mapContainer);
-
-        this.map = <Map> new Map1(this.mapContainer);
+        this.map = <Map> new Map1(this);
         await this.map.init();
         await this.map.background();
 
-        this.player = new Player(this.game, this.mapContainer, this.map);
+        this.player = new Player(this.game, this.map);
         await this.player.init();
 
-        const camera = new Camera(this, this.mapContainer, this.map, this.player);
+        const camera = new Camera(this, this.map, this.player);
         this.map.setCamera(camera);
 
         this.map.foreground();

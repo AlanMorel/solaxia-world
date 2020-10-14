@@ -10,8 +10,8 @@ export default class Player extends Character {
     private rightKey: KeyListener = new KeyListener("ArrowRight");
     private spaceKey: KeyListener = new KeyListener("Space");
 
-    constructor(game: Game, scene: PIXI.Container, map: Map) {
-        super(scene, map, game.getUsername());
+    constructor(game: Game, map: Map) {
+        super(map.getContainer(), map, game.getUsername());
         this.setUpLeftKey();
         this.setUpRightKey();
         this.setUpSpaceKey();

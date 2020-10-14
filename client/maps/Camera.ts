@@ -6,7 +6,6 @@ import { Scene } from "pixi-scenes";
 
 export default class Camera {
 
-    private mapContainer: PIXI.Container;
     private map: Map;
     private player: Player;
 
@@ -19,8 +18,7 @@ export default class Camera {
     private yLabel: PIXI.Text;
     private playerLabel: PIXI.Text;
 
-    constructor(scene: Scene, mapContainer: PIXI.Container, map: Map, player: Player) {
-        this.mapContainer = mapContainer;
+    constructor(scene: Scene, map: Map, player: Player) {
         this.map = map;
         this.player = player;
 
@@ -88,8 +86,8 @@ export default class Camera {
     }
 
     private updateMapContainer(): void {
-        this.mapContainer.x = -this.x;
-        this.mapContainer.y = -this.y;
+        this.map.getContainer().x = -this.x;
+        this.map.getContainer().y = -this.y;
     }
 
     public update(): void {

@@ -14,9 +14,11 @@ export default abstract class Map {
     protected monsters: Monster[];
 
     constructor(scene: PIXI.Container, id: number) {
-        this.scene = scene;
+        this.scene = new PIXI.Container();
         this.id = id;
         this.monsters = [];
+
+        scene.addChild(this.scene);
     }
 
     public async init(): Promise<void> {
@@ -50,6 +52,10 @@ export default abstract class Map {
 
     public getCamera(): Camera | undefined {
         return this.camera;
+    }
+
+    public getContainer(): PIXI.Container {
+        return this.scene;
     }
 
     public update(): void {
