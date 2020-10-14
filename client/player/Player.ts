@@ -7,12 +7,14 @@ export default class Player extends Character {
 
     private leftKey: KeyListener = new KeyListener("ArrowLeft");
     private rightKey: KeyListener = new KeyListener("ArrowRight");
+    private upKey: KeyListener = new KeyListener("ArrowUp");
     private spaceKey: KeyListener = new KeyListener("Space");
 
     constructor(game: Game, map: Map) {
         super(map.getContainer(), map, game.getUsername());
         this.setUpLeftKey();
         this.setUpRightKey();
+        this.setUpUpKey();
         this.setUpSpaceKey();
     }
 
@@ -40,6 +42,12 @@ export default class Player extends Character {
         });
     }
 
+    private setUpUpKey(): void {
+        this.upKey.onDown(() => {
+            this.usePortal();
+        });
+    }
+
     private setUpSpaceKey(): void {
         this.spaceKey.onDown(() => {
             this.jumpUp();
@@ -56,5 +64,18 @@ export default class Player extends Character {
         this.leftKey.resume();
         this.rightKey.resume();
         this.spaceKey.resume();
+    }
+
+    private usePortal(): void {
+        for (const portal of this.map.getPortals()) {
+            if (Math.abs(this.x - portal.getX()) > 50) {
+                continue;
+            }
+            if (Math.abs(this.y - (portal.getY() + 150)) > 50) {
+                continue;
+            }
+            this.map.usePortal(this, portal);
+            return;
+        }
     }
 }

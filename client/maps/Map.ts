@@ -1,7 +1,9 @@
 import * as PIXI from "pixi.js-legacy";
 import Monster from "../monsters/Monster";
 import Camera from "./Camera";
-import Portal from "./Portal";
+import Portal from "../portals/Portal";
+import { PortalType } from "../portals/PortalType";
+import Player from "../player/Player";
 
 interface MapData {
     id: number,
@@ -17,7 +19,7 @@ interface MapData {
             destMapPortal: number
         }
     ]
-};
+}
 
 export default abstract class Map {
 
@@ -34,7 +36,7 @@ export default abstract class Map {
     constructor(scene: PIXI.Container, id: number) {
         this.scene = new PIXI.Container();
         this.id = id;
-        
+
         scene.addChild(this.scene);
     }
 
@@ -57,7 +59,7 @@ export default abstract class Map {
         }
     }
 
-    protected async loadEntities() {
+    protected async loadEntities(): Promise<void> {
         for (const portal of this.portals) {
             await portal.init();
         }
@@ -83,6 +85,10 @@ export default abstract class Map {
         return this.floor;
     }
 
+    public getPortals(): Portal[] {
+        return this.portals;
+    }
+
     public setCamera(camera: Camera): void {
         this.camera = camera;
     }
@@ -93,6 +99,18 @@ export default abstract class Map {
 
     public getContainer(): PIXI.Container {
         return this.scene;
+    }
+
+    public usePortal(player: Player, portal: Portal): void {
+        if (portal.getType() === PortalType.INTERNAL) {
+            const destPortal = this.portals.find((p: Portal) => p.getId() === portal.getDestMapPortal());
+            if (destPortal) {
+                player.setX(destPortal.getX());
+                player.setY(destPortal.getY() + 150);
+            }
+        } else if (portal.getType() === PortalType.EXTERNAL) {
+            // TODO: implement external portals
+        }
     }
 
     public update(): void {

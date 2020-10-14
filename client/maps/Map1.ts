@@ -1,7 +1,6 @@
 import * as PIXI from "pixi.js-legacy";
 import Map from "./Map";
 import Tiler from "../utility/Tiler";
-import Monster from "../monsters/Monster";
 
 export default class Map1 extends Map {
 

@@ -28,11 +28,10 @@ interface AnimatedMapObjectData {
         frames: number,
         interval: number
     }
-};
+}
 
 export default class AnimatedMapObject extends MapObject {
 
-    protected map: Map;
     private scene: PIXI.Container;
 
     private sprites: spritesInterface = {
@@ -62,7 +61,7 @@ export default class AnimatedMapObject extends MapObject {
     private path: string;
 
     constructor(scene: PIXI.Container, map: Map, path: string) {
-        super();
+        super(map);
 
         this.scene = scene;
         this.map = map;

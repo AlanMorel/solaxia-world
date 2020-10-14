@@ -81,7 +81,7 @@ export default class Camera {
     }
 
     private updateCoordinates(): void {
-        this.x += (this.targetX - this.x) * 1 / 50;
+        this.x += (this.targetX - this.x) * 1 / 25;
         this.y += (this.targetY - this.y) * 1 / 25;
     }
 
