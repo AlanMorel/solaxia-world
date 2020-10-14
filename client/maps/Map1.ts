@@ -20,11 +20,7 @@ export default class Map1 extends Map {
 
         await new Tiler(this.scene, "assets/images/tiles/sky.png", this.width, 1, () => 0).init();
 
-        for (let i = 0; i < 1; i++) {
-            const monster = new Monster(this.scene, this, "mushroom");
-            await monster.initMonster();
-            this.addMonster(monster);
-        }
+        this.loadEntities();
     }
 
     public foreground(): void {

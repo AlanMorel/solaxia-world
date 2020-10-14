@@ -7,13 +7,13 @@
         {
             "id": 1,
             "x": 250,
-            "y": 325,
+            "y": 625,
             "destMapId": 1,
             "destMapPortal": 2
       }, {
             "id": 2,
             "x": 1500,
-            "y": 325,
+            "y": 625,
             "destMapId": 1,
             "destMapPortal": 1
         }

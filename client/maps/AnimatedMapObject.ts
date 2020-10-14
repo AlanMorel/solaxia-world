@@ -28,11 +28,12 @@ interface AnimatedMapObjectData {
         frames: number,
         interval: number
     }
-}
+};
 
 export default class AnimatedMapObject extends MapObject {
 
     protected map: Map;
+    private scene: PIXI.Container;
 
     private sprites: spritesInterface = {
         [AnimationState.STANDING]: [],
@@ -63,10 +64,9 @@ export default class AnimatedMapObject extends MapObject {
     constructor(scene: PIXI.Container, map: Map, path: string) {
         super();
 
+        this.scene = scene;
         this.map = map;
         this.path = path;
-
-        scene.addChild(this.activeSprite);
     }
 
     public async init(): Promise<void> {
@@ -77,6 +77,7 @@ export default class AnimatedMapObject extends MapObject {
         this.jump = data.jump;
 
         await this.loadSprites(data);
+        this.scene.addChild(this.activeSprite);
     }
 
     private async loadSprites(data: AnimatedMapObjectData): Promise<void> {
@@ -171,10 +172,14 @@ export default class AnimatedMapObject extends MapObject {
     }
 
     private updateAnimationState(animationState: AnimationState): void {
+        const sprites = this.sprites[this.animationState];
+        if (!sprites.length) {
+            return;
+        }
         this.animationState = animationState;
         this.activeSpriteIndex = 0;
         this.lastSpriteChange =  Date.now();
-        this.activeSprite.texture = this.sprites[this.animationState][this.activeSpriteIndex].texture;
+        this.activeSprite.texture = sprites[this.activeSpriteIndex].texture;
     }
 
     private updateTexture(): void {
