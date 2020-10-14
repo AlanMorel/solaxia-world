@@ -10,15 +10,15 @@ export default class Map1 extends Map {
     }
 
     public async background(): Promise<void> {
-        new Tiler(this.scene, "assets/images/tiles/soil.png", this.width, 2, (texture: PIXI.Texture) => {
+        await new Tiler(this.scene, "assets/images/tiles/soil.png", this.width, 2, (texture: PIXI.Texture) => {
             return this.height - texture.height * 2;
-        });
+        }).init();
 
-        new Tiler(this.scene, "assets/images/tiles/top-soil.png", this.width, 1, (texture: PIXI.Texture) => {
+        await new Tiler(this.scene, "assets/images/tiles/top-soil.png", this.width, 1, (texture: PIXI.Texture) => {
             return this.height - texture.height - 64;
-        });
+        }).init();
 
-        new Tiler(this.scene, "assets/images/tiles/sky.png", this.width, 1, () => 0);
+        await new Tiler(this.scene, "assets/images/tiles/sky.png", this.width, 1, () => 0).init();
 
         for (let i = 0; i < 1; i++) {
             const monster = new Monster(this.scene, this, "mushroom");

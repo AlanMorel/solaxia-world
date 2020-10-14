@@ -6,6 +6,20 @@ export default class ImageLoader {
 
         const texture = PIXI.Texture.from(path);
 
+        if (texture.baseTexture.valid) {
+            return this.resolveNow(texture);
+        } else {
+            return this.resolveLater(texture);
+        }
+    }
+
+    private static resolveNow(texture: PIXI.Texture): Promise<PIXI.Texture> {
+        return new Promise(resolve => {
+            resolve(texture);
+        });
+    }
+
+    private static resolveLater(texture: PIXI.Texture): Promise<PIXI.Texture> {
         return new Promise(resolve => {
             texture.addListener("update", () => {
                 resolve(texture);
