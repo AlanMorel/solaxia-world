@@ -1,5 +1,5 @@
 export enum AnimationState {
-    STANDING,
-    WALKING,
-    JUMPING
+    STANDING = "standing",
+    WALKING = "walking",
+    JUMPING = "jumping"
 }

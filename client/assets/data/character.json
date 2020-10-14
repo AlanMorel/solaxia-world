@@ -1,7 +1,16 @@
 {
     "speed": 5,
     "jump": 12,
-    "standing": 1,
-    "walking": 4,
-    "jumping": 1
+    "standing": {
+        "frames": 1,
+        "interval": 75
+    },
+	"walking": {
+        "frames": 5,
+        "interval": 75
+    },
+	"jumping": {
+        "frames": 1,
+        "interval": 75
+    }
 }

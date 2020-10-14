@@ -4,14 +4,28 @@ import ImageLoader from "../utility/ImageLoader";
 import { AnimationState } from "./AnimationState";
 import MapObject from "./MapObject";
 
+type spritesInterface = {
+    [key in AnimationState]: PIXI.Sprite[];
+};
+
+type spritesIntervalInterface = {
+    [key in AnimationState]: number;
+};
+
 export default class AnimatedMapObject extends MapObject {
 
     protected map: Map;
 
-    private sprites: {[key in keyof typeof AnimationState]: PIXI.Sprite[]} = {
-        STANDING: [],
-        WALKING: [],
-        JUMPING: []
+    private sprites: spritesInterface = {
+        [AnimationState.STANDING]: [],
+        [AnimationState.WALKING]: [],
+        [AnimationState.JUMPING]: []
+    };
+
+    private spritesInterval: spritesIntervalInterface = {
+        [AnimationState.STANDING]: 0,
+        [AnimationState.WALKING]: 0,
+        [AnimationState.JUMPING]: 0
     };
 
     private animationState: AnimationState = AnimationState.STANDING;
@@ -49,29 +63,30 @@ export default class AnimatedMapObject extends MapObject {
 
     private async loadSprites(data: any): Promise<void> {
         if (data.standing) {
-            await this.loadStateSprites("standing", data.standing, AnimationState.STANDING);
+            await this.loadStateSprites(AnimationState.STANDING, data);
         }
         if (data.walking) {
-            await this.loadStateSprites("walking", data.walking, AnimationState.WALKING);
+            await this.loadStateSprites(AnimationState.WALKING, data);
         }
         if (data.jumping) {
-            await this.loadStateSprites("jumping", data.jumping, AnimationState.JUMPING);
+            await this.loadStateSprites(AnimationState.JUMPING, data);
         }
 
         this.updateActiveSprite();
     }
 
-    private async loadStateSprites(name: string, number: number, state: AnimationState): Promise<void> {
+    private async loadStateSprites(state: AnimationState, data: any): Promise<void> {
         const sprites: PIXI.Sprite[] = [];
 
-        for (let i = 0; i < number; i++) {
-            const texture = await ImageLoader.loadAsync("/assets/images/" + this.path + "/" + name + i + ".png");
+        for (let i = 0; i < data[state].frames; i++) {
+            const texture = await ImageLoader.loadAsync("/assets/images/" + this.path + "/" + state + i + ".png");
             const sprite = PIXI.Sprite.from(texture);
             sprite.anchor.set(0.5, 0);
             sprites.push(sprite);
         }
 
         this.sprites[state] = sprites;
+        this.spritesInterval[state] = data[state].interval;
     }
 
     private updateActiveSprite(): void {
@@ -134,7 +149,7 @@ export default class AnimatedMapObject extends MapObject {
 
     private updateTexture(): void {
         const now = Date.now();
-        if (now - this.lastSpriteChange < 75) {
+        if (now - this.lastSpriteChange < this.spritesInterval[this.animationState]) {
             return;
         }
         const nextSpriteIndex = ++this.activeSpriteIndex % this.sprites[this.animationState].length;
