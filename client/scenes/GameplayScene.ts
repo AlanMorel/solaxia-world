@@ -1,4 +1,3 @@
-import * as PIXI from "pixi.js-legacy";
 import Map from "../maps/Map";
 import Map1 from "../maps/Map1";
 import Player from "../player/Player";

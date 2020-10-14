@@ -17,7 +17,7 @@ export default class Tiler {
         scene.addChild(this.container);
     }
 
-    public async init() {
+    public async init(): Promise<void> {
         const texture = await ImageLoader.loadAsync(this.path);
         const startingY = this.calcY(texture);
         for (let i = 0; i < this.height; i++) {

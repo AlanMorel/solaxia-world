@@ -1,4 +1,3 @@
-import * as PIXI from "pixi.js-legacy";
 import KeyListener from "../utility/KeyListener";
 import Map from "../maps/Map";
 import Game from "../utility/Game";

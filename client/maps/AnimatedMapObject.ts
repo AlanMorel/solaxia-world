@@ -12,6 +12,24 @@ type spritesIntervalInterface = {
     [key in AnimationState]: number;
 };
 
+interface AnimatedMapObjectData {
+    name?: string,
+    speed: number,
+    jump: number,
+    standing: {
+        frames: number,
+        interval: number
+    },
+    walking: {
+        frames: number,
+        interval: number
+    },
+    jumping: {
+        frames: number,
+        interval: number
+    }
+}
+
 export default class AnimatedMapObject extends MapObject {
 
     protected map: Map;
@@ -53,7 +71,7 @@ export default class AnimatedMapObject extends MapObject {
 
     public async init(): Promise<void> {
         const response = await fetch("/assets/data/" + this.path + ".json");
-        const data = await response.json();
+        const data: AnimatedMapObjectData = await response.json();
 
         this.speed = data.speed;
         this.jump = data.jump;
@@ -61,7 +79,7 @@ export default class AnimatedMapObject extends MapObject {
         await this.loadSprites(data);
     }
 
-    private async loadSprites(data: any): Promise<void> {
+    private async loadSprites(data: AnimatedMapObjectData): Promise<void> {
         if (data.standing) {
             await this.loadStateSprites(AnimationState.STANDING, data);
         }
@@ -75,7 +93,7 @@ export default class AnimatedMapObject extends MapObject {
         this.updateActiveSprite();
     }
 
-    private async loadStateSprites(state: AnimationState, data: any): Promise<void> {
+    private async loadStateSprites(state: AnimationState, data: AnimatedMapObjectData): Promise<void> {
         const sprites: PIXI.Sprite[] = [];
 
         for (let i = 0; i < data[state].frames; i++) {
