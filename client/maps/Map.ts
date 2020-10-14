@@ -5,6 +5,7 @@ import Portal from "../portals/Portal";
 import { PortalType } from "../portals/PortalType";
 import Character from "../player/Character";
 import Container from "../utility/Container";
+import Tiler from "../utility/Tiler";
 
 interface MapData {
     id: number,
@@ -19,10 +20,17 @@ interface MapData {
             destMap: number,
             destPortal: number
         }
+    ],
+    tilers: [
+        {
+            tile: string,
+            height: number,
+            y: number
+        }
     ]
 }
 
-export default abstract class Map extends Container {
+export default class Map extends Container {
 
     protected camera?: Camera;
 
@@ -32,6 +40,7 @@ export default abstract class Map extends Container {
     protected floor = 0;
     protected monsters: Monster[] = [];
     protected portals: Portal[] = [];
+    protected tilers: Tiler[] = [];
 
     protected changeMap: (portal: Portal) => Promise<void>;
 
@@ -49,6 +58,11 @@ export default abstract class Map extends Container {
         this.height = data.height;
         this.floor = data.floor;
 
+        for (const tilersData of data.tilers) {
+            const tiler = new Tiler(this, "assets/images/tiles/" + tilersData.tile + ".png", tilersData.height, tilersData.y);
+            this.tilers.push(tiler);
+        }
+
         for (const portalData of data.portals) {
             const portal = new Portal(this.scene, this, portalData);
             this.portals.push(portal);
@@ -57,16 +71,6 @@ export default abstract class Map extends Container {
         for (let i = 0; i < 3; i++) {
             const monster = new Monster(this.scene, this, "mushroom");
             this.monsters.push(monster);
-        }
-    }
-
-    protected async loadEntities(): Promise<void> {
-        for (const portal of this.portals) {
-            await portal.init();
-        }
-
-        for (const monster of this.monsters) {
-            await monster.initMonster();
         }
     }
 
@@ -119,6 +123,26 @@ export default abstract class Map extends Container {
         }
     }
 
-    public abstract background(): void;
-    public abstract foreground(): void;
+    public async background(): Promise<void> {
+        for (const tiler of this.tilers) {
+            await tiler.init();
+        }
+
+        for (const portal of this.portals) {
+            await portal.init();
+        }
+
+        for (const monster of this.monsters) {
+            await monster.initMonster();
+        }
+    }
+
+    public async foreground(): Promise<void> {
+        const line = new PIXI.Graphics();
+        line.lineStyle(1, 0xff0000);
+        line.moveTo(0, this.floor);
+        line.lineTo(this.width, this.floor);
+
+        this.scene.addChild(line);
+    }
 }

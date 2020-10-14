@@ -11,5 +11,20 @@
             "destMap": 1,
             "destPortal": 3
         }
+    ],
+    "tilers": [
+        {
+            "tile": "soil",
+            "height": 2,
+            "y": 936
+        }, {
+            "tile": "top-soil",
+            "height": 1,
+            "y": 848
+        }, {
+            "tile": "sky",
+            "height": 1,
+            "y": 0
+        }
     ]
 }

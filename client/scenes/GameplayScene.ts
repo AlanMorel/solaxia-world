@@ -1,5 +1,4 @@
 import Map from "../maps/Map";
-import Map1 from "../maps/Map1";
 import Player from "../player/Player";
 import Game from "../utility/Game";
 import GameScene from "../utility/GameScene";
@@ -14,6 +13,7 @@ export default class GameplayScene extends GameScene {
 
     constructor(game: Game) {
         super(game);
+        this.addChatbox();
     }
 
     public async start(): Promise<void> {
@@ -22,12 +22,10 @@ export default class GameplayScene extends GameScene {
         }
 
         this.loadMap(1);
-
-        this.addChatbox();
     }
 
     private async loadMap(id: number): Promise<void> {
-        this.map = <Map> new Map1(this, this.changeMap.bind(this));
+        this.map = <Map> new Map(this, id, this.changeMap.bind(this));
         await this.map.init();
         await this.map.background();
 
