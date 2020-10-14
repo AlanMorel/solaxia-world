@@ -35,7 +35,7 @@ export default class AnimatedMapObject extends MapObject {
     private lastSpriteChange = Date.now();
 
     protected speed = 3;
-    protected jumpStrength = 12;
+    protected jump = 12;
 
     private dx = 0;
     private dy = 0;
@@ -56,7 +56,7 @@ export default class AnimatedMapObject extends MapObject {
         const data = await response.json();
 
         this.speed = data.speed;
-        this.jumpStrength = data.jump;
+        this.jump = data.jump;
 
         await this.loadSprites(data);
     }
@@ -135,9 +135,21 @@ export default class AnimatedMapObject extends MapObject {
         this.updateAnimationState(AnimationState.STANDING);
     }
 
-    public jump(): void {
-        this.dy = -this.jumpStrength;
+    public jumpUp(): void {
+        this.dy = -this.jump;
         this.updateAnimationState(AnimationState.JUMPING);
+    }
+
+    public jumpLeft(): void {
+        this.lookLeft();
+        this.dx = -this.speed;
+        this.jumpUp();
+    }
+
+    public jumpRight(): void {
+        this.lookRight();
+        this.dx = this.speed;
+        this.jumpUp();
     }
 
     private updateAnimationState(animationState: AnimationState): void {
@@ -152,8 +164,12 @@ export default class AnimatedMapObject extends MapObject {
         if (now - this.lastSpriteChange < this.spritesInterval[this.animationState]) {
             return;
         }
-        const nextSpriteIndex = ++this.activeSpriteIndex % this.sprites[this.animationState].length;
-        this.activeSprite.texture = this.sprites[this.animationState][nextSpriteIndex].texture;
+        const sprites = this.sprites[this.animationState];
+        if (!sprites.length) {
+            return;
+        }
+        const nextSpriteIndex = ++this.activeSpriteIndex % sprites.length;
+        this.activeSprite.texture = sprites[nextSpriteIndex].texture;
         this.lastSpriteChange = now;
     }
 

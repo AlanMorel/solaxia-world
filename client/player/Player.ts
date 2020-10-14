@@ -43,7 +43,7 @@ export default class Player extends Character {
 
     private setUpSpaceKey(): void {
         this.spaceKey.onDown(() => {
-            this.jump();
+            this.jumpUp();
         });
     }
 

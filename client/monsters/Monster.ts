@@ -16,14 +16,18 @@ export default class Monster extends AnimatedMapObject {
 
     private randomizedMovement(): void {
         const action = Math.random() * 100;
-        if (action < 20) {
+        if (action < 15) {
             this.moveLeft();
-        } else if (action < 40) {
+        } else if (action < 35) {
             this.moveRight();
-        } else if (action < 75) {
+        } else if (action < 70) {
             this.stop();
+        } else if (action < 80) {
+            this.jumpUp();
+        } else if (action < 90) {
+            this.jumpLeft();
         } else {
-            this.jump();
+            this.jumpRight();
         }
         setTimeout(() => {
             this.randomizedMovement();
