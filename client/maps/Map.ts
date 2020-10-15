@@ -6,29 +6,7 @@ import { PortalType } from "../portals/PortalType";
 import Character from "../player/Character";
 import Container from "../utility/Container";
 import Tiler from "../utility/Tiler";
-
-interface MapData {
-    id: number,
-    width: number,
-    height: number,
-    floor: number,
-    portals: [
-        {
-            id: number,
-            x: number,
-            y: number,
-            destMap: number,
-            destPortal: number
-        }
-    ],
-    tilers: [
-        {
-            tile: string,
-            height: number,
-            y: number
-        }
-    ]
-}
+import MapLoader, { MapData } from "../loaders/MapLoader";
 
 export default class Map extends Container {
 
@@ -51,8 +29,7 @@ export default class Map extends Container {
     }
 
     public async init(): Promise<void> {
-        const response = await fetch("/assets/data/maps/" + this.id + ".json");
-        const data: MapData = await response.json();
+        const data: MapData = await MapLoader.loadMap(this.id);
 
         this.width = data.width;
         this.height = data.height;

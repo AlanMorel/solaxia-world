@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js-legacy";
 import Map from "../maps/Map";
-import ImageLoader from "../utility/ImageLoader";
+import ImageLoader from "../loaders/ImageLoader";
 import { AnimationState } from "./AnimationState";
 import MapObject from "./MapObject";
 

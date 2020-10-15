@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js-legacy";
-import ImageLoader from "./ImageLoader";
+import ImageLoader from "../loaders/ImageLoader";
 import Map from "../maps/Map";
 
 export default class Tiler {

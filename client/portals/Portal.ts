@@ -1,8 +1,9 @@
 import * as PIXI from "pixi.js-legacy";
 import Map from "../maps/Map";
 import MapObject from "../maps/MapObject";
-import ImageLoader from "../utility/ImageLoader";
+import ImageLoader from "../loaders/ImageLoader";
 import { PortalType } from "./PortalType";
+import { MapPortalsData } from "../loaders/MapLoader";
 
 export default class Portal extends MapObject {
 
@@ -13,7 +14,7 @@ export default class Portal extends MapObject {
     private destPortal: number;
     private type: PortalType;
 
-    constructor(scene: PIXI.Container, map: Map, data: any) {
+    constructor(scene: PIXI.Container, map: Map, data: MapPortalsData) {
         super(map);
 
         this.scene = scene;
