@@ -27,13 +27,12 @@ interface MapDataType {
 
 export default class MapLoader {
 
-    public static cache: MapDataType = [];
+    public static cache: MapDataType = {};
 
     public static async loadMap(id: number): Promise<MapData> {
+
         if (MapLoader.cache[id]) {
-            return new Promise(resolve => {
-                resolve(MapLoader.cache[id]);
-            });
+            return Promise.resolve(MapLoader.cache[id]);
         }
 
         const response = await fetch("/assets/data/maps/" + id + ".json");

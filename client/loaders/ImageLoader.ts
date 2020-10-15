@@ -14,9 +14,7 @@ export default class ImageLoader {
     }
 
     private static resolveNow(texture: PIXI.Texture): Promise<PIXI.Texture> {
-        return new Promise(resolve => {
-            resolve(texture);
-        });
+        return Promise.resolve(texture);
     }
 
     private static resolveLater(texture: PIXI.Texture): Promise<PIXI.Texture> {

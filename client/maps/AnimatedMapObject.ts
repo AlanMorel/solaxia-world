@@ -1,8 +1,14 @@
 import * as PIXI from "pixi.js-legacy";
 import Map from "../maps/Map";
 import ImageLoader from "../loaders/ImageLoader";
-import { AnimationState } from "./AnimationState";
 import MapObject from "./MapObject";
+import MapObjectLoader, { MapObjectData } from "../loaders/MapObjectLoader";
+
+enum AnimationState {
+    STANDING = "standing",
+    WALKING = "walking",
+    JUMPING = "jumping"
+}
 
 type spritesInterface = {
     [key in AnimationState]: PIXI.Sprite[];
@@ -11,24 +17,6 @@ type spritesInterface = {
 type spritesIntervalInterface = {
     [key in AnimationState]: number;
 };
-
-interface AnimatedMapObjectData {
-    name?: string,
-    speed: number,
-    jump: number,
-    standing: {
-        frames: number,
-        interval: number
-    },
-    walking: {
-        frames: number,
-        interval: number
-    },
-    jumping: {
-        frames: number,
-        interval: number
-    }
-}
 
 export default class AnimatedMapObject extends MapObject {
 
@@ -69,8 +57,7 @@ export default class AnimatedMapObject extends MapObject {
     }
 
     public async init(): Promise<void> {
-        const response = await fetch("/assets/data/" + this.path + ".json");
-        const data: AnimatedMapObjectData = await response.json();
+        const data: MapObjectData = await MapObjectLoader.loadObject(this.path);
 
         this.speed = data.speed;
         this.jump = data.jump;
@@ -79,7 +66,7 @@ export default class AnimatedMapObject extends MapObject {
         this.scene.addChild(this.activeSprite);
     }
 
-    private async loadSprites(data: AnimatedMapObjectData): Promise<void> {
+    private async loadSprites(data: MapObjectData): Promise<void> {
         if (data.standing) {
             await this.loadStateSprites(AnimationState.STANDING, data);
         }
@@ -93,7 +80,7 @@ export default class AnimatedMapObject extends MapObject {
         this.updateActiveSprite();
     }
 
-    private async loadStateSprites(state: AnimationState, data: AnimatedMapObjectData): Promise<void> {
+    private async loadStateSprites(state: AnimationState, data: MapObjectData): Promise<void> {
         const sprites: PIXI.Sprite[] = [];
 
         for (let i = 0; i < data[state].frames; i++) {

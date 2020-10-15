@@ -5,7 +5,7 @@ import Portal from "../portals/Portal";
 import { PortalType } from "../portals/PortalType";
 import Character from "../player/Character";
 import Container from "../utility/Container";
-import Tiler from "../utility/Tiler";
+import Tiler from "./Tiler";
 import MapLoader, { MapData } from "../loaders/MapLoader";
 
 export default class Map extends Container {
