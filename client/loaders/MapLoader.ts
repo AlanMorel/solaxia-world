@@ -4,6 +4,7 @@ export interface MapData {
     height: number,
     floor: number,
     portals: [MapPortalsData],
+    monsters: [MapMonsterData],
     tilers: [MapTilersData]
 }
 
@@ -13,6 +14,12 @@ export interface MapPortalsData {
     y: number,
     destMap: number,
     destPortal: number
+}
+
+export interface MapMonsterData {
+    name: string,
+    x: number,
+    y: number
 }
 
 export interface MapTilersData {

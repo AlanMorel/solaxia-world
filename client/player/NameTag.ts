@@ -22,7 +22,6 @@ export default class NameTag {
         scene.addChild(this.nameTag);
     }
 
-
     public update(sprite: PIXI.Sprite): void {
         this.nameTag.x = sprite.x;
         this.nameTag.y = sprite.y + sprite.height + 15;

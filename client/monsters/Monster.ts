@@ -3,9 +3,10 @@ import AnimatedMapObject from "../maps/AnimatedMapObject";
 
 export default class Monster extends AnimatedMapObject {
 
-    constructor(map: Map, name: string) {
+    constructor(map: Map, name: string, x: number, y: number) {
         super(map, "monsters/" + name);
-        this.y = 50;
+        this.x = x;
+        this.y = y;
     }
 
     public async init(): Promise<void> {

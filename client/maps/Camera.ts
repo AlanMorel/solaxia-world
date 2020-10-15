@@ -25,24 +25,20 @@ export default class Camera extends Container {
         this.map = map;
         this.character = character;
 
-        this.xLabel = new PIXI.Text("", new PIXI.TextStyle({
+        const textStyle = new PIXI.TextStyle({
             fontFamily: "'VCR OSD Mono', Courier, monospace",
             fontSize: "24px"
-        }));
+        });
+
+        this.xLabel = new PIXI.Text("", textStyle);
         this.xLabel.x = 5;
         this.xLabel.y = 5;
 
-        this.yLabel = new PIXI.Text("", new PIXI.TextStyle({
-            fontFamily: "'VCR OSD Mono', Courier, monospace",
-            fontSize: "24px"
-        }));
+        this.yLabel = new PIXI.Text("", textStyle);
         this.yLabel.x = 5;
         this.yLabel.y = 30;
 
-        this.playerLabel = new PIXI.Text("", new PIXI.TextStyle({
-            fontFamily: "'VCR OSD Mono', Courier, monospace",
-            fontSize: "24px"
-        }));
+        this.playerLabel = new PIXI.Text("", textStyle);
         this.playerLabel.x = 5;
         this.playerLabel.y = 55;
 

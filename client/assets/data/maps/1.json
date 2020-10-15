@@ -24,6 +24,13 @@
             "destPortal": 1
         }
     ],
+    "monsters": [
+        {
+            "name": "mushroom",
+            "x": 0,
+            "y": 600
+        }
+    ],
     "tilers": [
         {
             "tile": "soil",

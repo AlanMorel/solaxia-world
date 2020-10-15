@@ -45,8 +45,8 @@ export default class Map extends Container {
             this.portals.push(portal);
         }
 
-        for (let i = 0; i < 3; i++) {
-            const monster = new Monster(this, "mushroom");
+        for (const monsterData of data.monsters) {
+            const monster = new Monster(this, monsterData.name, monsterData.x, monsterData.y);
             this.monsters.push(monster);
         }
     }
