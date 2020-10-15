@@ -7,14 +7,14 @@ export default class Character extends AnimatedMapObject {
     private nameTag: NameTag;
 
     constructor(map: Map, username: string) {
-        super(map.getContainer(), map, "character");
+        super(map, "character");
         this.nameTag = new NameTag(map.getContainer(), username);
         this.y = 50;
         this.speed = 5;
     }
 
-    public updateCharacter(): void {
-        this.update(this.map);
+    public update(): void {
+        super.update();
         this.nameTag.update(this.getSprite());
     }
 }

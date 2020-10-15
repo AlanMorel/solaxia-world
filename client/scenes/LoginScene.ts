@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js-legacy";
 import Config from "../config";
 import Game from "../utility/Game";
-import GameScene from "../utility/GameScene";
+import GameScene from "./GameScene";
 import DOMHandler from "../utility/DOMHandler";
 
 export default class LoginScene extends GameScene {
@@ -106,6 +106,7 @@ export default class LoginScene extends GameScene {
         if (username) {
             this.game.setUsername(username);
         }
+
         this.scenes?.start("gameplay");
     }
 

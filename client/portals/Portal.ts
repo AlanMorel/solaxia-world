@@ -7,17 +7,13 @@ import { MapPortalsData } from "../loaders/MapLoader";
 
 export default class Portal extends MapObject {
 
-    private scene;
-
     private id: number;
     private destMap: number;
     private destPortal: number;
     private type: PortalType;
 
-    constructor(scene: PIXI.Container, map: Map, data: MapPortalsData) {
+    constructor(map: Map, data: MapPortalsData) {
         super(map);
-
-        this.scene = scene;
 
         this.id = data.id;
         this.x = data.x;
@@ -50,6 +46,6 @@ export default class Portal extends MapObject {
         sprite.x = this.x;
         sprite.y = this.y;
 
-        this.scene.addChild(sprite);
+        this.map.getContainer().addChild(sprite);
     }
 }

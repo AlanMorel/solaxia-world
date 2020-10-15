@@ -5,13 +5,13 @@ import Character from "./Character";
 
 export default class Player {
 
+    private character?: Character;
+    private username: string;
+
     private leftKey: KeyListener = new KeyListener("ArrowLeft");
     private rightKey: KeyListener = new KeyListener("ArrowRight");
     private upKey: KeyListener = new KeyListener("ArrowUp");
     private spaceKey: KeyListener = new KeyListener("Space");
-
-    private character?: Character;
-    private username: string;
 
     constructor(game: Game) {
         this.setUpLeftKey();

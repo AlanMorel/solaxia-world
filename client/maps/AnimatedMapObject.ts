@@ -20,8 +20,6 @@ type spritesIntervalInterface = {
 
 export default class AnimatedMapObject extends MapObject {
 
-    private scene: PIXI.Container;
-
     private sprites: spritesInterface = {
         [AnimationState.STANDING]: [],
         [AnimationState.WALKING]: [],
@@ -48,10 +46,9 @@ export default class AnimatedMapObject extends MapObject {
 
     private path: string;
 
-    constructor(scene: PIXI.Container, map: Map, path: string) {
+    constructor(map: Map, path: string) {
         super(map);
 
-        this.scene = scene;
         this.map = map;
         this.path = path;
     }
@@ -63,34 +60,29 @@ export default class AnimatedMapObject extends MapObject {
         this.jump = data.jump;
 
         await this.loadSprites(data);
-        this.scene.addChild(this.activeSprite);
+        this.map.getContainer().addChild(this.activeSprite);
     }
 
     private async loadSprites(data: MapObjectData): Promise<void> {
-        if (data.standing) {
-            await this.loadStateSprites(AnimationState.STANDING, data);
-        }
-        if (data.walking) {
-            await this.loadStateSprites(AnimationState.WALKING, data);
-        }
-        if (data.jumping) {
-            await this.loadStateSprites(AnimationState.JUMPING, data);
-        }
+        await this.loadStateSprites(AnimationState.STANDING, data);
+        await this.loadStateSprites(AnimationState.WALKING, data);
+        await this.loadStateSprites(AnimationState.JUMPING, data);
 
         this.updateActiveSprite();
     }
 
     private async loadStateSprites(state: AnimationState, data: MapObjectData): Promise<void> {
-        const sprites: PIXI.Sprite[] = [];
+        if (!data[state]) {
+            return;
+        }
 
         for (let i = 0; i < data[state].frames; i++) {
             const texture = await ImageLoader.loadAsync("/assets/images/" + this.path + "/" + state + i + ".png");
             const sprite = PIXI.Sprite.from(texture);
             sprite.anchor.set(0.5, 0);
-            sprites.push(sprite);
+            this.sprites[state].push(sprite);
         }
 
-        this.sprites[state] = sprites;
         this.spritesInterval[state] = data[state].interval;
     }
 
@@ -196,11 +188,11 @@ export default class AnimatedMapObject extends MapObject {
         }
     }
 
-    private handleOutOfBounds(map: Map): void {
+    private handleOutOfBounds(): void {
         if (this.x < this.activeSprite.width / 2) {
             this.x = this.activeSprite.width / 2;
-        } else if (this.x > map.getWidth() - this.activeSprite.width / 2) {
-            this.x = map.getWidth() - this.activeSprite.width / 2;
+        } else if (this.x > this.map.getWidth() - this.activeSprite.width / 2) {
+            this.x = this.map.getWidth() - this.activeSprite.width / 2;
         }
     }
 
@@ -209,11 +201,11 @@ export default class AnimatedMapObject extends MapObject {
         this.activeSprite.y = this.y;
     }
 
-    public update(map: Map): void {
+    public update(): void {
         this.updateTexture();
         this.updateCoordinates();
         this.handleJumping();
-        this.handleOutOfBounds(map);
+        this.handleOutOfBounds();
         this.updateSprite();
     }
 }

@@ -41,12 +41,12 @@ export default class Map extends Container {
         }
 
         for (const portalData of data.portals) {
-            const portal = new Portal(this.scene, this, portalData);
+            const portal = new Portal(this, portalData);
             this.portals.push(portal);
         }
 
         for (let i = 0; i < 3; i++) {
-            const monster = new Monster(this.scene, this, "mushroom");
+            const monster = new Monster(this, "mushroom");
             this.monsters.push(monster);
         }
     }
@@ -96,7 +96,7 @@ export default class Map extends Container {
             this.camera.update();
         }
         for (const monster of this.monsters) {
-            monster.updateMonster();
+            monster.update();
         }
     }
 
@@ -110,7 +110,7 @@ export default class Map extends Container {
         }
 
         for (const monster of this.monsters) {
-            await monster.initMonster();
+            await monster.init();
         }
     }
 

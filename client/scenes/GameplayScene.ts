@@ -1,7 +1,7 @@
 import Map from "../maps/Map";
 import Player from "../player/Player";
 import Game from "../utility/Game";
-import GameScene from "../utility/GameScene";
+import GameScene from "./GameScene";
 import DOMHandler from "../utility/DOMHandler";
 import Camera from "../maps/Camera";
 import Portal from "../portals/Portal";
@@ -13,7 +13,6 @@ export default class GameplayScene extends GameScene {
 
     constructor(game: Game) {
         super(game);
-        this.addChatbox();
     }
 
     public async start(): Promise<void> {
@@ -21,20 +20,22 @@ export default class GameplayScene extends GameScene {
             this.app.renderer.backgroundColor = 0x80c2fb;
         }
 
+        this.addChatbox();
+
         this.loadMap(1);
     }
 
     private async loadMap(id: number): Promise<void> {
-        this.map = <Map> new Map(this, id, this.changeMap.bind(this));
+        this.map = new Map(this, id, this.changeMap.bind(this));
         await this.map.init();
         await this.map.background();
 
         await this.player.init(this.map);
 
+        this.map.foreground();
+
         const camera = new Camera(this, this.map, this.player.getCharacter());
         this.map.setCamera(camera);
-
-        this.map.foreground();
     }
 
     private async changeMap(portal: Portal): Promise<void> {
@@ -75,7 +76,7 @@ export default class GameplayScene extends GameScene {
     }
 
     public update(): void {
-        this.player.getCharacter()?.updateCharacter();
+        this.player.getCharacter()?.update();
         this.map?.update();
     }
 

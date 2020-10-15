@@ -1,16 +1,15 @@
-import * as PIXI from "pixi.js-legacy";
 import Map from "../maps/Map";
 import AnimatedMapObject from "../maps/AnimatedMapObject";
 
 export default class Monster extends AnimatedMapObject {
 
-    constructor(scene: PIXI.Container, map: Map, name: string) {
-        super(scene, map, "monsters/" + name);
+    constructor(map: Map, name: string) {
+        super(map, "monsters/" + name);
         this.y = 50;
     }
 
-    public async initMonster(): Promise<void> {
-        await this.init();
+    public async init(): Promise<void> {
+        await super.init();
         this.randomizedMovement();
     }
 
@@ -32,9 +31,5 @@ export default class Monster extends AnimatedMapObject {
         setTimeout(() => {
             this.randomizedMovement();
         }, Math.random() * 100 * 3 + 1000);
-    }
-
-    public updateMonster(): void {
-        this.update(this.map);
     }
 }
