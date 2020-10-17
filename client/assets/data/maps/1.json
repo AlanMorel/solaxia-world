@@ -36,7 +36,7 @@
             "tile": "trees",
             "height": 1,
             "y": 575,
-            "xRate": 90,
+            "xRate": 50,
             "yRate": 10
         }, {
             "tile": "soil",

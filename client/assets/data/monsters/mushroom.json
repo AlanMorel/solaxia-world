@@ -5,14 +5,14 @@
     "jump": 12,
     "standing": {
         "frames": 2,
-        "interval": 300
+        "interval": 750
     },
 	"walking": {
         "frames": 2,
-        "interval": 250
+        "interval": 500
     },
 	"jumping": {
         "frames": 2,
-        "interval": 250
+        "interval": 500
     }
 }

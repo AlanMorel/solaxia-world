@@ -83,7 +83,6 @@ export default class AnimatedMapObject extends MapObject {
         for (let i = 0; i < data[state].frames; i++) {
             const texture = await ImageLoader.loadAsync("/assets/images/" + this.path + "/" + state + i + ".png");
             const sprite = PIXI.Sprite.from(texture);
-            sprite.anchor.set(0.5, 0);
             this.sprites[state].push(sprite);
         }
 
@@ -169,7 +168,7 @@ export default class AnimatedMapObject extends MapObject {
         this.animationState = animationState;
         this.activeSpriteIndex = 0;
         this.lastSpriteChange =  Date.now();
-        this.activeSprite.texture = sprites[this.activeSpriteIndex].texture;
+        this.switchTexture(sprites[this.activeSpriteIndex].texture);
     }
 
     private updateTexture(): void {
@@ -181,9 +180,15 @@ export default class AnimatedMapObject extends MapObject {
         if (!sprites.length) {
             return;
         }
-        const nextSpriteIndex = ++this.activeSpriteIndex % sprites.length;
-        this.activeSprite.texture = sprites[nextSpriteIndex].texture;
         this.lastSpriteChange = now;
+        this.activeSpriteIndex = ++this.activeSpriteIndex % sprites.length;
+        this.switchTexture(sprites[this.activeSpriteIndex].texture);
+    }
+
+    private switchTexture(texture: PIXI.Texture): void {
+        const oldHeight = this.activeSprite.height;
+        this.activeSprite.texture = texture;
+        this.y += oldHeight - this.activeSprite.height;
     }
 
     private updateCoordinates(): void {
@@ -192,11 +197,18 @@ export default class AnimatedMapObject extends MapObject {
     }
 
     private handleJumping(): void {
-        if (this.y < this.map.getFloor() - this.activeSprite.height) {
+        const floor = this.map.getFloor() - this.activeSprite.height;
+        if (this.y < floor) {
             this.dy += 1;
-        } else if (this.y > this.map.getFloor() - this.activeSprite.height) {
+        } else if (this.y > floor) {
             this.dy = 0;
-            this.y = this.map.getFloor() - this.activeSprite.height;
+            this.y = floor;
+
+            if (this.dx < 0) {
+                this.moveLeft();
+            } else if (this.dx > 0) {
+                this.moveRight();
+            }
         }
     }
 

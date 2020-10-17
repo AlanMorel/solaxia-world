@@ -4,18 +4,17 @@ import HPBar from "./HPBar";
 
 export default class Monster extends AnimatedMapObject {
 
-    private hpBar: HPBar;
+    private hpBar: HPBar = new HPBar();
 
     constructor(map: Map, name: string, x: number, y: number) {
         super(map, "monsters/" + name);
         this.x = x;
         this.y = y;
-        this.hpBar = new HPBar(map);
     }
 
     public async init(): Promise<void> {
         await super.init();
-        this.hpBar.init();
+        this.hpBar.init(this.map.getContainer());
         this.randomizedMovement();
     }
 
