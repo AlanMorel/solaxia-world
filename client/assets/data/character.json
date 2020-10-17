@@ -1,4 +1,5 @@
 {
+    "hp": 0,
     "speed": 5,
     "jump": 12,
     "standing": {

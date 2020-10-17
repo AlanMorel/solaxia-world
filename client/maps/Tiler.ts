@@ -22,7 +22,7 @@ export default class Tiler {
         this.xRate = xRate;
         this.yRate = yRate;
     }
-    
+
     public async init(): Promise<void> {
         const texture = await ImageLoader.loadAsync(this.path);
         const xAmount = Math.ceil(this.map.getWidth() / texture.width);

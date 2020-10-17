@@ -40,6 +40,8 @@ export default class AnimatedMapObject extends MapObject {
 
     protected speed = 3;
     protected jump = 12;
+    protected maxHp = 0;
+    protected hp = 0;
 
     private dx = 0;
     private dy = 0;
@@ -58,6 +60,8 @@ export default class AnimatedMapObject extends MapObject {
 
         this.speed = data.speed;
         this.jump = data.jump;
+        this.maxHp = data.hp;
+        this.hp = data.hp;
 
         await this.loadSprites(data);
         this.map.getContainer().addChild(this.activeSprite);
@@ -101,6 +105,14 @@ export default class AnimatedMapObject extends MapObject {
 
     public getY(): number {
         return this.y;
+    }
+
+    public getHP(): number {
+        return this.hp;
+    }
+
+    public getMaxHP(): number {
+        return this.maxHp;
     }
 
     public getSprite(): PIXI.Sprite {

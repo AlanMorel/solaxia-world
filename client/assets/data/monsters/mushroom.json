@@ -1,10 +1,11 @@
 {
     "name": "Mushroom",
+    "hp": 100,
     "speed": 2,
     "jump": 12,
     "standing": {
         "frames": 2,
-        "interval": 250
+        "interval": 300
     },
 	"walking": {
         "frames": 2,

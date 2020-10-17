@@ -1,5 +1,6 @@
 export interface MapObjectData {
     name?: string,
+    hp: number,
     speed: number,
     jump: number,
     standing: {

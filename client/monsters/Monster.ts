@@ -1,16 +1,21 @@
 import Map from "../maps/Map";
 import AnimatedMapObject from "../maps/AnimatedMapObject";
+import HPBar from "./HPBar";
 
 export default class Monster extends AnimatedMapObject {
+
+    private hpBar: HPBar;
 
     constructor(map: Map, name: string, x: number, y: number) {
         super(map, "monsters/" + name);
         this.x = x;
         this.y = y;
+        this.hpBar = new HPBar(map);
     }
 
     public async init(): Promise<void> {
         await super.init();
+        this.hpBar.init();
         this.randomizedMovement();
     }
 
@@ -32,5 +37,10 @@ export default class Monster extends AnimatedMapObject {
         setTimeout(() => {
             this.randomizedMovement();
         }, Math.random() * 100 * 3 + 1000);
+    }
+
+    public update(): void {
+        super.update();
+        this.hpBar.update(this);
     }
 }
