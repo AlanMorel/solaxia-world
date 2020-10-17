@@ -33,6 +33,12 @@
     ],
     "tilers": [
         {
+            "tile": "trees",
+            "height": 1,
+            "y": 575,
+            "xRate": 90,
+            "yRate": 10
+        }, {
             "tile": "soil",
             "height": 2,
             "y": 936

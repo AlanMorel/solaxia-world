@@ -22,7 +22,7 @@ interface MapObjectDataType {
 
 export default class MapObjectLoader {
 
-    public static cache: MapObjectDataType = {};
+    private static cache: MapObjectDataType = {};
 
     public static async loadObject(path: string): Promise<MapObjectData> {
 

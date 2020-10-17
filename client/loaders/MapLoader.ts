@@ -25,7 +25,9 @@ export interface MapMonsterData {
 export interface MapTilersData {
     tile: string,
     height: number,
-    y: number
+    y: number,
+    xRate?: number,
+    yRate?: number
 }
 
 interface MapDataType {
@@ -34,7 +36,7 @@ interface MapDataType {
 
 export default class MapLoader {
 
-    public static cache: MapDataType = {};
+    private static cache: MapDataType = {};
 
     public static async loadMap(id: number): Promise<MapData> {
 

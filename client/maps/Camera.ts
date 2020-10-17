@@ -47,6 +47,14 @@ export default class Camera extends Container {
         this.scene.addChild(this.playerLabel);
     }
 
+    public getX(): number {
+        return this.x;
+    }
+
+    public getY(): number {
+        return this.y;
+    }
+
     private updateLabels(): void {
         if (!this.character) {
             return;

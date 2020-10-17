@@ -1,31 +1,44 @@
 import * as PIXI from "pixi.js-legacy";
 import ImageLoader from "../loaders/ImageLoader";
+import Camera from "./Camera";
 import Map from "./Map";
 
 export default class Tiler {
 
     private map: Map;
+    private container: PIXI.Container;
     private path: string;
     private height: number;
     private y: number;
+    private xRate: number;
+    private yRate: number;
 
-    constructor(map: Map, path: string, height: number, y: number) {
+    constructor(map: Map, path: string, height: number, y: number, xRate: number, yRate: number) {
         this.map = map;
+        this.container = new PIXI.Container;
         this.path = path;
         this.height = height;
         this.y = y;
+        this.xRate = xRate;
+        this.yRate = yRate;
     }
-
+    
     public async init(): Promise<void> {
         const texture = await ImageLoader.loadAsync(this.path);
         const xAmount = Math.ceil(this.map.getWidth() / texture.width);
+        this.map.getContainer().addChild(this.container);
         for (let i = 0; i < this.height; i++) {
             for (let j = 0; j < xAmount; j++) {
                 const sprite = new PIXI.Sprite(texture);
                 sprite.x = j * texture.width;
                 sprite.y = this.y + i * texture.height;
-                this.map.getContainer().addChild(sprite);
+                this.container.addChild(sprite);
             }
         }
+    }
+
+    public update(camera: Camera): void {
+        this.container.x = camera.getX() * this.xRate / 100;
+        this.container.y = camera.getY() * this.yRate / 100;
     }
 }

@@ -36,7 +36,7 @@ export default class Map extends Container {
         this.floor = data.floor;
 
         for (const tilersData of data.tilers) {
-            const tiler = new Tiler(this, "assets/images/tiles/" + tilersData.tile + ".png", tilersData.height, tilersData.y);
+            const tiler = new Tiler(this, "assets/images/tiles/" + tilersData.tile + ".png", tilersData.height, tilersData.y, tilersData.xRate || 0, tilersData.yRate || 0);
             this.tilers.push(tiler);
         }
 
@@ -94,6 +94,10 @@ export default class Map extends Container {
     public update(): void {
         if (this.camera) {
             this.camera.update();
+
+            for (const tiler of this.tilers) {
+                tiler.update(this.camera);
+            }
         }
         for (const monster of this.monsters) {
             monster.update();
