@@ -24,17 +24,24 @@ export default class Tiler {
     }
 
     public async init(): Promise<void> {
+        this.map.getContainer().addChild(this.container);
+
         const texture = await ImageLoader.loadAsync(this.path);
         const xAmount = Math.ceil(this.map.getWidth() / texture.width);
-        this.map.getContainer().addChild(this.container);
+
         for (let i = 0; i < this.height; i++) {
             for (let j = 0; j < xAmount; j++) {
-                const sprite = new PIXI.Sprite(texture);
-                sprite.x = j * texture.width;
-                sprite.y = this.y + i * texture.height;
-                this.container.addChild(sprite);
+                this.addSprite(texture, i, j);
             }
         }
+    }
+
+    private addSprite(texture: PIXI.Texture, i: number, j: number): void {
+        const sprite = new PIXI.Sprite(texture);
+        sprite.x = j * texture.width;
+        sprite.y = this.y + i * texture.height;
+
+        this.container.addChild(sprite);
     }
 
     public update(camera: Camera): void {

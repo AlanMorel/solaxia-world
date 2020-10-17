@@ -28,7 +28,7 @@ export default class LoginScene extends GameScene {
         clouds.y = 200;
 
         const forest = PIXI.Sprite.from("assets/images/tiles/forest.png");
-        forest.y = Config.height - 415;
+        forest.y = 305;
 
         this.addChild(sky);
         this.addChild(clouds);

@@ -82,11 +82,12 @@ export default class Player {
         if (!this.character) {
             return;
         }
+        const threshold = 50;
         for (const portal of this.character.getMap().getPortals()) {
-            if (Math.abs(this.character.getX() - portal.getX()) > 50) {
+            if (Math.abs(this.character.getX() - portal.getX()) > threshold) {
                 continue;
             }
-            if (Math.abs(this.character.getY() - (portal.getY() + 150)) > 50) {
+            if (Math.abs(this.character.getY() - (portal.getY() + 150)) > threshold) {
                 continue;
             }
             this.character.getMap().usePortal(this.character, portal);

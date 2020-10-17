@@ -19,6 +19,8 @@ export default class Camera extends Container {
     private yLabel: PIXI.Text;
     private playerLabel: PIXI.Text;
 
+    private readonly rate = 25;
+
     constructor(scene: Scene, map: Map, character: Character | undefined) {
         super(scene);
 
@@ -94,8 +96,8 @@ export default class Camera extends Container {
     }
 
     private updateCoordinates(): void {
-        this.x += (this.targetX - this.x) * 1 / 25;
-        this.y += (this.targetY - this.y) * 1 / 25;
+        this.x += (this.targetX - this.x) / this.rate;
+        this.y += (this.targetY - this.y) / this.rate;
     }
 
     private updateMapContainer(): void {
