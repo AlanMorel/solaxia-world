@@ -2,6 +2,7 @@ import KeyListener from "../utility/KeyListener";
 import Map from "../maps/Map";
 import Game from "../utility/Game";
 import Character from "./Character";
+import Projectile from "../maps/Projectile";
 
 export default class Player {
 
@@ -12,12 +13,14 @@ export default class Player {
     private rightKey: KeyListener = new KeyListener("ArrowRight");
     private upKey: KeyListener = new KeyListener("ArrowUp");
     private spaceKey: KeyListener = new KeyListener("Space");
+    private attackKey: KeyListener = new KeyListener("KeyX");
 
     constructor(game: Game) {
         this.setUpLeftKey();
         this.setUpRightKey();
         this.setUpUpKey();
         this.setUpSpaceKey();
+        this.setUpAttackKey();
         this.username = game.getUsername();
     }
 
@@ -62,6 +65,12 @@ export default class Player {
         });
     }
 
+    private async setUpAttackKey(): Promise<void> {
+        this.attackKey.onDown(async () => {
+            await this.attack();
+        });
+    }
+
     public chatboxFocus(): void {
         this.leftKey.pause();
         this.rightKey.pause();
@@ -76,6 +85,14 @@ export default class Player {
 
     public getCharacter(): Character | undefined {
         return this.character;
+    }
+
+    private async attack(): Promise<void> {
+        if (this.character) {
+            const projectile = new Projectile(this.character, 5);
+            await projectile.init("star");
+            this.character.getMap().addProjectile(projectile);
+        }
     }
 
     private usePortal(): void {

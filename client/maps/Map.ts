@@ -7,20 +7,22 @@ import Character from "../player/Character";
 import Container from "../utility/Container";
 import Tiler from "./Tiler";
 import MapLoader, { MapData } from "../loaders/MapLoader";
+import Projectile from "./Projectile"; 
 
 export default class Map extends Container {
 
-    protected camera?: Camera;
+    private camera?: Camera;
 
-    protected id: number;
-    protected width = 0;
-    protected height = 0;
-    protected floor = 0;
-    protected monsters: Monster[] = [];
-    protected portals: Portal[] = [];
-    protected tilers: Tiler[] = [];
+    private id: number;
+    private width = 0;
+    private height = 0;
+    private floor = 0;
+    private monsters: Monster[] = [];
+    private portals: Portal[] = [];
+    private tilers: Tiler[] = [];
+    private projectiles: Projectile[] = [];
 
-    protected changeMap: (portal: Portal) => Promise<void>;
+    private changeMap: (portal: Portal) => Promise<void>;
 
     constructor(scene: PIXI.Container, id: number, changeMap: (portal: Portal) => Promise<void>) {
         super(scene);
@@ -36,7 +38,7 @@ export default class Map extends Container {
         this.floor = data.floor;
 
         for (const tilersData of data.tilers) {
-            const tiler = new Tiler(this, "assets/images/tiles/" + tilersData.tile + ".png", tilersData.height, tilersData.y, tilersData.xRate || 0, tilersData.yRate || 0);
+            const tiler = new Tiler(this, "tiles/" + tilersData.tile + ".png", tilersData.height, tilersData.y, tilersData.xRate || 0, tilersData.yRate || 0);
             this.tilers.push(tiler);
         }
 
@@ -79,6 +81,11 @@ export default class Map extends Container {
         return this.camera;
     }
 
+    public addProjectile(projectile: Projectile): void {
+        this.projectiles.push(projectile);
+        this.getContainer().addChild(projectile.getSprite());
+    }
+
     public usePortal(character: Character, portal: Portal): void {
         if (portal.getType() === PortalType.INTERNAL) {
             const destPortal = this.portals.find((p: Portal) => p.getId() === portal.getDestPortal());
@@ -101,6 +108,10 @@ export default class Map extends Container {
         }
         for (const monster of this.monsters) {
             monster.update();
+        }
+
+        for (const projectile of this.projectiles) {
+            projectile.update();
         }
     }
 

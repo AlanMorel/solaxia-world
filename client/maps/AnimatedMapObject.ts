@@ -138,6 +138,14 @@ export default class AnimatedMapObject extends MapObject {
         this.activeSprite.scale.x = -1;
     }
 
+    public isLookingLeft() {
+        return this.activeSprite.scale.x === 1;
+    }
+
+    public isLookingRight() {
+        return this.activeSprite.scale.x === -1;
+    }
+
     public stop(): void {
         this.dx = 0;
         this.updateAnimationState(AnimationState.STANDING);
