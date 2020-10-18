@@ -8,6 +8,7 @@ import Container from "../utility/Container";
 import Tiler from "./Tiler";
 import MapLoader, { MapData } from "../loaders/MapLoader";
 import Projectile from "./Projectile"; 
+import { Rectangle, intersect } from "../utility/Rectangle";
 
 export default class Map extends Container {
 
@@ -38,7 +39,7 @@ export default class Map extends Container {
         this.floor = data.floor;
 
         for (const tilersData of data.tilers) {
-            const tiler = new Tiler(this, "tiles/" + tilersData.tile + ".png", tilersData.height, tilersData.y, tilersData.xRate || 0, tilersData.yRate || 0);
+            const tiler = new Tiler(this, "tiles/" + tilersData.tile, tilersData.height, tilersData.y, tilersData.xRate || 0, tilersData.yRate || 0);
             this.tilers.push(tiler);
         }
 
@@ -112,7 +113,40 @@ export default class Map extends Container {
 
         for (const projectile of this.projectiles) {
             projectile.update();
+            this.checkProjectileCollisions(projectile);
         }
+    }
+
+    private checkProjectileCollisions(projectile: Projectile): void {
+
+        for (const monster of this.monsters) {
+            const monsterRect: Rectangle = {
+                left:   monster.getX() - monster.getSprite().width / 2,
+                top:    monster.getY() - monster.getSprite().height / 2,
+                right:  monster.getX() + monster.getSprite().width / 2,
+                bottom: monster.getY() + monster.getSprite().height / 2
+            };
+
+            if (intersect(projectile.getRectangle(), monsterRect)) {
+                this.projectileHit(monster, projectile);
+            }
+        }
+    }
+
+    private projectileHit(monster: Monster, projectile: Projectile): void {
+        monster.damage(projectile.getDamage());
+
+        this.removeProjectile(projectile);
+
+        if (monster.isDead()) {
+            console.log("kill");
+        }
+    }
+
+    public removeProjectile(projectile: Projectile) {
+        const projectileIndex = this.projectiles.indexOf(projectile);
+        this.projectiles.splice(projectileIndex, 1);
+        this.container.removeChild(projectile.getSprite());
     }
 
     public async background(): Promise<void> {

@@ -40,7 +40,7 @@ export default class Portal extends MapObject {
     }
 
     public async init(): Promise<void> {
-        const texture = await ImageLoader.loadAsync("tiles/portals/" + this.type + "-portal.png");
+        const texture = await ImageLoader.loadAsync("tiles/portals/" + this.type + "-portal");
         const sprite = Sprite.from(texture);
         sprite.anchor.set(0.5, 0);
         sprite.x = this.x;

@@ -81,7 +81,7 @@ export default class AnimatedMapObject extends MapObject {
         }
 
         for (let i = 0; i < data[state].frames; i++) {
-            const texture = await ImageLoader.loadAsync(this.path + "/" + state + i + ".png");
+            const texture = await ImageLoader.loadAsync(this.path + "/" + state + i);
             const sprite = Sprite.from(texture);
             this.sprites[state].push(sprite);
         }
@@ -116,6 +116,14 @@ export default class AnimatedMapObject extends MapObject {
 
     public getSprite(): Sprite {
         return this.activeSprite;
+    }
+
+    public damage(amount: number): void {
+        this.hp -= amount;
+    }
+
+    public isDead(): boolean {
+        return this.hp < 1;
     }
 
     public moveLeft(): void {

@@ -4,7 +4,7 @@ export default class ImageLoader {
 
     public static async loadAsync(path: string): Promise<Texture> {
 
-        const texture = Texture.from("/assets/images/" + path);
+        const texture = Texture.from("/assets/images/" + path + ".png");
 
         if (texture.baseTexture.valid) {
             return this.resolveNow(texture);

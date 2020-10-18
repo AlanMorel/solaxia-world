@@ -1,6 +1,7 @@
 import { Sprite } from "pixi.js-legacy";
 import ImageLoader from "../loaders/ImageLoader";
 import Character from "../player/Character";
+import { intersect, Rectangle } from "../utility/Rectangle";
 import MapObject from "./MapObject";
 
 export default class Projectile extends MapObject {
@@ -42,9 +43,33 @@ export default class Projectile extends MapObject {
         return this.sprite;
     }
 
+    public getDamage(): number {
+        return this.damage;
+    }
+
     public async init(path: string): Promise<void> {
-        const texture = await ImageLoader.loadAsync("projectiles/" + path + ".png");
+        const texture = await ImageLoader.loadAsync("projectiles/" + path);
         this.sprite.texture = texture;
+    }
+
+    private insideMap(): boolean {
+        const mapRect: Rectangle = {
+            left: 0,
+            top: 0,
+            right: this.character.getMap().getWidth(),
+            bottom: this.character.getMap().getHeight()
+        }
+        return intersect(this.getRectangle(), mapRect);
+    }
+
+    public getRectangle() {
+        const rect: Rectangle = {
+            left:   this.x - this.sprite.width / 2,
+            top:    this.y - this.sprite.height / 2,
+            right:  this.x + this.sprite.width / 2,
+            bottom: this.y + this.sprite.height / 2
+        };
+        return rect;
     }
 
     public update(): void {
@@ -53,5 +78,9 @@ export default class Projectile extends MapObject {
 
         this.sprite.x = this.x;
         this.sprite.angle = this.angle;
+
+        if (!this.insideMap()) {
+            this.character.getMap().removeProjectile(this);
+        }
     }
 }
