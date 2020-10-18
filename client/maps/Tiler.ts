@@ -1,4 +1,4 @@
-import * as PIXI from "pixi.js-legacy";
+import { Container, Texture, Sprite } from "pixi.js-legacy";
 import ImageLoader from "../loaders/ImageLoader";
 import Camera from "./Camera";
 import Map from "./Map";
@@ -6,7 +6,7 @@ import Map from "./Map";
 export default class Tiler {
 
     private map: Map;
-    private container: PIXI.Container;
+    private container: Container;
     private path: string;
     private height: number;
     private y: number;
@@ -15,7 +15,7 @@ export default class Tiler {
 
     constructor(map: Map, path: string, height: number, y: number, xRate: number, yRate: number) {
         this.map = map;
-        this.container = new PIXI.Container;
+        this.container = new Container;
         this.path = path;
         this.height = height;
         this.y = y;
@@ -36,8 +36,8 @@ export default class Tiler {
         }
     }
 
-    private addSprite(texture: PIXI.Texture, i: number, j: number): void {
-        const sprite = new PIXI.Sprite(texture);
+    private addSprite(texture: Texture, i: number, j: number): void {
+        const sprite = new Sprite(texture);
         sprite.x = j * texture.width;
         sprite.y = this.y + i * texture.height;
 

@@ -1,4 +1,4 @@
-import * as PIXI from "pixi.js-legacy";
+import { Sprite, Texture } from "pixi.js-legacy";
 import Map from "../maps/Map";
 import ImageLoader from "../loaders/ImageLoader";
 import MapObject from "./MapObject";
@@ -11,7 +11,7 @@ enum AnimationState {
 }
 
 type spritesInterface = {
-    [key in AnimationState]: PIXI.Sprite[];
+    [key in AnimationState]: Sprite[];
 };
 
 type spritesIntervalInterface = {
@@ -34,7 +34,7 @@ export default class AnimatedMapObject extends MapObject {
 
     private animationState: AnimationState = AnimationState.STANDING;
 
-    private activeSprite: PIXI.Sprite = new PIXI.Sprite();
+    private activeSprite: Sprite = new Sprite();
     private activeSpriteIndex = 0;
     private lastSpriteChange = Date.now();
 
@@ -81,8 +81,8 @@ export default class AnimatedMapObject extends MapObject {
         }
 
         for (let i = 0; i < data[state].frames; i++) {
-            const texture = await ImageLoader.loadAsync("/assets/images/" + this.path + "/" + state + i + ".png");
-            const sprite = PIXI.Sprite.from(texture);
+            const texture = await ImageLoader.loadAsync(this.path + "/" + state + i + ".png");
+            const sprite = Sprite.from(texture);
             this.sprites[state].push(sprite);
         }
 
@@ -114,7 +114,7 @@ export default class AnimatedMapObject extends MapObject {
         return this.maxHp;
     }
 
-    public getSprite(): PIXI.Sprite {
+    public getSprite(): Sprite {
         return this.activeSprite;
     }
 
@@ -185,7 +185,7 @@ export default class AnimatedMapObject extends MapObject {
         this.switchTexture(sprites[this.activeSpriteIndex].texture);
     }
 
-    private switchTexture(texture: PIXI.Texture): void {
+    private switchTexture(texture: Texture): void {
         const oldHeight = this.activeSprite.height;
         this.activeSprite.texture = texture;
         this.y += oldHeight - this.activeSprite.height;

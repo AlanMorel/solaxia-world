@@ -1,4 +1,4 @@
-import * as PIXI from "pixi.js-legacy";
+import { Sprite } from "pixi.js-legacy";
 import Map from "../maps/Map";
 import MapObject from "../maps/MapObject";
 import ImageLoader from "../loaders/ImageLoader";
@@ -40,8 +40,8 @@ export default class Portal extends MapObject {
     }
 
     public async init(): Promise<void> {
-        const texture = await ImageLoader.loadAsync("/assets/images/tiles/portals/" + this.type + "-portal.png");
-        const sprite = PIXI.Sprite.from(texture);
+        const texture = await ImageLoader.loadAsync("tiles/portals/" + this.type + "-portal.png");
+        const sprite = Sprite.from(texture);
         sprite.anchor.set(0.5, 0);
         sprite.x = this.x;
         sprite.y = this.y;

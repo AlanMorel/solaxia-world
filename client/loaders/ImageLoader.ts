@@ -1,10 +1,10 @@
-import * as PIXI from "pixi.js-legacy";
+import { Texture } from "pixi.js-legacy";
 
 export default class ImageLoader {
 
-    public static async loadAsync(path: string): Promise<PIXI.Texture> {
+    public static async loadAsync(path: string): Promise<Texture> {
 
-        const texture = PIXI.Texture.from(path);
+        const texture = Texture.from("/assets/images/" + path);
 
         if (texture.baseTexture.valid) {
             return this.resolveNow(texture);
@@ -13,11 +13,11 @@ export default class ImageLoader {
         }
     }
 
-    private static resolveNow(texture: PIXI.Texture): Promise<PIXI.Texture> {
+    private static resolveNow(texture: Texture): Promise<Texture> {
         return Promise.resolve(texture);
     }
 
-    private static resolveLater(texture: PIXI.Texture): Promise<PIXI.Texture> {
+    private static resolveLater(texture: Texture): Promise<Texture> {
         return new Promise(resolve => {
             texture.addListener("update", () => {
                 resolve(texture);

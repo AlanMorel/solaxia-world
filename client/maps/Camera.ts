@@ -1,4 +1,4 @@
-import * as PIXI from "pixi.js-legacy";
+import { Text, TextStyle }from "pixi.js-legacy";
 import Map from "./Map";
 import Config from "../config";
 import { Scene } from "pixi-scenes";
@@ -15,9 +15,9 @@ export default class Camera extends Container {
     private x = 0;
     private y = 0;
 
-    private xLabel: PIXI.Text;
-    private yLabel: PIXI.Text;
-    private playerLabel: PIXI.Text;
+    private xLabel: Text;
+    private yLabel: Text;
+    private playerLabel: Text;
 
     private readonly rate = 25;
 
@@ -27,20 +27,20 @@ export default class Camera extends Container {
         this.map = map;
         this.character = character;
 
-        const textStyle = new PIXI.TextStyle({
+        const textStyle = new TextStyle({
             fontFamily: "'VCR OSD Mono', Courier, monospace",
             fontSize: "24px"
         });
 
-        this.xLabel = new PIXI.Text("", textStyle);
+        this.xLabel = new Text("", textStyle);
         this.xLabel.x = 5;
         this.xLabel.y = 5;
 
-        this.yLabel = new PIXI.Text("", textStyle);
+        this.yLabel = new Text("", textStyle);
         this.yLabel.x = 5;
         this.yLabel.y = 30;
 
-        this.playerLabel = new PIXI.Text("", textStyle);
+        this.playerLabel = new Text("", textStyle);
         this.playerLabel.x = 5;
         this.playerLabel.y = 55;
 

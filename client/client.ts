@@ -1,11 +1,11 @@
-import * as PIXI from "pixi.js-legacy";
+import { Application } from "pixi.js-legacy";
 import Config from "./config";
 import { SceneManager } from "pixi-scenes";
 import LoginScene from "./scenes/LoginScene";
 import GameplayScene from "./scenes/GameplayScene";
 import Game from "./utility/Game";
 
-const app = new PIXI.Application({
+const app = new Application({
     backgroundColor: 0xffb084,
     width: Config.width,
     height: Config.height

@@ -1,4 +1,4 @@
-import * as PIXI from "pixi.js-legacy";
+import { Sprite, Text, TextStyle, Graphics } from "pixi.js-legacy";
 import Config from "../config";
 import Game from "../utility/Game";
 import GameScene from "./GameScene";
@@ -22,12 +22,12 @@ export default class LoginScene extends GameScene {
     }
 
     private addBackground(): void {
-        const sky = PIXI.Sprite.from("assets/images/tiles/sky.png");
+        const sky = Sprite.from("assets/images/tiles/sky.png");
 
-        const clouds = PIXI.Sprite.from("assets/images/tiles/clouds.png");
+        const clouds = Sprite.from("assets/images/tiles/clouds.png");
         clouds.y = 200;
 
-        const forest = PIXI.Sprite.from("assets/images/tiles/forest.png");
+        const forest = Sprite.from("assets/images/tiles/forest.png");
         forest.y = 305;
 
         this.addChild(sky);
@@ -36,7 +36,7 @@ export default class LoginScene extends GameScene {
     }
 
     private addLogo(): void {
-        const richText = new PIXI.Text("Solaxia World", new PIXI.TextStyle({
+        const richText = new Text("Solaxia World", new TextStyle({
             fontFamily: "'VCR OSD Mono', Courier, monospace",
             fontSize: "64px",
             fontWeight: "bold"
@@ -49,7 +49,7 @@ export default class LoginScene extends GameScene {
     }
 
     private addInputLabels(): void {
-        const usernameLabel = new PIXI.Text("Username", new PIXI.TextStyle({
+        const usernameLabel = new Text("Username", new TextStyle({
             fontFamily: "'VCR OSD Mono', Courier, monospace",
             fontSize: "32px",
             fontWeight: "bold"
@@ -57,7 +57,7 @@ export default class LoginScene extends GameScene {
         usernameLabel.x = 400;
         usernameLabel.y = 265;
 
-        const passwordLabel = new PIXI.Text("Password", new PIXI.TextStyle({
+        const passwordLabel = new Text("Password", new TextStyle({
             fontFamily: "'VCR OSD Mono', Courier, monospace",
             fontSize: "32px",
             fontWeight: "bold"
@@ -78,7 +78,7 @@ export default class LoginScene extends GameScene {
     }
 
     private addLoginButton(): void {
-        const loginLabel = new PIXI.Text("Login", new PIXI.TextStyle({
+        const loginLabel = new Text("Login", new TextStyle({
             fontFamily: "'VCR OSD Mono', Courier, monospace",
             fontSize: "24px",
             fontWeight: "bold"
@@ -86,7 +86,7 @@ export default class LoginScene extends GameScene {
         loginLabel.x = 800;
         loginLabel.y = 480;
 
-        const loginBackground = new PIXI.Graphics();
+        const loginBackground = new Graphics();
         loginBackground.beginFill(0x000000, 0.25);
         loginBackground.drawRoundedRect(780, 465, 115, 50, 4);
         loginBackground.interactive = true;
