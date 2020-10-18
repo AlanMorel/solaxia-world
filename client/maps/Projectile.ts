@@ -9,7 +9,7 @@ export default class Projectile extends MapObject {
     private character: Character;
 
     private damage: number;
-    private angle: number
+    private angle: number;
     private dAngle: number;
     private dx: number;
     private dy = 0;
@@ -29,7 +29,7 @@ export default class Projectile extends MapObject {
         this.sprite.x = this.x;
         this.sprite.y = this.y;
     }
-    
+
     private getDirectionMultiplier(character: Character): number {
         if (character.isLookingLeft()) {
             return -1;
@@ -58,11 +58,11 @@ export default class Projectile extends MapObject {
             top: 0,
             right: this.character.getMap().getWidth(),
             bottom: this.character.getMap().getHeight()
-        }
+        };
         return intersect(this.getRectangle(), mapRect);
     }
 
-    public getRectangle() {
+    public getRectangle(): Rectangle {
         const rect: Rectangle = {
             left:   this.x - this.sprite.width / 2,
             top:    this.y - this.sprite.height / 2,

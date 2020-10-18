@@ -7,7 +7,7 @@ import Character from "../player/Character";
 import Container from "../utility/Container";
 import Tiler from "./Tiler";
 import MapLoader, { MapData } from "../loaders/MapLoader";
-import Projectile from "./Projectile"; 
+import Projectile from "./Projectile";
 import { Rectangle, intersect } from "../utility/Rectangle";
 
 export default class Map extends Container {
@@ -143,7 +143,7 @@ export default class Map extends Container {
         }
     }
 
-    public removeProjectile(projectile: Projectile) {
+    public removeProjectile(projectile: Projectile): void {
         const projectileIndex = this.projectiles.indexOf(projectile);
         this.projectiles.splice(projectileIndex, 1);
         this.container.removeChild(projectile.getSprite());

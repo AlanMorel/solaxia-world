@@ -29,6 +29,12 @@ export default class HPBar {
 
         this.hpBarForeground.x = monster.getSprite().x - this.width / 2;
         this.hpBarForeground.y = monster.getSprite().y + monster.getSprite().height + 10;
-        this.hpBarForeground.width = monster.getHP() * this.width / monster.getMaxHP();
+
+        let width = monster.getHP() * this.width / monster.getMaxHP();
+        if (width < 0) {
+            width = 0;
+        }
+
+        this.hpBarForeground.width = width;
     }
 }
