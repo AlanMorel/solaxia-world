@@ -124,6 +124,6 @@ export default class Map extends Container {
         line.moveTo(0, this.floor);
         line.lineTo(this.width, this.floor);
 
-        this.scene.addChild(line);
+        this.container.addChild(line);
     }
 }

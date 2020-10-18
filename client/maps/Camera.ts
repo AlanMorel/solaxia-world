@@ -44,9 +44,9 @@ export default class Camera extends Container {
         this.playerLabel.x = 5;
         this.playerLabel.y = 55;
 
-        this.scene.addChild(this.xLabel);
-        this.scene.addChild(this.yLabel);
-        this.scene.addChild(this.playerLabel);
+        this.container.addChild(this.xLabel);
+        this.container.addChild(this.yLabel);
+        this.container.addChild(this.playerLabel);
     }
 
     public getX(): number {

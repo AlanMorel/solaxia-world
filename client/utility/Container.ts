@@ -2,14 +2,14 @@ import * as PIXI from "pixi.js-legacy";
 
 export default abstract class Container {
 
-    protected scene: PIXI.Container;
+    protected container: PIXI.Container;
 
     constructor(scene: PIXI.Container) {
-        this.scene = new PIXI.Container();
-        scene.addChild(this.scene);
+        this.container = new PIXI.Container();
+        scene.addChild(this.container);
     }
 
     public getContainer(): PIXI.Container {
-        return this.scene;
+        return this.container;
     }
 }

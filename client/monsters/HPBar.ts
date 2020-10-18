@@ -10,11 +10,11 @@ export default class HPBar {
 
     constructor() {
         this.hpBarBackground = new PIXI.Graphics();
-        this.hpBarBackground.beginFill(0x000000, 0.75);
+        this.hpBarBackground.beginFill(0x000000, 0.5);
         this.hpBarBackground.drawRect(this.hpBarBackground.x, this.hpBarBackground.y, this.width, 5);
 
         this.hpBarForeground = new PIXI.Graphics();
-        this.hpBarForeground.beginFill(0x00FF00, 0.5);
+        this.hpBarForeground.beginFill(0x00FF00, 0.75);
         this.hpBarForeground.drawRect(this.hpBarForeground.x, this.hpBarForeground.y, this.width, 5);
     }
 

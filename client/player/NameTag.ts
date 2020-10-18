@@ -5,7 +5,7 @@ export default class NameTag {
     private nameTag: PIXI.Text;
     private nameTagBackground: PIXI.Graphics;
 
-    constructor(scene: PIXI.Container, username: string) {
+    constructor(container: PIXI.Container, username: string) {
 
         this.nameTag = new PIXI.Text(username, {
             fontFamily: "Arial",
@@ -18,8 +18,8 @@ export default class NameTag {
         this.nameTagBackground.beginFill(0x000000, 0.25);
         this.nameTagBackground.drawRoundedRect(this.nameTag.x, this.nameTag.y, this.nameTag.width + 20, 25, 4);
 
-        scene.addChild(this.nameTagBackground);
-        scene.addChild(this.nameTag);
+        container.addChild(this.nameTagBackground);
+        container.addChild(this.nameTag);
     }
 
     public update(sprite: PIXI.Sprite): void {
