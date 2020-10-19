@@ -38,8 +38,30 @@ export default class Monster extends AnimatedMapObject {
         }, Math.random() * 100 * 3 + 1000);
     }
 
+    public kill(): void {
+        let alpha = this.getSprite().alpha;
+
+        if (alpha === 1) {
+            // reward exp
+        }
+
+        if (alpha > 0) {
+            alpha -= 0.1;
+        } else {
+            this.resetHP();
+            this.getMap().removeMonster(this);
+            this.getMap().respawnMonster(this);
+        }
+
+        this.getSprite().alpha = alpha;
+    }
+
     public update(): void {
         super.update();
         this.hpBar.update(this);
+
+        if (this.isDead()) {
+            this.kill();
+        }
     }
 }

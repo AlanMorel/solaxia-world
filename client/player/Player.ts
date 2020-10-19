@@ -89,7 +89,7 @@ export default class Player {
 
     private async attack(): Promise<void> {
         if (this.character) {
-            const projectile = new Projectile(this.character, 5);
+            const projectile = new Projectile(this.character, 50);
             await projectile.init("star");
             this.character.getMap().addProjectile(projectile);
         }

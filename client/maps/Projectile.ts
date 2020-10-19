@@ -12,7 +12,7 @@ export default class Projectile extends MapObject {
     private angle: number;
     private dAngle: number;
     private dx: number;
-    private dy = 0;
+    private dy: number;
     private sprite: Sprite;
 
     constructor(character: Character, damage: number) {
@@ -21,6 +21,7 @@ export default class Projectile extends MapObject {
         this.x = character.getX();
         this.y = character.getY() + 30;
         this.dx = 7 * this.getDirectionMultiplier(character);
+        this.dy = 0;
         this.damage = damage;
         this.angle = 0;
         this.dAngle = 10;
@@ -74,9 +75,11 @@ export default class Projectile extends MapObject {
 
     public update(): void {
         this.x += this.dx;
+        this.y += this.dy;
         this.angle += this.dAngle;
 
         this.sprite.x = this.x;
+        this.sprite.y = this.y;
         this.sprite.angle = this.angle;
 
         if (!this.insideMap()) {

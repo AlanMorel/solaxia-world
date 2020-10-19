@@ -40,8 +40,8 @@ export default class AnimatedMapObject extends MapObject {
 
     protected speed = 3;
     protected jump = 12;
-    protected maxHp = 0;
-    protected hp = 0;
+    protected maxHp = 100;
+    protected hp = 100;
 
     private dx = 0;
     private dy = 0;
@@ -112,6 +112,10 @@ export default class AnimatedMapObject extends MapObject {
 
     public getMaxHP(): number {
         return this.maxHp;
+    }
+
+    public resetHP(): void {
+        this.hp = this.maxHp;
     }
 
     public getSprite(): Sprite {

@@ -26,9 +26,11 @@ export default class HPBar {
     public update(monster: Monster): void {
         this.hpBarBackground.x = monster.getSprite().x - this.width / 2;
         this.hpBarBackground.y = monster.getSprite().y + monster.getSprite().height + 10;
+        this.hpBarBackground.alpha = monster.getSprite().alpha;
 
         this.hpBarForeground.x = monster.getSprite().x - this.width / 2;
         this.hpBarForeground.y = monster.getSprite().y + monster.getSprite().height + 10;
+        this.hpBarForeground.alpha = monster.getSprite().alpha;
 
         let width = monster.getHP() * this.width / monster.getMaxHP();
         if (width < 0) {

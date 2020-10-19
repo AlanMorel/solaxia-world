@@ -137,16 +137,24 @@ export default class Map extends Container {
         monster.damage(projectile.getDamage());
 
         this.removeProjectile(projectile);
-
-        if (monster.isDead()) {
-            console.log("kill");
-        }
     }
 
     public removeProjectile(projectile: Projectile): void {
         const projectileIndex = this.projectiles.indexOf(projectile);
         this.projectiles.splice(projectileIndex, 1);
         this.container.removeChild(projectile.getSprite());
+    }
+
+    public removeMonster(monster: Monster): void {
+        const monsterIndex = this.monsters.indexOf(monster);
+        this.monsters.splice(monsterIndex, 1);
+    }
+
+    public respawnMonster(monster: Monster): void {
+        setTimeout(() => {
+            monster.getSprite().alpha = 1;
+            this.monsters.push(monster);
+        }, 3000);
     }
 
     public async background(): Promise<void> {
