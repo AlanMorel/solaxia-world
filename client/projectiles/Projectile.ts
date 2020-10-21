@@ -2,29 +2,37 @@ import { Sprite } from "pixi.js-legacy";
 import ImageLoader from "../loaders/ImageLoader";
 import Character from "../player/Character";
 import { intersect, Rectangle } from "../utility/Rectangle";
-import MapObject from "./MapObject";
+import MapObject from "../maps/MapObject";
 
-export default class Projectile extends MapObject {
+export default abstract class Projectile extends MapObject {
 
-    private character: Character;
+    protected character: Character;
+    protected name: string;
 
-    private damage: number;
-    private angle: number;
-    private dAngle: number;
-    private dx: number;
-    private dy: number;
-    private sprite: Sprite;
+    protected damage: number;
+    protected angle: number;
+    protected dAngle: number;
+    protected dx: number;
+    protected dy: number;
+    protected sprite: Sprite;
 
-    constructor(character: Character, damage: number) {
+    constructor(character: Character, name: string, damage: number, dx: number, dy: number, dAngle: number) {
         super(character.getMap());
         this.character = character;
+        this.name = name;
+
         this.x = character.getX();
         this.y = character.getY() + 30;
-        this.dx = 7 * this.getDirectionMultiplier(character);
-        this.dy = 0;
         this.damage = damage;
+
+        const directionMultiplier = this.getDirectionMultiplier(character);
+
+        this.dx = dx * directionMultiplier;
+        this.dy = dy;
+
         this.angle = 0;
-        this.dAngle = 10;
+        this.dAngle = dAngle * directionMultiplier;
+
         this.sprite = new Sprite();
         this.sprite.anchor.set(0.5, 0.5);
         this.sprite.x = this.x;
@@ -48,8 +56,8 @@ export default class Projectile extends MapObject {
         return this.damage;
     }
 
-    public async init(path: string): Promise<void> {
-        const texture = await ImageLoader.loadAsync("projectiles/" + path);
+    public async init(): Promise<void> {
+        const texture = await ImageLoader.loadAsync("projectiles/" + this.name);
         this.sprite.texture = texture;
     }
 

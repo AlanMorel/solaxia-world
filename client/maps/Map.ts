@@ -7,7 +7,7 @@ import Character from "../player/Character";
 import Container from "../utility/Container";
 import Tiler from "./Tiler";
 import MapLoader, { MapData } from "../loaders/MapLoader";
-import Projectile from "./Projectile";
+import Projectile from "../projectiles/Projectile";
 import { Rectangle, intersect } from "../utility/Rectangle";
 
 export default class Map extends Container {

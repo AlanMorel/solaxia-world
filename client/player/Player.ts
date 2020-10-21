@@ -2,7 +2,8 @@ import KeyListener from "../utility/KeyListener";
 import Map from "../maps/Map";
 import Game from "../utility/Game";
 import Character from "./Character";
-import Projectile from "../maps/Projectile";
+import Projectile from "../projectiles/Projectile";
+import Star from "../projectiles/Star";
 
 export default class Player {
 
@@ -89,8 +90,8 @@ export default class Player {
 
     private async attack(): Promise<void> {
         if (this.character) {
-            const projectile = new Projectile(this.character, 50);
-            await projectile.init("star");
+            const projectile = new Star(this.character);
+            await projectile.init();
             this.character.getMap().addProjectile(projectile);
         }
     }
