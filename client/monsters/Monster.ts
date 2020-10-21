@@ -17,8 +17,9 @@ export default class Monster extends AnimatedMapObject {
 
     public async init(): Promise<void> {
         await super.init();
-        this.hpBar.init(this.map.getContainer());
+        this.hpBar.init(this.container);
         this.state = MonsterState.ALIVE;
+        this.map.getContainer().addChild(this.container);
         this.randomizedMovement();
     }
 
@@ -50,9 +51,9 @@ export default class Monster extends AnimatedMapObject {
                 break;
             }
             case MonsterState.DYING: {
-                const alpha = this.getSprite().alpha - 0.1;
+                const alpha = this.container.alpha - 0.1;
                 if (alpha > 0) {
-                    this.getSprite().alpha = alpha;
+                    this.container.alpha = alpha;
                 } else {
                     this.resetHP();
                     this.getMap().removeMonster(this);
@@ -75,11 +76,11 @@ export default class Monster extends AnimatedMapObject {
     }
 
     private respawn(): void {
-        let alpha = this.getSprite().alpha;
+        let alpha = this.container.alpha;
 
         if (alpha < 1) {
             alpha += 0.1;
-            this.getSprite().alpha = alpha;
+            this.container.alpha = alpha;
         } else {
             this.state = MonsterState.ALIVE;
         }

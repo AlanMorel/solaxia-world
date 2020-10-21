@@ -1,4 +1,4 @@
-import { Sprite, Texture } from "pixi.js-legacy";
+import { Container, Sprite, Texture } from "pixi.js-legacy";
 import Map from "../maps/Map";
 import ImageLoader from "../loaders/ImageLoader";
 import MapObject from "./MapObject";
@@ -47,11 +47,13 @@ export default class AnimatedMapObject extends MapObject {
     private dy = 0;
 
     private path: string;
+    protected container: Container;
 
     constructor(map: Map, path: string) {
         super(map);
 
         this.map = map;
+        this.container = new Container();
         this.path = path;
     }
 
@@ -64,7 +66,7 @@ export default class AnimatedMapObject extends MapObject {
         this.hp = data.hp;
 
         await this.loadSprites(data);
-        this.map.getContainer().addChild(this.activeSprite);
+        this.container.addChild(this.activeSprite);
     }
 
     private async loadSprites(data: MapObjectData): Promise<void> {
@@ -120,6 +122,10 @@ export default class AnimatedMapObject extends MapObject {
 
     public getSprite(): Sprite {
         return this.activeSprite;
+    }
+
+    public getContainer(): Container {
+        return this.container;
     }
 
     public damage(amount: number): void {

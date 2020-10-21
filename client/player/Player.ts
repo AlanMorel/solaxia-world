@@ -2,7 +2,6 @@ import KeyListener from "../utility/KeyListener";
 import Map from "../maps/Map";
 import Game from "../utility/Game";
 import Character from "./Character";
-import Projectile from "../projectiles/Projectile";
 import Star from "../projectiles/Star";
 
 export default class Player {

@@ -22,7 +22,7 @@ export default abstract class Projectile extends MapObject {
         this.name = name;
 
         this.x = character.getX();
-        this.y = character.getY() + 30;
+        this.y = character.getY() + character.getSprite().height / 2;
         this.damage = damage;
 
         const directionMultiplier = this.getDirectionMultiplier(character);

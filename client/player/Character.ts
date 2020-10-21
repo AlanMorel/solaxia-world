@@ -8,9 +8,10 @@ export default class Character extends AnimatedMapObject {
 
     constructor(map: Map, username: string) {
         super(map, "character");
-        this.nameTag = new NameTag(map.getContainer(), username);
+        this.nameTag = new NameTag(this.container, username);
         this.y = 50;
         this.speed = 5;
+        this.map.getContainer().addChild(this.container);
     }
 
     public update(): void {
