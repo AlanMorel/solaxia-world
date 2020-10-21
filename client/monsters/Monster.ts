@@ -2,10 +2,12 @@ import Map from "../maps/Map";
 import AnimatedMapObject from "../maps/AnimatedMapObject";
 import HPBar from "./HPBar";
 import { Rectangle } from "../utility/Rectangle";
+import { MonsterState } from "./MonsterState";
 
 export default class Monster extends AnimatedMapObject {
 
     private hpBar: HPBar = new HPBar();
+    private state: MonsterState = MonsterState.UNINITIALIZED;
 
     constructor(map: Map, name: string, x: number, y: number) {
         super(map, "monsters/" + name);
@@ -16,6 +18,7 @@ export default class Monster extends AnimatedMapObject {
     public async init(): Promise<void> {
         await super.init();
         this.hpBar.init(this.map.getContainer());
+        this.state = MonsterState.ALIVE;
         this.randomizedMovement();
     }
 
@@ -40,21 +43,25 @@ export default class Monster extends AnimatedMapObject {
     }
 
     public kill(): void {
-        let alpha = this.getSprite().alpha;
-
-        if (alpha === 1) {
-            // reward exp
+        switch(this.state) {
+            case MonsterState.ALIVE: {
+                this.state = MonsterState.DYING;
+                // reward exp
+                break;
+            }
+            case MonsterState.DYING: {
+                const alpha = this.getSprite().alpha - 0.1;
+                if (alpha > 0) {
+                    this.getSprite().alpha = alpha;
+                } else {
+                    this.resetHP();
+                    this.getMap().removeMonster(this);
+                    this.getMap().respawnMonster(this);
+                    this.state = MonsterState.RESPAWNING;
+                }
+                break;
+            }
         }
-
-        if (alpha > 0) {
-            alpha -= 0.1;
-        } else {
-            this.resetHP();
-            this.getMap().removeMonster(this);
-            this.getMap().respawnMonster(this);
-        }
-
-        this.getSprite().alpha = alpha;
     }
 
     public getRectangle(): Rectangle {
@@ -67,12 +74,25 @@ export default class Monster extends AnimatedMapObject {
         return rect;
     }
 
+    private respawn(): void {
+        let alpha = this.getSprite().alpha;
+
+        if (alpha < 1) {
+            alpha += 0.1;
+            this.getSprite().alpha = alpha;
+        } else {
+            this.state = MonsterState.ALIVE;
+        }
+    }
+
     public update(): void {
         super.update();
         this.hpBar.update(this);
 
         if (this.isDead()) {
             this.kill();
+        } else if (this.state === MonsterState.RESPAWNING) {
+            this.respawn();
         }
     }
 }

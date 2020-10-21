@@ -144,7 +144,6 @@ export default class Map extends Container {
 
     public respawnMonster(monster: Monster): void {
         setTimeout(() => {
-            monster.getSprite().alpha = 1;
             this.monsters.push(monster);
         }, 3000);
     }
