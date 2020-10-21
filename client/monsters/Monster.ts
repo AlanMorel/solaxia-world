@@ -19,7 +19,6 @@ export default class Monster extends AnimatedLifeMapObject {
         await super.init();
         this.hpBar.init(this.container);
         this.monsterState = MonsterState.ALIVE;
-        this.map.getContainer().addChild(this.container);
         this.randomizedMovement();
     }
 

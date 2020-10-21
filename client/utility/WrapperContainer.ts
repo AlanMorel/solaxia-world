@@ -1,6 +1,6 @@
 import * as PIXI from "pixi.js-legacy";
 
-export default abstract class Container {
+export default abstract class WrapperContainer {
 
     protected container: PIXI.Container;
 

@@ -27,6 +27,7 @@ export default class Player {
     public async init(map: Map): Promise<void> {
         this.character = new Character(map, this.username);
         await this.character.init();
+        map.addCharacter(this.character);
     }
 
     private setUpLeftKey(): void {

@@ -6,7 +6,7 @@ import Map from "./Map";
 export default class Tiler {
 
     private map: Map;
-    private container: Container;
+    private container = new Container();
     private path: string;
     private height: number;
     private y: number;
@@ -15,7 +15,6 @@ export default class Tiler {
 
     constructor(map: Map, path: string, height: number, y: number, xRate: number, yRate: number) {
         this.map = map;
-        this.container = new Container;
         this.path = path;
         this.height = height;
         this.y = y;
@@ -24,8 +23,6 @@ export default class Tiler {
     }
 
     public async init(): Promise<void> {
-        this.map.getContainer().addChild(this.container);
-
         const texture = await ImageLoader.loadAsync(this.path);
         const xAmount = Math.ceil(this.map.getWidth() / texture.width);
 
@@ -42,6 +39,10 @@ export default class Tiler {
         sprite.y = this.y + i * texture.height;
 
         this.container.addChild(sprite);
+    }
+
+    public getContainer(): Container {
+        return this.container;
     }
 
     public update(camera: Camera): void {

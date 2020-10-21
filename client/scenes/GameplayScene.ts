@@ -28,11 +28,8 @@ export default class GameplayScene extends GameScene {
     private async loadMap(id: number): Promise<void> {
         this.map = new Map(this, id, this.changeMap.bind(this));
         await this.map.init();
-        await this.map.background();
 
         await this.player.init(this.map);
-
-        this.map.foreground();
 
         const camera = new Camera(this, this.map, this.player.getCharacter());
         this.map.setCamera(camera);
@@ -76,7 +73,6 @@ export default class GameplayScene extends GameScene {
     }
 
     public update(): void {
-        this.player.getCharacter()?.update();
         this.map?.update();
     }
 

@@ -3,9 +3,9 @@ import Map from "./Map";
 import Config from "../config";
 import { Scene } from "pixi-scenes";
 import Character from "../player/Character";
-import Container from "../utility/Container";
+import WrapperContainer from "../utility/WrapperContainer";
 
-export default class Camera extends Container {
+export default class Camera extends WrapperContainer {
 
     private map: Map;
     private character?: Character;
