@@ -62,13 +62,7 @@ export default abstract class Projectile extends MapObject {
     }
 
     private insideMap(): boolean {
-        const mapRect: Rectangle = {
-            left: 0,
-            top: 0,
-            right: this.character.getMap().getWidth(),
-            bottom: this.character.getMap().getHeight()
-        };
-        return intersect(this.getRectangle(), mapRect);
+        return intersect(this.getRectangle(), this.character.getMap().getRectangle());
     }
 
     public getRectangle(): Rectangle {

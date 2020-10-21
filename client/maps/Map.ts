@@ -118,16 +118,8 @@ export default class Map extends Container {
     }
 
     private checkProjectileCollisions(projectile: Projectile): void {
-
         for (const monster of this.monsters) {
-            const monsterRect: Rectangle = {
-                left:   monster.getX() - monster.getSprite().width / 2,
-                top:    monster.getY() - monster.getSprite().height / 2,
-                right:  monster.getX() + monster.getSprite().width / 2,
-                bottom: monster.getY() + monster.getSprite().height / 2
-            };
-
-            if (intersect(projectile.getRectangle(), monsterRect)) {
+            if (intersect(projectile.getRectangle(), monster.getRectangle())) {
                 this.projectileHit(monster, projectile);
             }
         }
@@ -155,6 +147,16 @@ export default class Map extends Container {
             monster.getSprite().alpha = 1;
             this.monsters.push(monster);
         }, 3000);
+    }
+
+    public getRectangle(): Rectangle {
+        const rect: Rectangle = {
+            left: 0,
+            top: 0,
+            right: this.width,
+            bottom: this.height
+        };
+        return rect;
     }
 
     public async background(): Promise<void> {

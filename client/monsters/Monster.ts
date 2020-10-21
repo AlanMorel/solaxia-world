@@ -1,6 +1,7 @@
 import Map from "../maps/Map";
 import AnimatedMapObject from "../maps/AnimatedMapObject";
 import HPBar from "./HPBar";
+import { Rectangle } from "../utility/Rectangle";
 
 export default class Monster extends AnimatedMapObject {
 
@@ -54,6 +55,16 @@ export default class Monster extends AnimatedMapObject {
         }
 
         this.getSprite().alpha = alpha;
+    }
+
+    public getRectangle(): Rectangle {
+        const rect: Rectangle = {
+            left:   this.x - this.getSprite().width / 2,
+            top:    this.y - this.getSprite().height / 2,
+            right:  this.x + this.getSprite().width / 2,
+            bottom: this.y + this.getSprite().height / 2
+        };
+        return rect;
     }
 
     public update(): void {
