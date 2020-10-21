@@ -1,8 +1,8 @@
-import { Container, Sprite, Texture } from "pixi.js-legacy";
+import { Sprite, Texture } from "pixi.js-legacy";
 import Map from "../maps/Map";
 import ImageLoader from "../loaders/ImageLoader";
 import MapObject from "./MapObject";
-import MapObjectLoader, { MapObjectData } from "../loaders/MapObjectLoader";
+import { SpriteData } from "../loaders/MapObjectLoader";
 
 enum AnimationState {
     STANDING = "standing",
@@ -34,50 +34,39 @@ export default class AnimatedMapObject extends MapObject {
 
     private animationState: AnimationState = AnimationState.STANDING;
 
-    private activeSprite: Sprite = new Sprite();
-    private activeSpriteIndex = 0;
-    private lastSpriteChange = Date.now();
+    private spriteIndex = 0;
+    private lastSpriteUpdate = Date.now();
 
-    protected speed = 3;
-    protected jump = 12;
-    protected maxHp = 100;
-    protected hp = 100;
+    protected speed = 0;
+    protected jump = 0;
 
     private dx = 0;
     private dy = 0;
 
-    private path: string;
-    protected container: Container;
+    protected path: string;
 
     constructor(map: Map, path: string) {
         super(map);
 
-        this.map = map;
-        this.container = new Container();
         this.path = path;
+
+        this.sprite.anchor.set(0.5, 0);
+        this.sprite.scale.x = -1;
+        this.sprite.texture.addListener("update", () => {
+            this.x = this.sprite.texture.width / 2;
+        });
     }
 
-    public async init(): Promise<void> {
-        const data: MapObjectData = await MapObjectLoader.loadObject(this.path);
+    public async init(data: SpriteData): Promise<void> {
+        await this.loadSprites(AnimationState.STANDING, data);
+        await this.loadSprites(AnimationState.WALKING, data);
+        await this.loadSprites(AnimationState.JUMPING, data);
 
-        this.speed = data.speed;
-        this.jump = data.jump;
-        this.maxHp = data.hp;
-        this.hp = data.hp;
-
-        await this.loadSprites(data);
-        this.container.addChild(this.activeSprite);
+        this.sprite.texture = this.sprites[AnimationState.STANDING][0].texture;
+        super.addChild();
     }
 
-    private async loadSprites(data: MapObjectData): Promise<void> {
-        await this.loadStateSprites(AnimationState.STANDING, data);
-        await this.loadStateSprites(AnimationState.WALKING, data);
-        await this.loadStateSprites(AnimationState.JUMPING, data);
-
-        this.updateActiveSprite();
-    }
-
-    private async loadStateSprites(state: AnimationState, data: MapObjectData): Promise<void> {
+    private async loadSprites(state: AnimationState, data: SpriteData): Promise<void> {
         if (!data[state]) {
             return;
         }
@@ -91,87 +80,42 @@ export default class AnimatedMapObject extends MapObject {
         this.spritesInterval[state] = data[state].interval;
     }
 
-    private updateActiveSprite(): void {
-        this.activeSprite.anchor.set(0.5, 0);
-        this.activeSprite.scale.x = -1;
-        this.activeSprite.texture = this.sprites[AnimationState.STANDING][0].texture;
-        this.activeSprite.texture.addListener("update", () => {
-            this.x = this.activeSprite.texture.width / 2;
-        });
-    }
-
-    public getX(): number {
-        return this.x;
-    }
-
-    public getY(): number {
-        return this.y;
-    }
-
-    public getHP(): number {
-        return this.hp;
-    }
-
-    public getMaxHP(): number {
-        return this.maxHp;
-    }
-
-    public resetHP(): void {
-        this.hp = this.maxHp;
-    }
-
-    public getSprite(): Sprite {
-        return this.activeSprite;
-    }
-
-    public getContainer(): Container {
-        return this.container;
-    }
-
-    public damage(amount: number): void {
-        this.hp -= amount;
-    }
-
-    public isDead(): boolean {
-        return this.hp < 1;
-    }
-
     public moveLeft(): void {
         this.lookLeft();
         this.dx = -this.speed;
-        this.updateAnimationState(AnimationState.WALKING);
+        this.updateState(AnimationState.WALKING);
     }
 
     public moveRight(): void {
         this.lookRight();
         this.dx = this.speed;
-        this.updateAnimationState(AnimationState.WALKING);
+        this.updateState(AnimationState.WALKING);
     }
 
     public lookLeft(): void {
-        this.activeSprite.scale.x = 1;
+        this.sprite.scale.x = 1;
     }
 
     public lookRight(): void {
-        this.activeSprite.scale.x = -1;
+        this.sprite.scale.x = -1;
     }
 
     public isLookingLeft(): boolean {
-        return this.activeSprite.scale.x === 1;
+        return this.sprite.scale.x === 1;
     }
 
     public isLookingRight(): boolean {
-        return this.activeSprite.scale.x === -1;
+        return this.sprite.scale.x === -1;
     }
 
     public stop(): void {
         this.dx = 0;
-        this.updateAnimationState(AnimationState.STANDING);
+        this.updateState(AnimationState.STANDING);
     }
 
     public jumpUp(): void {
         this.dy = -this.jump;
-        this.updateAnimationState(AnimationState.JUMPING);
+        this.updateState(AnimationState.JUMPING);
     }
 
     public jumpLeft(): void {
@@ -186,35 +130,35 @@ export default class AnimatedMapObject extends MapObject {
         this.jumpUp();
     }
 
-    private updateAnimationState(animationState: AnimationState): void {
+    private updateState(state: AnimationState): void {
         const sprites = this.sprites[this.animationState];
         if (!sprites.length) {
             return;
         }
-        this.animationState = animationState;
-        this.activeSpriteIndex = 0;
-        this.lastSpriteChange =  Date.now();
-        this.switchTexture(sprites[this.activeSpriteIndex].texture);
+        this.animationState = state;
+        this.spriteIndex = 0;
+        this.lastSpriteUpdate =  Date.now();
+        this.switchTexture(sprites[this.spriteIndex].texture);
     }
 
     private updateTexture(): void {
         const now = Date.now();
-        if (now - this.lastSpriteChange < this.spritesInterval[this.animationState]) {
+        if (now - this.lastSpriteUpdate < this.spritesInterval[this.animationState]) {
             return;
         }
         const sprites = this.sprites[this.animationState];
         if (!sprites.length) {
             return;
         }
-        this.lastSpriteChange = now;
-        this.activeSpriteIndex = ++this.activeSpriteIndex % sprites.length;
-        this.switchTexture(sprites[this.activeSpriteIndex].texture);
+        this.lastSpriteUpdate = now;
+        this.spriteIndex = ++this.spriteIndex % sprites.length;
+        this.switchTexture(sprites[this.spriteIndex].texture);
     }
 
     private switchTexture(texture: Texture): void {
-        const oldHeight = this.activeSprite.height;
-        this.activeSprite.texture = texture;
-        this.y += oldHeight - this.activeSprite.height;
+        const oldHeight = this.sprite.height;
+        this.sprite.texture = texture;
+        this.y += oldHeight - this.sprite.height;
     }
 
     private updateCoordinates(): void {
@@ -223,7 +167,7 @@ export default class AnimatedMapObject extends MapObject {
     }
 
     private handleJumping(): void {
-        const floor = this.map.getFloor() - this.activeSprite.height;
+        const floor = this.map.getFloor() - this.sprite.height;
         if (this.y < floor) {
             this.dy += 1;
         } else if (this.y > floor) {
@@ -239,16 +183,16 @@ export default class AnimatedMapObject extends MapObject {
     }
 
     private handleOutOfBounds(): void {
-        if (this.x < this.activeSprite.width / 2) {
-            this.x = this.activeSprite.width / 2;
-        } else if (this.x > this.map.getWidth() - this.activeSprite.width / 2) {
-            this.x = this.map.getWidth() - this.activeSprite.width / 2;
+        if (this.x < this.sprite.width / 2) {
+            this.x = this.sprite.width / 2;
+        } else if (this.x > this.map.getWidth() - this.sprite.width / 2) {
+            this.x = this.map.getWidth() - this.sprite.width / 2;
         }
     }
 
     private updateSprite(): void {
-        this.activeSprite.x = this.x;
-        this.activeSprite.y = this.y;
+        this.sprite.x = this.x;
+        this.sprite.y = this.y;
     }
 
     public update(): void {

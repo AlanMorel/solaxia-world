@@ -1,13 +1,13 @@
 import Map from "../maps/Map";
-import AnimatedMapObject from "../maps/AnimatedMapObject";
+import AnimatedLifeMapObject from "../maps/AnimatedLifeMapObject";
 import HPBar from "./HPBar";
 import { Rectangle } from "../utility/Rectangle";
 import { MonsterState } from "./MonsterState";
 
-export default class Monster extends AnimatedMapObject {
+export default class Monster extends AnimatedLifeMapObject {
 
     private hpBar: HPBar = new HPBar();
-    private state: MonsterState = MonsterState.UNINITIALIZED;
+    private monsterState: MonsterState = MonsterState.UNINITIALIZED;
 
     constructor(map: Map, name: string, x: number, y: number) {
         super(map, "monsters/" + name);
@@ -18,7 +18,7 @@ export default class Monster extends AnimatedMapObject {
     public async init(): Promise<void> {
         await super.init();
         this.hpBar.init(this.container);
-        this.state = MonsterState.ALIVE;
+        this.monsterState = MonsterState.ALIVE;
         this.map.getContainer().addChild(this.container);
         this.randomizedMovement();
     }
@@ -44,9 +44,9 @@ export default class Monster extends AnimatedMapObject {
     }
 
     public kill(): void {
-        switch(this.state) {
+        switch(this.monsterState) {
             case MonsterState.ALIVE: {
-                this.state = MonsterState.DYING;
+                this.monsterState = MonsterState.DYING;
                 // reward exp
                 break;
             }
@@ -58,7 +58,7 @@ export default class Monster extends AnimatedMapObject {
                     this.resetHP();
                     this.getMap().removeMonster(this);
                     this.getMap().respawnMonster(this);
-                    this.state = MonsterState.RESPAWNING;
+                    this.monsterState = MonsterState.RESPAWNING;
                 }
                 break;
             }
@@ -82,7 +82,7 @@ export default class Monster extends AnimatedMapObject {
             alpha += 0.1;
             this.container.alpha = alpha;
         } else {
-            this.state = MonsterState.ALIVE;
+            this.monsterState = MonsterState.ALIVE;
         }
     }
 
@@ -92,7 +92,7 @@ export default class Monster extends AnimatedMapObject {
 
         if (this.isDead()) {
             this.kill();
-        } else if (this.state === MonsterState.RESPAWNING) {
+        } else if (this.monsterState === MonsterState.RESPAWNING) {
             this.respawn();
         }
     }

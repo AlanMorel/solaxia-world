@@ -3,16 +3,18 @@
     "hp": 100,
     "speed": 2,
     "jump": 12,
-    "standing": {
-        "frames": 2,
-        "interval": 750
-    },
-	"walking": {
-        "frames": 2,
-        "interval": 500
-    },
-	"jumping": {
-        "frames": 2,
-        "interval": 500
+    "sprites": {
+        "standing": {
+            "frames": 2,
+            "interval": 750
+        },
+        "walking": {
+            "frames": 2,
+            "interval": 500
+        },
+        "jumping": {
+            "frames": 2,
+            "interval": 500
+        }
     }
 }

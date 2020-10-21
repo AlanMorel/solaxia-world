@@ -1,8 +1,8 @@
 import Map from "../maps/Map";
 import NameTag from "./NameTag";
-import AnimatedMapObject from "../maps/AnimatedMapObject";
+import AnimatedLifeMapObject from "../maps/AnimatedLifeMapObject";
 
-export default class Character extends AnimatedMapObject {
+export default class Character extends AnimatedLifeMapObject {
 
     private nameTag: NameTag;
 

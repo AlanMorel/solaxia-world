@@ -3,6 +3,10 @@ export interface MapObjectData {
     hp: number,
     speed: number,
     jump: number,
+    sprites: SpriteData
+}
+
+export interface SpriteData {
     standing: {
         frames: number,
         interval: number

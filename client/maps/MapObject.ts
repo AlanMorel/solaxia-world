@@ -1,15 +1,21 @@
+import { Container, Sprite } from "pixi.js-legacy";
 import Map from "./Map";
 
 export default class MapObject {
 
     protected map: Map;
-    protected x: number;
-    protected y: number;
+    protected container: Container = new Container();
+    protected sprite: Sprite = new Sprite();
+
+    protected x = 0;
+    protected y = 0;
 
     constructor(map: Map) {
         this.map = map;
-        this.y = 0;
-        this.x = 0;
+    }
+
+    public addChild(): void {
+        this.container.addChild(this.sprite);
     }
 
     public getX(): number {
@@ -30,5 +36,13 @@ export default class MapObject {
 
     public setY(value: number): void {
         this.y = value;
+    }
+
+    public getContainer(): Container {
+        return this.container;
+    }
+
+    public getSprite(): Sprite {
+        return this.sprite;
     }
 }
