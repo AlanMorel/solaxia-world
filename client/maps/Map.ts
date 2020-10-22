@@ -72,7 +72,7 @@ export default class Map extends WrapperContainer {
             await monster.init();
 
             this.monsters.push(monster);
-            this.containers["monsters"] = monster.getContainer();
+            this.containers["monsters"].addChild(monster.getContainer());
         }
 
         this.container.addChild(this.containers["tilers"]);

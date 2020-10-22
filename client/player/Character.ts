@@ -5,6 +5,7 @@ import AnimatedLifeMapObject from "../maps/AnimatedLifeMapObject";
 export default class Character extends AnimatedLifeMapObject {
 
     private nameTag: NameTag;
+    private level = 0;
 
     constructor(map: Map, username: string) {
         super(map, "character");

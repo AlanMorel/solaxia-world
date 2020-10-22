@@ -1,0 +1,21 @@
+{
+    "name": "Pig",
+    "hp": 200,
+    "exp": 25,
+    "speed": 2,
+    "jump": 12,
+    "sprites": {
+        "standing": {
+            "frames": 1,
+            "interval": 750
+        },
+        "walking": {
+            "frames": 2,
+            "interval": 250
+        },
+        "jumping": {
+            "frames": 1,
+            "interval": 500
+        }
+    }
+}

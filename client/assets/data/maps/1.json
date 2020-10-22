@@ -27,12 +27,26 @@
     "monsters": [
         {
             "name": "mushroom",
-            "x": 0,
+            "x": 100,
+            "y": 600
+        }, {
+            "name": "pig",
+            "x": 200,
             "y": 600
         }
     ],
     "tilers": [
         {
+            "tile": "sky",
+            "height": 1,
+            "y": 0
+        }, {
+            "tile": "mountains",
+            "height": 1,
+            "y": 400,
+            "xRate": 75,
+            "yRate": 15
+        }, {
             "tile": "trees",
             "height": 1,
             "y": 575,
@@ -46,10 +60,6 @@
             "tile": "top-soil",
             "height": 1,
             "y": 848
-        }, {
-            "tile": "sky",
-            "height": 1,
-            "y": 0
         }
     ]
 }
