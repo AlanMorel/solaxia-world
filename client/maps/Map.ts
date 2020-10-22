@@ -158,6 +158,9 @@ export default class Map extends WrapperContainer {
 
     private checkProjectileCollisions(projectile: Projectile): void {
         for (const monster of this.monsters) {
+            if (monster.isDead()) {
+                continue;
+            }
             if (intersect(projectile.getRectangle(), monster.getRectangle())) {
                 this.projectileHit(monster, projectile);
             }
@@ -166,6 +169,11 @@ export default class Map extends WrapperContainer {
 
     private projectileHit(monster: Monster, projectile: Projectile): void {
         monster.damage(projectile.getDamage());
+
+        if (monster.justDied()) {
+            projectile.getCharacter().gainExp(monster.getExp());
+            monster.kill();
+        }
 
         this.removeProjectile(projectile);
     }

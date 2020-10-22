@@ -1,7 +1,7 @@
 import { Container, Sprite } from "pixi.js-legacy";
 import Map from "./Map";
 
-export default class MapObject {
+export default abstract class MapObject {
 
     protected map: Map;
     protected container: Container = new Container();

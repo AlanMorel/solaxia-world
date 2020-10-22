@@ -18,7 +18,7 @@ type spritesIntervalInterface = {
     [key in AnimationState]: number;
 };
 
-export default class AnimatedMapObject extends MapObject {
+export default abstract class AnimatedMapObject extends MapObject {
 
     private sprites: spritesInterface = {
         [AnimationState.STANDING]: [],

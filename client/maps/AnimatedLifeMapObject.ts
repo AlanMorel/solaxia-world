@@ -3,6 +3,7 @@ import AnimatedMapObject from "./AnimatedMapObject";
 
 export default class AnimatedLifeMapObject extends AnimatedMapObject {
 
+    protected exp = 0;
     protected hp = 100;
     protected maxHp = 100;
 
@@ -14,6 +15,10 @@ export default class AnimatedLifeMapObject extends AnimatedMapObject {
         this.maxHp = data.hp;
         this.speed = data.speed;
         this.jump = data.jump;
+
+        if (data.exp) {
+            this.exp = data.exp;
+        }
     }
 
     public getHP(): number {
@@ -26,6 +31,10 @@ export default class AnimatedLifeMapObject extends AnimatedMapObject {
 
     public resetHP(): void {
         this.hp = this.maxHp;
+    }
+
+    public getExp(): number {
+        return this.exp;
     }
 
     public damage(amount: number): void {

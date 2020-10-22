@@ -1,6 +1,7 @@
 {
     "name": "Mushroom",
     "hp": 100,
+    "exp": 10,
     "speed": 2,
     "jump": 12,
     "sprites": {

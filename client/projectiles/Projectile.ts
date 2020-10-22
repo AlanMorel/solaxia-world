@@ -61,8 +61,12 @@ export default abstract class Projectile extends MapObject {
         this.sprite.texture = texture;
     }
 
+    public getCharacter(): Character {
+        return this.character;
+    }
+
     private insideMap(): boolean {
-        return intersect(this.getRectangle(), this.character.getMap().getRectangle());
+        return intersect(this.getRectangle(), this.map.getRectangle());
     }
 
     public getRectangle(): Rectangle {
@@ -85,7 +89,7 @@ export default abstract class Projectile extends MapObject {
         this.sprite.angle = this.angle;
 
         if (!this.insideMap()) {
-            this.character.getMap().removeProjectile(this);
+            this.map.removeProjectile(this);
         }
     }
 }

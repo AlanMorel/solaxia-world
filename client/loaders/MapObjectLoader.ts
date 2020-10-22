@@ -1,6 +1,7 @@
 export interface MapObjectData {
     name?: string,
     hp: number,
+    exp?: number,
     speed: number,
     jump: number,
     sprites: SpriteData

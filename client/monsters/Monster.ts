@@ -7,7 +7,7 @@ import { MonsterState } from "./MonsterState";
 export default class Monster extends AnimatedLifeMapObject {
 
     private hpBar: HPBar = new HPBar();
-    private monsterState: MonsterState = MonsterState.UNINITIALIZED;
+    private monsterState: MonsterState = MonsterState.ALIVE;
 
     constructor(map: Map, name: string, x: number, y: number) {
         super(map, "monsters/" + name);
@@ -18,7 +18,6 @@ export default class Monster extends AnimatedLifeMapObject {
     public async init(): Promise<void> {
         await super.init();
         this.hpBar.init(this.container);
-        this.monsterState = MonsterState.ALIVE;
         this.randomizedMovement();
     }
 
@@ -42,11 +41,14 @@ export default class Monster extends AnimatedLifeMapObject {
         }, Math.random() * 100 * 3 + 1000);
     }
 
+    public justDied(): boolean {
+        return this.monsterState === MonsterState.ALIVE && this.isDead();
+    }
+
     public kill(): void {
         switch(this.monsterState) {
             case MonsterState.ALIVE: {
                 this.monsterState = MonsterState.DYING;
-                // reward exp
                 break;
             }
             case MonsterState.DYING: {

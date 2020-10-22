@@ -14,6 +14,10 @@ export default class Character extends AnimatedLifeMapObject {
         this.map.getContainer().addChild(this.container);
     }
 
+    public gainExp(exp: number): void {
+        this.exp += exp;
+    }
+
     public update(): void {
         super.update();
         this.nameTag.update(this.getSprite());
