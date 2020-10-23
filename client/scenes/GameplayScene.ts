@@ -33,6 +33,8 @@ export default class GameplayScene extends GameScene {
 
         const camera = new Camera(this, this.map, this.player.getCharacter());
         this.map.setCamera(camera);
+
+        this.player.renderUI(this);
     }
 
     private async changeMap(portal: Portal): Promise<void> {
@@ -74,6 +76,7 @@ export default class GameplayScene extends GameScene {
 
     public update(): void {
         this.map?.update();
+        this.player.update();
     }
 
     public stop(): void {

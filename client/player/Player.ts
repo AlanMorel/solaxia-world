@@ -3,12 +3,14 @@ import Map from "../maps/Map";
 import Game from "../utility/Game";
 import Character from "./Character";
 import Star from "../projectiles/Star";
+import UserInterface from "../ui/UserInterface";
+import { Scene } from "pixi-scenes";
 
 export default class Player {
 
     private character?: Character;
     private username: string;
-
+    private ui?: UserInterface;
     private leftKey: KeyListener = new KeyListener("ArrowLeft");
     private rightKey: KeyListener = new KeyListener("ArrowRight");
     private upKey: KeyListener = new KeyListener("ArrowUp");
@@ -94,6 +96,14 @@ export default class Player {
             await projectile.init();
             this.character.getMap().addProjectile(projectile);
         }
+    }
+
+    public renderUI(scene: Scene): void {
+        this.ui = new UserInterface(scene, this);
+    }
+
+    public update(): void {
+        this.ui?.update();
     }
 
     private usePortal(): void {

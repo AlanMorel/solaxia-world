@@ -2,24 +2,24 @@
     "id": 1,
     "width": 2000,
     "height": 1000,
-    "floor": 855,
+    "floor": 823,
     "portals": [
         {
             "id": 1,
             "x": 250,
-            "y": 625,
+            "y": 600,
             "destMap": 1,
             "destPortal": 2
         }, {
             "id": 2,
             "x": 1500,
-            "y": 625,
+            "y": 600,
             "destMap": 1,
             "destPortal": 1
         }, {
             "id": 3,
             "x": 1000,
-            "y": 625,
+            "y": 600,
             "destMap": 2,
             "destPortal": 1
         }
@@ -43,23 +43,23 @@
         }, {
             "tile": "mountains",
             "height": 1,
-            "y": 400,
+            "y": 375,
             "xRate": 75,
             "yRate": 15
         }, {
             "tile": "trees",
             "height": 1,
-            "y": 575,
+            "y": 550,
             "xRate": 50,
             "yRate": 10
         }, {
             "tile": "soil",
-            "height": 2,
-            "y": 936
+            "height": 3,
+            "y": 904
         }, {
             "tile": "top-soil",
             "height": 1,
-            "y": 848
+            "y": 816
         }
     ]
 }
