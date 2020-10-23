@@ -10,9 +10,17 @@ import MapLoader, { MapData } from "../loaders/MapLoader";
 import Projectile from "../projectiles/Projectile";
 import { Rectangle, intersect } from "../utility/Rectangle";
 
-interface ContainerMap {
-    [key: string]: Container;
+enum MapContainer {
+    TILERS,
+    PORTALS,
+    MONSTERS,
+    CHARACTERS,
+    PROJECTILES
 }
+
+type ContainerMap = {
+    [key in MapContainer]: Container;
+};
 
 export default class Map extends WrapperContainer {
 
@@ -22,18 +30,18 @@ export default class Map extends WrapperContainer {
     private width = 0;
     private height = 0;
     private floor = 0;
-    private monsters: Monster[] = [];
-    private portals: Portal[] = [];
     private tilers: Tiler[] = [];
+    private portals: Portal[] = [];
+    private monsters: Monster[] = [];
     private projectiles: Projectile[] = [];
     private characters: Character[] = [];
 
     private containers: ContainerMap = {
-        "monsters": new Container(),
-        "portals": new Container(),
-        "tilers": new Container(),
-        "characters": new Container(),
-        "projectiles": new Container()
+        [MapContainer.TILERS]: new Container(),
+        [MapContainer.PORTALS]: new Container(),
+        [MapContainer.MONSTERS]: new Container(),
+        [MapContainer.CHARACTERS]: new Container(),
+        [MapContainer.PROJECTILES]: new Container()
     };
 
     private changeMap: (portal: Portal) => Promise<void>;
@@ -56,7 +64,7 @@ export default class Map extends WrapperContainer {
             await tiler.init();
 
             this.tilers.push(tiler);
-            this.containers["tilers"].addChild(tiler.getContainer());
+            this.containers[MapContainer.TILERS].addChild(tiler.getContainer());
         }
 
         for (const portalData of data.portals) {
@@ -64,7 +72,7 @@ export default class Map extends WrapperContainer {
             await portal.init();
 
             this.portals.push(portal);
-            this.containers["portals"].addChild(portal.getSprite());
+            this.containers[MapContainer.PORTALS].addChild(portal.getSprite());
         }
 
         for (const monsterData of data.monsters) {
@@ -72,14 +80,14 @@ export default class Map extends WrapperContainer {
             await monster.init();
 
             this.monsters.push(monster);
-            this.containers["monsters"].addChild(monster.getContainer());
+            this.containers[MapContainer.MONSTERS].addChild(monster.getContainer());
         }
 
-        this.container.addChild(this.containers["tilers"]);
-        this.container.addChild(this.containers["portals"]);
-        this.container.addChild(this.containers["monsters"]);
-        this.container.addChild(this.containers["characters"]);
-        this.container.addChild(this.containers["projectiles"]);
+        this.container.addChild(this.containers[MapContainer.TILERS]);
+        this.container.addChild(this.containers[MapContainer.PORTALS]);
+        this.container.addChild(this.containers[MapContainer.MONSTERS]);
+        this.container.addChild(this.containers[MapContainer.CHARACTERS]);
+        this.container.addChild(this.containers[MapContainer.PROJECTILES]);
 
         this.addLine(0, this.floor, this.width, this.floor);
     }
@@ -114,12 +122,12 @@ export default class Map extends WrapperContainer {
 
     public addCharacter(character: Character): void {
         this.characters.push(character);
-        this.containers["characters"].addChild(character.getSprite());
+        this.containers[MapContainer.CHARACTERS].addChild(character.getSprite());
     }
 
     public addProjectile(projectile: Projectile): void {
         this.projectiles.push(projectile);
-        this.containers["projectiles"].addChild(projectile.getSprite());
+        this.containers[MapContainer.PROJECTILES].addChild(projectile.getSprite());
     }
 
     public usePortal(character: Character, portal: Portal): void {
@@ -181,7 +189,7 @@ export default class Map extends WrapperContainer {
     public removeProjectile(projectile: Projectile): void {
         const projectileIndex = this.projectiles.indexOf(projectile);
         this.projectiles.splice(projectileIndex, 1);
-        this.containers["projectiles"].removeChild(projectile.getSprite());
+        this.containers[MapContainer.PROJECTILES].removeChild(projectile.getSprite());
     }
 
     public removeMonster(monster: Monster): void {
