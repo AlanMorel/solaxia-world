@@ -1,33 +1,31 @@
 import KeyListener from "../utility/KeyListener";
 import Map from "../maps/Map";
-import Game from "../utility/Game";
 import Character from "./Character";
 import Star from "../projectiles/Star";
 import UserInterface from "../ui/UserInterface";
-import { Scene } from "pixi-scenes";
+import { Container } from "pixi.js-legacy";
 
 export default class Player {
 
     private character?: Character;
-    private username: string;
-    private ui?: UserInterface;
+    private ui: UserInterface;
     private leftKey: KeyListener = new KeyListener("ArrowLeft");
     private rightKey: KeyListener = new KeyListener("ArrowRight");
     private upKey: KeyListener = new KeyListener("ArrowUp");
     private spaceKey: KeyListener = new KeyListener("Space");
     private attackKey: KeyListener = new KeyListener("KeyX");
 
-    constructor(game: Game) {
+    constructor(container: Container) {
+        this.ui = new UserInterface(container, this);
         this.setUpLeftKey();
         this.setUpRightKey();
         this.setUpUpKey();
         this.setUpSpaceKey();
         this.setUpAttackKey();
-        this.username = game.getUsername();
     }
 
-    public async init(map: Map): Promise<void> {
-        this.character = new Character(map, this.username);
+    public async init(map: Map, username: string): Promise<void> {
+        this.character = new Character(map, username);
         await this.character.init();
         map.addCharacter(this.character);
     }
@@ -98,12 +96,8 @@ export default class Player {
         }
     }
 
-    public renderUI(scene: Scene): void {
-        this.ui = new UserInterface(scene, this);
-    }
-
     public update(): void {
-        this.ui?.update();
+        this.ui.update();
     }
 
     private usePortal(): void {

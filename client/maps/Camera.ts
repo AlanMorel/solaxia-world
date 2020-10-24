@@ -1,14 +1,13 @@
-import { Text, TextStyle }from "pixi.js-legacy";
+import { Container, Text, TextStyle } from "pixi.js-legacy";
 import Map from "./Map";
 import Config from "../config";
-import { Scene } from "pixi-scenes";
 import Character from "../player/Character";
-import WrapperContainer from "../utility/WrapperContainer";
 
-export default class Camera extends WrapperContainer {
+export default class Camera {
 
     private map: Map;
-    private character?: Character;
+    private character: Character;
+    private container = new Container();
 
     private targetX = 0;
     private targetY = 0;
@@ -21,9 +20,8 @@ export default class Camera extends WrapperContainer {
 
     private readonly rate = 25;
 
-    constructor(scene: Scene, map: Map, character: Character | undefined) {
-        super(scene);
-
+    constructor(container: Container, map: Map, character: Character) {
+        container.addChild(this.container);
         this.map = map;
         this.character = character;
 
@@ -57,19 +55,17 @@ export default class Camera extends WrapperContainer {
         return this.y;
     }
 
+    public getContainer(): Container {
+        return this.container;
+    }
+
     private updateLabels(): void {
-        if (!this.character) {
-            return;
-        }
         this.xLabel.text = "x: " + this.x + " tx: " + this.targetX;
         this.yLabel.text = "y: " + this.y + " ty: " + this.targetY;
         this.playerLabel.text = "px: " + this.character.getX() + " py: " + this.character.getY();
     }
 
     private updateTargets(): void {
-        if (!this.character) {
-            return;
-        }
         if (this.character.getX() > Config.width * 2 / 3 + this.x) {
             this.targetX = this.character.getX() - Config.width * 2 / 3;
         } else if (this.character.getX() < Config.width * 1 / 3 + this.x) {

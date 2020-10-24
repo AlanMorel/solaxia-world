@@ -1,22 +1,20 @@
-import { Graphics, Text, TextStyle }from "pixi.js-legacy";
-import { Scene } from "pixi-scenes";
-import WrapperContainer from "../utility/WrapperContainer";
+import { Container, Graphics, Text, TextStyle } from "pixi.js-legacy";
 import Player from "../player/Player";
 
-export default class UserInterface extends WrapperContainer {
+export default class UserInterface {
 
+    private container = new Container();
     private player: Player;
 
     private levelLabel: Text;
     private usernameLabel: Text;
 
-    constructor(scene: Scene, player: Player) {
-        super(scene);
-
+    constructor(container: Container, player: Player) {
+        container.addChild(this.container);
         this.player = player;
 
         const uiBackground = new Graphics();
-        uiBackground.beginFill(0xFFFFFF, 0.5);
+        uiBackground.beginFill(0xFFFFFF, 0.25);
         uiBackground.drawRect(0, 620, 1280, 100);
 
         const textStyle = new TextStyle({

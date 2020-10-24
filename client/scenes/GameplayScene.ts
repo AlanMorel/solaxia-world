@@ -5,14 +5,19 @@ import GameScene from "./GameScene";
 import DOMHandler from "../utility/DOMHandler";
 import Camera from "../maps/Camera";
 import Portal from "../portals/Portal";
+import { Container } from "pixi.js-legacy";
 
 export default class GameplayScene extends GameScene {
 
-    private player: Player = new Player(this.game);
     private map?: Map;
+    private gameplayContainer = new Container();
+    private uiContainer = new Container();
+    private player: Player = new Player(this.uiContainer);
 
     constructor(game: Game) {
         super(game);
+        this.addChild(this.gameplayContainer);
+        this.addChild(this.uiContainer);
     }
 
     public async start(): Promise<void> {
@@ -26,24 +31,26 @@ export default class GameplayScene extends GameScene {
     }
 
     private async loadMap(id: number): Promise<void> {
-        this.map = new Map(this, id, this.changeMap.bind(this));
+        this.map = new Map(this.gameplayContainer, id, this.changeMap.bind(this));
         await this.map.init();
 
-        await this.player.init(this.map);
+        await this.player.init(this.map, this.game.getUsername());
 
-        const camera = new Camera(this, this.map, this.player.getCharacter());
-        this.map.setCamera(camera);
+        const character = this.player.getCharacter();
 
-        this.player.renderUI(this);
+        if (character) {
+            const camera = new Camera(this.uiContainer, this.map, character);
+            this.map.setCamera(camera);
+        }
     }
 
     private async changeMap(portal: Portal): Promise<void> {
         if (this.map) {
-            this.removeChild(this.map.getContainer());
+            this.gameplayContainer.removeChild(this.map.getContainer());
 
             const camera = this.map.getCamera();
             if (camera) {
-                this.removeChild(camera.getContainer());
+                this.uiContainer.removeChild(camera.getContainer());
             }
         }
 

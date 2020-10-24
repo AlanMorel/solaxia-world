@@ -4,7 +4,6 @@ import Camera from "./Camera";
 import Portal from "../portals/Portal";
 import { PortalType } from "../portals/PortalType";
 import Character from "../player/Character";
-import WrapperContainer from "../utility/WrapperContainer";
 import Tiler from "./Tiler";
 import MapLoader, { MapData } from "../loaders/MapLoader";
 import Projectile from "../projectiles/Projectile";
@@ -22,9 +21,10 @@ type ContainerMap = {
     [key in MapContainer]: Container;
 };
 
-export default class Map extends WrapperContainer {
+export default class Map {
 
     private camera?: Camera;
+    private container = new Container();
 
     private id: number;
     private width = 0;
@@ -46,8 +46,8 @@ export default class Map extends WrapperContainer {
 
     private changeMap: (portal: Portal) => Promise<void>;
 
-    constructor(scene: Container, id: number, changeMap: (portal: Portal) => Promise<void>) {
-        super(scene);
+    constructor(container: Container, id: number, changeMap: (portal: Portal) => Promise<void>) {
+        container.addChild(this.container);
         this.id = id;
         this.changeMap = changeMap;
     }
@@ -118,6 +118,10 @@ export default class Map extends WrapperContainer {
 
     public getCamera(): Camera | undefined {
         return this.camera;
+    }
+
+    public getContainer(): Container {
+        return this.container;
     }
 
     public addCharacter(character: Character): void {
