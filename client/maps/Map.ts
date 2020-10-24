@@ -8,13 +8,15 @@ import Tiler from "./Tiler";
 import MapLoader, { MapData } from "../loaders/MapLoader";
 import Projectile from "../projectiles/Projectile";
 import { Rectangle, intersect } from "../utility/Rectangle";
+import Effect from "../effects/Effect";
 
 enum MapContainer {
     TILERS,
     PORTALS,
     MONSTERS,
     CHARACTERS,
-    PROJECTILES
+    PROJECTILES,
+    EFFECTS
 }
 
 type ContainerMap = {
@@ -27,21 +29,24 @@ export default class Map {
     private container = new Container();
 
     private id: number;
+    private name = "";
     private width = 0;
     private height = 0;
     private floor = 0;
     private tilers: Tiler[] = [];
     private portals: Portal[] = [];
     private monsters: Monster[] = [];
-    private projectiles: Projectile[] = [];
     private characters: Character[] = [];
+    private projectiles: Projectile[] = [];
+    private effects: Effect[] = [];
 
     private containers: ContainerMap = {
         [MapContainer.TILERS]: new Container(),
         [MapContainer.PORTALS]: new Container(),
         [MapContainer.MONSTERS]: new Container(),
         [MapContainer.CHARACTERS]: new Container(),
-        [MapContainer.PROJECTILES]: new Container()
+        [MapContainer.PROJECTILES]: new Container(),
+        [MapContainer.EFFECTS]: new Container(),
     };
 
     private changeMap: (portal: Portal) => Promise<void>;
@@ -55,6 +60,7 @@ export default class Map {
     public async init(): Promise<void> {
         const data: MapData = await MapLoader.loadMap(this.id);
 
+        this.name = data.name;
         this.width = data.width;
         this.height = data.height;
         this.floor = data.floor;
@@ -88,12 +94,17 @@ export default class Map {
         this.container.addChild(this.containers[MapContainer.MONSTERS]);
         this.container.addChild(this.containers[MapContainer.CHARACTERS]);
         this.container.addChild(this.containers[MapContainer.PROJECTILES]);
+        this.container.addChild(this.containers[MapContainer.EFFECTS]);
 
         this.addLine(0, this.floor, this.width, this.floor);
     }
 
     public getId(): number {
         return this.id;
+    }
+
+    public getName(): string {
+        return this.name;
     }
 
     public getWidth(): number {
@@ -134,6 +145,11 @@ export default class Map {
         this.containers[MapContainer.PROJECTILES].addChild(projectile.getSprite());
     }
 
+    public addEffect(effect: Effect): void {
+        this.effects.push(effect);
+        this.containers[MapContainer.EFFECTS].addChild(effect.getContainer());
+    }
+
     public usePortal(character: Character, portal: Portal): void {
         if (portal.getType() === PortalType.INTERNAL) {
             const destPortal = this.portals.find((p: Portal) => p.getId() === portal.getDestPortal());
@@ -154,6 +170,7 @@ export default class Map {
                 tiler.update(this.camera);
             }
         }
+
         for (const monster of this.monsters) {
             monster.update();
         }
@@ -165,6 +182,10 @@ export default class Map {
 
         for (const character of this.characters) {
             character.update();
+        }
+
+        for (const effect of this.effects) {
+            effect.update();
         }
     }
 
@@ -199,6 +220,12 @@ export default class Map {
     public removeMonster(monster: Monster): void {
         const monsterIndex = this.monsters.indexOf(monster);
         this.monsters.splice(monsterIndex, 1);
+    }
+
+    public removeEffect(effect: Effect): void {
+        const effectIndex = this.effects.indexOf(effect);
+        this.effects.splice(effectIndex, 1);
+        this.containers[MapContainer.EFFECTS].removeChild(effect.getContainer());
     }
 
     public respawnMonster(monster: Monster): void {

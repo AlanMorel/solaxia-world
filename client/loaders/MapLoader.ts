@@ -1,5 +1,6 @@
 export interface MapData {
     id: number,
+    name: string,
     width: number,
     height: number,
     floor: number,

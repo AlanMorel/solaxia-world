@@ -4,6 +4,7 @@ import Character from "./Character";
 import Star from "../projectiles/Star";
 import UserInterface from "../ui/UserInterface";
 import { Container } from "pixi.js-legacy";
+import EnterMapEffect from "../effects/EnterMapEffect";
 
 export default class Player {
 
@@ -28,6 +29,9 @@ export default class Player {
         this.character = new Character(map, username);
         await this.character.init();
         map.addCharacter(this.character);
+
+        const effect = new EnterMapEffect(map);
+        map.addEffect(effect);
     }
 
     private setUpLeftKey(): void {
