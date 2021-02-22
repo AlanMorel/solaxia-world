@@ -12,12 +12,12 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: [ ".ts", ".tsx", ".js" ]
+        extensions: [".ts", ".tsx", ".js"]
     },
     output: {
         filename: "client.js",
         path: path.resolve(__dirname, "dist/client")
     },
     mode: "development",
-    devtool: "none"
+    devtool: false
 };
