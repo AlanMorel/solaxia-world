@@ -2,34 +2,52 @@
 
 ## Project setup
 
-1) Install the required dependencies by running this command at the root of the project:
-```
-npm install
+1. Install node, npm, then clone this repository
+
+```sh
+$ git clone https://github.com/AlanMorel/solaxia-world solaxia-world
 ```
 
-2) Run the server by running this command:
-```
-npm run server
+Install the dependencies
+
+```sh
+$ cd solaxia-world
 ```
 
-3) In a seperate terminal, build the client by running this command:
-```
-npm run client
+```sh
+$ npm install yarn -g
 ```
 
-4) Visit `http://localhost:8000` to see the game running.
+```sh
+$ yarn install
+```
+
+2. Run the server by running this command:
+
+```
+yarn server
+```
+
+3. In a seperate terminal, build the client by running this command:
+
+```
+yarn client
+```
+
+4. Visit `http://localhost:8000` to see the game running.
 
 ### Project scripts
+
 ```
 // run server
-npm run server
+yarn server
 
 // build client for development
-npm run client
+yarn client
 
 // run Electron app
-npm run electron
+yarn electron
 
 // lint code
-npm run lint
+yarn lint
 ```
