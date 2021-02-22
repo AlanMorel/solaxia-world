@@ -1,7 +1,13 @@
 {
   "name": "solaxia-world",
   "version": "1.0.0",
-  "description": "",
+  "author": "Alan Morel",
+  "license": "ISC",
+  "private": true,
+  "repository": {
+      "type": "git",
+      "url": "https://github.com/AlanMorel/solaxia-world.git"
+    },
   "main": "index.js",
   "scripts": {
     "client": "webpack --watch",
@@ -9,16 +15,6 @@
     "electron": "tsc ./client/Electron.ts --outDir ./dist/electron && electron ./dist/electron/electron.js",
     "lint": "eslint ./ --ext .ts"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/AlanMorel/solaxia-world.git"
-  },
-  "author": "Alan Morel",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/AlanMorel/solaxia-world/issues"
-  },
-  "homepage": "https://github.com/AlanMorel/solaxia-world#readme",
   "dependencies": {
     "express": "^4.17.1",
     "express-handlebars": "^5.1.0"
