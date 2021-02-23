@@ -12,7 +12,7 @@
   "scripts": {
     "client": "webpack --watch",
     "server": "cd server && nodemon server.ts",
-    "electron": "tsc ./client/Electron.ts --outDir ./dist/electron && electron ./dist/electron/electron.js",
+    "electron": "tsc ./client/Electron.ts --outDir dist/electron && electron dist/electron/electron.js",
     "lint": "eslint ./ --ext .ts"
   },
   "dependencies": {
