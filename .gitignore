@@ -2,4 +2,11 @@
 node_modules
 dist
 
+# env files
+*.env
+
+# log files
+*.log
+
+# editor directories and files
 .vscode

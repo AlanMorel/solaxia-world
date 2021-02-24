@@ -2,13 +2,11 @@
 
 ## Project setup
 
-1. Install node, npm, then clone this repository
+1. Install node, npm, clone this repository, then install the dependencies
 
 ```sh
 $ git clone https://github.com/AlanMorel/solaxia-world solaxia-world
 ```
-
-Install the dependencies
 
 ```sh
 $ cd solaxia-world
@@ -35,19 +33,3 @@ yarn client
 ```
 
 4. Visit `http://localhost:8000` to see the game running.
-
-### Project scripts
-
-```
-// run server
-yarn server
-
-// build client for development
-yarn client
-
-// run Electron app
-yarn electron
-
-// lint code
-yarn lint
-```
